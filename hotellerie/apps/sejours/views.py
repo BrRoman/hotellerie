@@ -1,9 +1,8 @@
 """ apps/sejours/views.py """
 
 from django.shortcuts import render
-from django.views.generic import TemplateView
 
 
-class SejoursHomeView(TemplateView):
+def home(request):
     """ Home view of Sejours. """
-    template_name = 'sejours/home.html'
+    return render(request, 'sejours/home.html', {})

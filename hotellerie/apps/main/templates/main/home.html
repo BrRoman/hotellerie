@@ -2,4 +2,8 @@
 
 {% block content %}
     <h1>Bienvenue sur le site de l'hôtellerie !</h1>
+
+    {% if user.is_authenticated %}
+        <h2>Notifications</h2>
+    {% endif %}
 {% endblock content %}

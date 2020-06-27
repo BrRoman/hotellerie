@@ -1,4 +1,6 @@
+@full-red: rgb(255, 0, 0);
 @green: rgb(0, 100, 0);
+@grey: rgb(201, 201, 201);
 @orange: rgb(255, 145, 0);
 @red: rgb(200, 0, 0);
 
@@ -28,6 +30,56 @@ body {
 
     // Contents:
     #content {
+
+        // Calendar:
+        #calendar {
+            text-align: center;
+            width: 100%;
+
+            table {
+                width: 100%;
+
+                tr,
+                td {
+                    margin: 0px;
+                    padding: 0px;
+                    vertical-align: top;
+                }
+
+                .weekday,
+                .date,
+                .current_weekday,
+                .current_date {
+                    background-color: @grey;
+                    color: @green;
+                    font-weight: bold;
+                    width: 100%;
+                }
+
+                .current_weekday,
+                .current_date {
+                    color: @full-red;
+                }
+
+                .column_data {
+                    margin: 10px 0px 0px 0px;
+                    width: 100%;
+
+                    a,
+                    .rendez_vous {
+                        background-color: rgb(0, 100, 0);
+                        border-radius: 3px;
+                        color: white;
+                        font-family: sans-serif;
+                        font-size: 9pt;
+                        margin: 0px 0px 2px 0px;
+                        padding: 1px 3px 1px 3px;
+                        text-align: left;
+                        width: 90%;
+                    }
+                }
+            }
+        }
 
         // Tools:
         #tools {

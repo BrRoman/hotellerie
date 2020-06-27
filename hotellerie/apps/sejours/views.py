@@ -1,19 +1,49 @@
 """ apps/sejours/views.py """
 
-from django.shortcuts import render
+import datetime
+
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+
+from .models import Sejour
 
 
 @login_required
 def home(request):
-    """ Home view of Sejours. """
-    return render(request, 'sejours/home.html', {})
+    """ Home view of Sejours = redirect to calendar with current date as paramter. """
+    today = datetime.date.today()
+    day = today.strftime('%d')
+    month = today.strftime('%m')
+    year = today.strftime('%Y')
+    return redirect('sejours:calendar', day=day, month=month, year=year)
 
 
 @login_required
-def agenda(request):
-    """ Main page of Sejours. """
-    return render(request, 'sejours/agenda.html', {})
+def calendar(request, *args, **kwargs):
+    """ Display calendar according to the required date. """
+    date_today = datetime.date.today()
+    today = {'day': date_today.strftime(
+        '%d'), 'month': date_today.strftime('%m'), 'year': date_today.strftime('%Y')}
+
+    # Date that has been required in **kwargs:
+    display_date = datetime.datetime(
+        int(kwargs['year']), int(kwargs['month']), int(kwargs['day']))
+
+    # Initial date of the week containing the required date:
+    initial_date = display_date - \
+        datetime.timedelta(days=(display_date.weekday() + 1)
+                           if display_date.weekday() != 6 else 0)
+
+    # Construct the list of days with all their data:
+    days = {}
+    for i in range(7):
+        date = initial_date + datetime.timedelta(days=i)
+        date_human = datetime.date(date.year, date.month, date.day)
+        days[date_human] = {}
+        days[date_human]['billets'] = Sejour.objects.filter(sejour_du__gt=date).filter(
+            sejour_du__lt=(date + datetime.timedelta(days=1)))
+        days[date_human]['current'] = (date_human == datetime.date.today())
+    return render(request, 'sejours/calendar.html', {'today': today, 'days': days})
 
 
 @login_required
@@ -38,4 +68,3 @@ def update(request, *args, **kwargs):
 def delete(request, *args, **kwargs):
     """ Delete a Sejour. """
     return render(request, 'sejours/delete.html', {'id_sejour': kwargs['pk']})
-

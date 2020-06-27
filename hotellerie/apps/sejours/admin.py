@@ -1,3 +1,7 @@
-from django.contrib import admin
+""" apps/sejours/admin.py """
 
-# Register your models here.
+from django.contrib import admin
+from .models import Chambre, Sejour
+
+admin.site.register(Chambre)
+admin.site.register(Sejour)

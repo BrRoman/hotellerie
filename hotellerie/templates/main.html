@@ -36,8 +36,8 @@
                                 <span class="fas fa-align-justify"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user_menu">
+                                <a class="dropdown-item" href={% url 'sejours:home' %}>Séjours</a>
                                 <a class="dropdown-item" href={% url 'personnes:list' %}>Personnes</a>
-                                <a class="dropdown-item" href={% url 'sejours:agenda' %}>Séjours</a>
                                 <a class="dropdown-item" href={% url 'parloirs:list' %}>Parloirs</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href={% url 'accounts:logout' %}>Quitter</a>

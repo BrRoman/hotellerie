@@ -1,0 +1,62 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href={% static "css/tempusdominus-bootstrap-4.min.css" %}>
+{% endblock css %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active">Séjours</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <div class="d-flex align-self-stretch align-items-center mx-5">
+        <!-- Title -->
+        <div id="title" class="form-inline mr-auto">
+            <h1>Séjours</h1>
+            <a href={% url 'sejours:create' %}><p class="mr-auto" title="Ajouter un séjour"><span class="fas fa-plus-circle"></span></p></a>
+        </div>
+
+        <!-- Tools -->
+        <div id="tools" class="d-flex align-items-center ml-auto">
+            <span id="previous_week" class="fas fa-angle-double-left" title="Semaine précédente"></span>
+
+            <div class="input-group" id="datepicker">
+                <span class="fas fa-calendar-alt" data-target="#datepicker" data-toggle="datetimepicker" title="Calendrier"></span>
+            </div>
+
+            <span id="next_week" class="fas fa-angle-double-right" title="Semaine suivante"></span>
+        </div>
+    </div>
+
+    <!-- Agenda -->
+    <div id="agenda" class="d-flex justify-content-center align-items-start">        
+        <table class="col-11">
+            <tr>
+                {% for date, data in days.items %}
+                    <td class="col-1">
+                        <div class="d-flex flex-column justify-content-start align-items-center">
+                            <!-- Weekday -->
+                            <div class="{% if data.current %}current_weekday{% else %}weekday{% endif %}">{% cycle 'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' %}</div>
+
+                            <!-- Date-->
+                            <div class="{% if data.current %}current_date{% else %}date{% endif %}">{{ date }}</div>
+
+                            <!-- Data -->
+                            <div class="column_data d-flex flex-column justify-content-start align-items-center">
+                                {% for sejour in data.sejours %}
+                                    <a href={% url 'sejours:detail' sejour.id %}>
+                                        <div class="rendez_vous">
+                                            {{ sejour.when|date:"H:i" }} - {{ sejour.titre }}
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </td>
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+{% endblock content %}

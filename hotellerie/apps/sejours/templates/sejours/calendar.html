@@ -46,9 +46,10 @@
                             <!-- Data -->
                             <div class="column_data d-flex flex-column justify-content-start align-items-center">
                                 {% for sejour in data.sejours %}
-                                    <a href={% url 'sejours:detail' sejour.id %}>
-                                        <div class="rendez_vous">
-                                            {{ sejour.when|date:"H:i" }} - {{ sejour.titre }}
+                                    <a href={% url 'sejours:details' sejour.id %}>
+                                        <div class="sejour">
+                                            {{ sejour.sejour_du }} - {{ sejour.sejour_au }}
+                                            {{ sejour.personne }}
                                         </div>
                                     </a>
                                 {% endfor %}

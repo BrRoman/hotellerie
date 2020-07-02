@@ -40,8 +40,8 @@ def calendar(request, *args, **kwargs):
         date = initial_date + datetime.timedelta(days=i)
         date_human = datetime.date(date.year, date.month, date.day)
         days[date_human] = {}
-        days[date_human]['billets'] = Sejour.objects.filter(sejour_du__gt=date).filter(
-            sejour_du__lt=(date + datetime.timedelta(days=1)))
+        days[date_human]['sejours'] = Sejour.objects.filter(
+            sejour_du__lt=date).filter(sejour_au__gt=date)
         days[date_human]['current'] = (date_human == datetime.date.today())
     return render(request, 'sejours/calendar.html', {'today': today, 'days': days})
 

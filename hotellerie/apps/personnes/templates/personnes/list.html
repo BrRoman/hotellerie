@@ -1,5 +1,50 @@
 {% extends 'main.html' %}
 
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active">Personnes</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
-    List of Personnes.
+    <div class="d-flex flex-column justify-content-between align-items-center">
+        <!-- Title -->
+        <div id="title" class="form-inline">
+            <h1>Personnes</h1>
+            <a href={% url 'personnes:create' %}><p class="mr-auto" title="Ajouter une personne"><span class="fas fa-plus-circle"></p></a>
+        </div>
+
+        <div id="tools" class="d-flex">
+            <!-- Letters -->
+            <ul id="letters" class="list-inline row mx-5 my-0">
+                {% for letter in letters %}
+                    {% if letter == current %}
+                        <li class="mx-1 full-red">{{ letter }}</li>
+                    {% else %}
+                        <li class="mx-1"><a href="{% url 'personnes:list' letter %}">{{ letter }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div>
+            <!-- Filter -->
+            <form action="{% url 'personnes:list' current %}" method="post">
+                {% csrf_token %}
+                <input
+                    id="filter"
+                    name="filter"
+                    type="text"
+                    placeholder="Rechercher"
+                    {% if filter != '' %}value={{ filter }}{% endif %}
+                >
+                <script>window.onload = document.getElementById('filter').select();</script>
+            </form>
+        </div>
+    </div>
+
+    <!-- Liste -->
+    <ul class="list-inline">
+        {% for personne in personnes %}
+            <li><a href={% url 'personnes:details' personne.id %}>{{ personne }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock %}

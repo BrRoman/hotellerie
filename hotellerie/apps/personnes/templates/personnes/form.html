@@ -1,5 +1,20 @@
 {% extends 'main.html' %}
 
+{% block breadcrumbs %}
+    {% if personne %}
+        <li class="breadcrumb-item"><a href={% url 'personnes:list' first_letter %}>Personnes</a></li>
+        <li class="breadcrumb-item"><a href={% url 'personnes:details' personne.id %}>{{ personne }}</a></li>
+        <li class="breadcrumb-item active">Modifier</li>
+    {% else %}
+        <li class="breadcrumb-item active"><a href={% url 'personnes:list' 'A' %}>Personnes</a></li>
+        <li class="breadcrumb-item active">Créer</li>
+    {% endif %}
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Form of Personne.
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Valider</button>
+    </form>
 {% endblock %}

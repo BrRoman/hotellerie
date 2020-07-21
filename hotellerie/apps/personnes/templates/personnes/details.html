@@ -1,5 +1,60 @@
 {% extends 'main.html' %}
 
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active"><a href={% url 'personnes:list' first_letter %}>Personnes</a></li>
+    <li class="breadcrumb-item active">{{ personne }}</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Details of Personne {{ id_personne }}.
+    <h3>{{ personne }}</h3>
+    <div class="row">
+        <a href={% url 'personnes:update' personne.id %} class="mx-1">Modifier</a>
+        <a href={% url 'personnes:delete' personne.id %} class="mx-1">Supprimer</a>
+    </div>
+
+    <table class="col-5">
+        <tr>
+            <td>Est un moine de Flavigny :</td>
+            <td>{{ personne.moine_flav|yesno:"oui,non" }}</td>
+        </tr>
+        <tr>
+            <td>Est Père suiveur :</td>
+            <td>{{ personne.moine_flav|yesno:"oui,non" }}</td>
+        </tr>
+        <tr>
+            <td>Son Père suiveur :</td>
+            <td>{{ pere_suiveur|default_if_none:"" }}</td>
+        </tr>
+        <tr>
+            <td>Est un prêtre :</td>
+            <td>{{ personne.pretre|yesno:"oui,non" }}</td>
+        </tr>
+        <tr>
+            <td>Messe forme :</td>
+            <td>{{ personne.messe_form }}</td>
+        </tr>
+        <tr>
+            <td>Messe langue :</td>
+            <td>{{ personne.messe_langue }}</td>
+        </tr>
+        <tr>
+            <td>Commentaire :</td>
+            <td class="col-6">{{ personne.commentaire }}</td>
+        </tr>
+    </table>
+
+    <h4>Séjours</h4>
+    <table class="col-3">
+        <tr>
+            <td>Du</td>
+            <td>Au</td>
+        </tr>
+
+        {% for sejour in sejours %}
+            <tr>
+                <td>{{ sejour.sejour_du }}</td>
+                <td>{{ sejour.sejour_au }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

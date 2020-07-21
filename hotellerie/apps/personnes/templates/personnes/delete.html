@@ -1,5 +1,10 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    Delete Personne {{ id_personne }}.
+    <form method="post">
+        {% csrf_token %}
+        <h6>Êtes-vous sûr de vouloir supprimer cette personne ?</h6>
+        <button type="submit">Oui</button>
+        <a href={% url 'personnes:list' first_letter %}>Non</a>
+    </form>
 {% endblock %}

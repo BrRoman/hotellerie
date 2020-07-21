@@ -50,10 +50,10 @@
             <td>Au</td>
         </tr>
 
-        {% for sejour in sejours %}
+        {% for sejour in personne.sejour_set.all %}
             <tr>
-                <td>{{ sejour.sejour_du }}</td>
-                <td>{{ sejour.sejour_au }}</td>
+                <td>{{ sejour.sejour_du|default_if_none:"" }}</td>
+                <td>{{ sejour.sejour_au|default_if_none:"" }}</td>
             </tr>
         {% endfor %}
     </table>

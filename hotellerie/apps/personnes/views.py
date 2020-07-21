@@ -59,12 +59,10 @@ def details(request, **kwargs):
     """ Details of a Personne. """
     personne = get_object_or_404(Personne, pk=kwargs['pk'])
     pere_suiveur = personne.pere_suiveur
-    sejours = Sejour.objects.filter(personne=personne)
     first_letter = personne.nom[0]
     return render(request, 'personnes/details.html', {
         'personne': personne,
         'pere_suiveur': pere_suiveur,
-        'sejours': sejours,
         'first_letter': first_letter
     })
 

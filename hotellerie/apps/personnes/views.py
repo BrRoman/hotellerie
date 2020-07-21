@@ -22,7 +22,6 @@ def list(request, letter, search=''):
     personnes = Personne.objects.filter(nom__istartswith=letter)
 
     if request.method == 'POST':
-        print(request.POST)
         search = request.POST['filter']
 
     if search != '':
@@ -45,7 +44,9 @@ def create(request):
     if request.method == 'POST':
         form = PersonneForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect(reverse('personnes:list', args=['A']))
+            letter = form.cleaned_data['nom'][0].upper()
+            form.save()
+            return HttpResponseRedirect(reverse('personnes:list', args=letter))
 
     else:
         form = PersonneForm()

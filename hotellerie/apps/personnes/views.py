@@ -19,7 +19,10 @@ def home(request):
 @login_required
 def list(request, letter, search=''):
     """ List of Personnes. """
-    personnes = Personne.objects.filter(nom__istartswith=letter)
+    if letter == '-':
+        personnes = Personne.objects.filter(nom='')
+    else:
+        personnes = Personne.objects.filter(nom__istartswith=letter)
 
     if request.method == 'POST':
         search = request.POST['filter']
@@ -31,7 +34,7 @@ def list(request, letter, search=''):
     personnes = personnes.order_by('nom')
 
     return render(request, 'personnes/list.html', {
-        'letters': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+        'letters': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-'],
         'personnes': personnes,
         'current': letter,
         'filter': search,
@@ -59,7 +62,7 @@ def details(request, **kwargs):
     """ Details of a Personne. """
     personne = get_object_or_404(Personne, pk=kwargs['pk'])
     pere_suiveur = personne.pere_suiveur
-    first_letter = personne.nom[0]
+    first_letter = personne.nom[0] if personne.nom else '-'
     return render(request, 'personnes/details.html', {
         'personne': personne,
         'pere_suiveur': pere_suiveur,
@@ -71,7 +74,7 @@ def details(request, **kwargs):
 def update(request, **kwargs):
     """ Update a Personne. """
     personne = get_object_or_404(Personne, pk=kwargs['pk'])
-    first_letter = personne.nom[0]
+    first_letter = personne.nom[0] if personne.nom else '-'
 
     if request.method == 'POST':
         form = PersonneForm(request.POST, instance=personne)
@@ -93,7 +96,7 @@ def update(request, **kwargs):
 def delete(request, **kwargs):
     """ Delete a Personne. """
     personne = get_object_or_404(Personne, pk=kwargs['pk'])
-    first_letter = personne.nom[0]
+    first_letter = personne.nom[0] if personne.nom else '-'
 
     if request.method == 'POST':
         form = PersonneForm(request.POST, instance=personne)

@@ -32,32 +32,35 @@
 
     <!-- Calendar -->
     <div id="calendar" class="d-flex justify-content-center align-items-start">
-        <table class="col-11">
+        <table>
             <tr>
-                {% for date, data in days.items %}
-                    <td class="col-1">
-                        <div class="d-flex flex-column justify-content-start align-items-center">
-                            <!-- Weekday -->
-                            <div class="{% if data.current %}current_weekday{% else %}weekday{% endif %}">{% cycle 'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' %}</div>
+                {% for day, data in days.items %}
+                    <th class="col-1">
+                        <!-- Weekday -->
+                        <div class="{% if data.current %}current_weekday{% else %}weekday{% endif %}">{% cycle 'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' %}</div>
 
-                            <!-- Date-->
-                            <div class="{% if data.current %}current_date{% else %}date{% endif %}">{{ date }}</div>
-
-                            <!-- Data -->
-                            <div class="column_data d-flex flex-column justify-content-start align-items-center">
-                                {% for sejour in data.sejours %}
-                                    <a href={% url 'sejours:details' sejour.id %}>
-                                        <div class="sejour">
-                                            {{ sejour.sejour_du }} - {{ sejour.sejour_au }}
-                                            {{ sejour.personne }}
-                                        </div>
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </td>
+                        <!-- Date-->
+                        <div class="{% if data.current %}current_date{% else %}date{% endif %}">{{ day }}</div>
+                    </th>
                 {% endfor %}
             </tr>
+
+            {% for day, day_data in days.items %}
+                <tr class="tr_vertical">
+                    {% for sejour, sejour_data in day_data.sejours.items %}
+                        {% if sejour_data.length > 0 %}
+                            <td colspan={{ sejour_data.length }}>
+                                <!-- Data -->
+                                <div class="column_data d-flex flex-column justify-content-start align-items-center">
+                                    <a href={% url 'sejours:details' sejour.id %}>
+                                        {{ sejour.personne }}
+                                    </a>
+                                </div>
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
         </table>
     </div>
 {% endblock content %}

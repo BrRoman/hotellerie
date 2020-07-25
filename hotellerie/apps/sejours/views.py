@@ -29,7 +29,7 @@ def calendar(request, *args, **kwargs):
     display_date = datetime.datetime(
         int(kwargs['year']), int(kwargs['month']), int(kwargs['day']))
 
-    # Initial date of the week containing the required date:
+    # Initial and last dates of the week containing the required date:
     initial_date = display_date - \
         datetime.timedelta(days=(display_date.weekday() + 1)
                            if display_date.weekday() != 6 else 0)
@@ -39,11 +39,26 @@ def calendar(request, *args, **kwargs):
     for i in range(7):
         date = initial_date + datetime.timedelta(days=i)
         date_human = datetime.date(date.year, date.month, date.day)
+
         days[date_human] = {}
-        days[date_human]['sejours'] = Sejour.objects.filter(
-            sejour_du__lt=date).filter(sejour_au__gt=date)
+
         days[date_human]['current'] = (date_human == datetime.date.today())
-    return render(request, 'sejours/calendar.html', {'today': today, 'days': days})
+
+        days[date_human]['sejours'] = {}
+        sejours = Sejour.objects.filter(
+            sejour_du__lte=date).filter(sejour_au__gte=date)
+        for sejour in sejours:
+            is_beginning = (sejour.sejour_du == date_human)
+            length = ((sejour.sejour_au - date_human).days +
+                      1) if is_beginning else 0
+            days[date_human]['sejours'][sejour] = {
+                'length': length
+            }
+
+    return render(request, 'sejours/calendar.html', {
+        'today': today,
+        'days': days,
+    })
 
 
 @login_required

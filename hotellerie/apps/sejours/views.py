@@ -1,6 +1,7 @@
 """ apps/sejours/views.py """
 
 import datetime
+from random import randrange
 
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
@@ -47,11 +48,13 @@ def calendar(request, *args, **kwargs):
         days[date_human]['sejours'] = {}
         sejours = Sejour.objects.filter(
             sejour_du__lte=date).filter(sejour_au__gte=date)
-        for sejour in sejours:
+        for index, sejour in enumerate(sejours):
             is_beginning = (sejour.sejour_du == date_human)
             length = ((sejour.sejour_au - date_human).days +
                       1) if is_beginning else 0
             days[date_human]['sejours'][sejour] = {
+                'x': index + 1,
+                'y': randrange(5),
                 'length': length
             }
 

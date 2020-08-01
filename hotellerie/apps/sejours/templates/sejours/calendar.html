@@ -31,36 +31,33 @@
     </div>
 
     <!-- Calendar -->
-    <div id="calendar" class="d-flex justify-content-center align-items-start">
-        <table>
-            <tr>
-                {% for day, data in days.items %}
-                    <th class="col-1">
-                        <!-- Weekday -->
-                        <div class="{% if data.current %}current_weekday{% else %}weekday{% endif %}">{% cycle 'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' %}</div>
-
-                        <!-- Date-->
-                        <div class="{% if data.current %}current_date{% else %}date{% endif %}">{{ day }}</div>
-                    </th>
-                {% endfor %}
-            </tr>
-
+    <div id="calendar">
+        <!-- Dates -->
+        <div id="calendar-dates" class="d-flex">
             {% for day, day_data in days.items %}
-                <tr class="tr_vertical">
-                    {% for sejour, sejour_data in day_data.sejours.items %}
-                        {% if sejour_data.length > 0 %}
-                            <td colspan={{ sejour_data.length }}>
-                                <!-- Data -->
-                                <div class="column_data d-flex flex-column justify-content-start align-items-center">
-                                    <a href={% url 'sejours:details' sejour.id %}>
-                                        {{ sejour.personne }}
-                                    </a>
-                                </div>
-                            </td>
-                        {% endif %}
-                    {% endfor %}
-                </tr>
+                <div class="date d-flex flex-column align-items-start">
+                    <!-- Weekday -->
+                    <div class="{% if day_data.current %}current_weekday{% else %}weekday{% endif %}">{% cycle 'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' %}</div>
+
+                    <!-- Date-->
+                    <div class="{% if day_data.current %}current_date{% else %}date{% endif %}">{{ day }}</div>
+                </div>
             {% endfor %}
-        </table>
+        </div>
+
+        <!-- Sejours -->
+        <div id="calendar-sejours">
+            {% for day, day_data in days.items %}
+                {% for sejour, sejour_data in day_data.sejours.items %}
+                    {% if sejour_data.length > 0 %}
+                        <div class="bar px-1 mt-1 mr-1" style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }}; grid-row: {{ sejour_data.y }};">
+                            <a href={% url 'sejours:details' sejour.id %}>
+                                {{ sejour.personne }} : {{ sejour_data.x }},{{ sejour_data.y }} x {{ sejour_data.length }}
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %}

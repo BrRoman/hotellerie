@@ -50,9 +50,9 @@
             {% for day, day_data in days.items %}
                 {% for sejour, sejour_data in day_data.sejours.items %}
                     {% if sejour_data.length > 0 %}
-                        <div class="bar px-1 mt-1 mr-1" style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }}; grid-row: {{ sejour_data.y }};">
+                        <div class="bar px-1 mt-1" style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};">
                             <a href={% url 'sejours:details' sejour.id %}>
-                                {{ sejour.personne }} : {{ sejour_data.x }},{{ sejour_data.y }} x {{ sejour_data.length }}
+                                {{ sejour.personne }}
                             </a>
                         </div>
                     {% endif %}

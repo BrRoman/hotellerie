@@ -39,6 +39,7 @@ def calendar(request, *args, **kwargs):
     for i in range(7):
         date = initial_date + datetime.timedelta(days=i)
         date_human = datetime.date(date.year, date.month, date.day)
+        max_length = 7 - i
 
         days[date_human] = {}
         days[date_human]['current'] = (date_human == datetime.date.today())
@@ -50,8 +51,10 @@ def calendar(request, *args, **kwargs):
             is_beginning = (sejour.sejour_du == date_human)
             length = ((sejour.sejour_au - date_human).days +
                       1) if is_beginning else 0
+            if length > max_length:
+                length = max_length
             days[date_human]['sejours'][sejour] = {
-                'x': index + 1,
+                'x': i + 1,
                 'length': length
             }
 

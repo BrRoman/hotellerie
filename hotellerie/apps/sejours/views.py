@@ -56,6 +56,8 @@ def calendar(request, *args, **kwargs):
 
             pretre = sejour.dit_messe
 
+            chambres = sejour.chambre_set.count()
+
             if length > max_length:
                 length = max_length
             days[date_human]['sejours'][sejour] = {
@@ -64,6 +66,7 @@ def calendar(request, *args, **kwargs):
                 'arrow_left': arrow_left,
                 'arrow_right': arrow_right,
                 'pretre': pretre,
+                'chambres': chambres
             }
 
     return render(request, 'sejours/calendar.html', {

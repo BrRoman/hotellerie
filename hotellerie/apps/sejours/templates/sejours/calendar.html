@@ -56,12 +56,18 @@
                                 {% endif %}
                                 {% if sejour_data.pretre %}
                                     pretre
+                                {% endif %}
+                                {% if sejour_data.chambres > 1 %}
+                                    groupe
                                 {% endif %}"
                             style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};"
                             title="{{ sejour.personne }} (du {{ sejour.sejour_du }} {{ sejour.repas_du }} au {{ sejour.sejour_au }} {{ sejour.repas_au }})"
                         >
                             <a href={% url 'sejours:details' sejour.id %}>
                                 {{ sejour.personne }}
+                                {% if sejour_data.chambres > 1 %}
+                                    [{{ sejour_data.chambres }}]
+                                {% endif %}
                             </a>
                         </div>
                     {% endif %}

@@ -55,6 +55,7 @@
                                     arrow-right
                                 {% endif %}"
                             style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};"
+                            title="{{ sejour.personne }} (du {{ sejour.sejour_du }} {{ sejour.repas_du }} au {{ sejour.sejour_au }} {{ sejour.repas_au }})"
                         >
                             <a href={% url 'sejours:details' sejour.id %}>
                                 {{ sejour.personne }}

@@ -2,10 +2,6 @@
 
 {% load static %}
 
-{% block css %}
-    <link rel="stylesheet" href={% static "css/tempusdominus-bootstrap-4.min.css" %}>
-{% endblock css %}
-
 {% block breadcrumbs %}
     <li class="breadcrumb-item active">Séjours</li>
 {% endblock breadcrumbs %}
@@ -50,7 +46,16 @@
             {% for day, day_data in days.items %}
                 {% for sejour, sejour_data in day_data.sejours.items %}
                     {% if sejour_data.length > 0 %}
-                        <div class="bar px-1 mt-1" style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};">
+                        <div
+                            class="bar px-1 mt-1 mr-1
+                                {% if sejour_data.arrow_left %}
+                                    arrow-left
+                                {% endif %}
+                                {% if sejour_data.arrow_right %}
+                                    arrow-right
+                                {% endif %}"
+                            style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};"
+                        >
                             <a href={% url 'sejours:details' sejour.id %}>
                                 {{ sejour.personne }}
                             </a>

@@ -33,6 +33,8 @@ def calendar(request, *args, **kwargs):
     initial_date = display_date - \
         datetime.timedelta(days=(display_date.weekday() + 1)
                            if display_date.weekday() != 6 else 0)
+    initial_date_human = datetime.date(
+        initial_date.year, initial_date.month, initial_date.day)
 
     # Construct the list of days with all their data:
     days = {}
@@ -48,14 +50,16 @@ def calendar(request, *args, **kwargs):
         sejours = Sejour.objects.filter(
             sejour_du__lte=date).filter(sejour_au__gte=date)
         for index, sejour in enumerate(sejours):
-            is_beginning = (sejour.sejour_du == date_human)
-            length = ((sejour.sejour_au - date_human).days +
-                      1) if is_beginning else 0
+            arrow_left = sejour.sejour_du < initial_date_human
+            arrow_right = sejour.sejour_au > (
+                initial_date_human + datetime.timedelta(days=7))
             if length > max_length:
                 length = max_length
             days[date_human]['sejours'][sejour] = {
                 'x': i + 1,
-                'length': length
+                'length': length,
+                'arrow_left': arrow_left,
+                'arrow_right': arrow_right
             }
 
     return render(request, 'sejours/calendar.html', {

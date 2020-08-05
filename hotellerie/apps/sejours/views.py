@@ -53,13 +53,17 @@ def calendar(request, *args, **kwargs):
             arrow_left = sejour.sejour_du < initial_date_human
             arrow_right = sejour.sejour_au > (
                 initial_date_human + datetime.timedelta(days=7))
+
+            pretre = sejour.dit_messe
+
             if length > max_length:
                 length = max_length
             days[date_human]['sejours'][sejour] = {
                 'x': i + 1,
                 'length': length,
                 'arrow_left': arrow_left,
-                'arrow_right': arrow_right
+                'arrow_right': arrow_right,
+                'pretre': pretre,
             }
 
     return render(request, 'sejours/calendar.html', {

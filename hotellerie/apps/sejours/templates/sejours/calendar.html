@@ -53,6 +53,9 @@
                                 {% endif %}
                                 {% if sejour_data.arrow_right %}
                                     arrow-right
+                                {% endif %}
+                                {% if sejour_data.pretre %}
+                                    pretre
                                 {% endif %}"
                             style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};"
                             title="{{ sejour.personne }} (du {{ sejour.sejour_du }} {{ sejour.repas_du }} au {{ sejour.sejour_au }} {{ sejour.repas_au }})"

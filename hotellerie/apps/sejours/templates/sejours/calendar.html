@@ -2,10 +2,6 @@
 
 {% load static %}
 
-{% block css %}
-    <link rel="stylesheet" href={% static "css/tempusdominus-bootstrap-4.min.css" %}>
-{% endblock css %}
-
 {% block breadcrumbs %}
     <li class="breadcrumb-item active">Séjours</li>
 {% endblock breadcrumbs %}
@@ -31,33 +27,55 @@
     </div>
 
     <!-- Calendar -->
-    <div id="calendar" class="d-flex justify-content-center align-items-start">
-        <table class="col-11">
-            <tr>
-                {% for date, data in days.items %}
-                    <td class="col-1">
-                        <div class="d-flex flex-column justify-content-start align-items-center">
-                            <!-- Weekday -->
-                            <div class="{% if data.current %}current_weekday{% else %}weekday{% endif %}">{% cycle 'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' %}</div>
+    <div id="calendar">
+        <!-- Dates -->
+        <div id="calendar-dates" class="d-flex">
+            {% for day, day_data in days.items %}
+                <div class="date d-flex flex-column align-items-start">
+                    <!-- Weekday -->
+                    <div class="{% if day_data.current %}current_weekday{% else %}weekday{% endif %}">{% cycle 'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' %}</div>
 
-                            <!-- Date-->
-                            <div class="{% if data.current %}current_date{% else %}date{% endif %}">{{ date }}</div>
+                    <!-- Date-->
+                    <div class="{% if day_data.current %}current_date{% else %}date{% endif %}">{{ day }}</div>
+                </div>
+            {% endfor %}
+        </div>
 
-                            <!-- Data -->
-                            <div class="column_data d-flex flex-column justify-content-start align-items-center">
-                                {% for sejour in data.sejours %}
-                                    <a href={% url 'sejours:details' sejour.id %}>
-                                        <div class="sejour">
-                                            {{ sejour.sejour_du }} - {{ sejour.sejour_au }}
-                                            {{ sejour.personne }}
-                                        </div>
-                                    </a>
-                                {% endfor %}
-                            </div>
+        <!-- Sejours -->
+        <div id="calendar-sejours">
+            {% for day, day_data in days.items %}
+                {% for sejour, sejour_data in day_data.sejours.items %}
+                    {% if sejour_data.length > 0 %}
+                        <div
+                            class="bar px-1 mt-1 mr-1
+                                {% if sejour_data.arrow_left %}
+                                    arrow-left
+                                {% endif %}
+                                {% if sejour_data.arrow_right %}
+                                    arrow-right
+                                {% endif %}
+                                {% if sejour_data.pretre %}
+                                    pretre
+                                {% endif %}
+                                {% if sejour_data.chambres_nombre > 1 %}
+                                    groupe
+                                {% endif %}"
+                            style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};"
+                            title="{{ sejour.personne }}
+du {{ sejour.sejour_du }} {{ sejour.repas_du }}
+au {{ sejour.sejour_au }} {{ sejour.repas_au }}
+chambre(s): {{ sejour_data.chambres_string }}"
+                        >
+                            <a href={% url 'sejours:details' sejour.id %}>
+                                {{ sejour.personne }}
+                                {% if sejour_data.chambres > 1 %}
+                                    [{{ sejour_data.chambres }}]
+                                {% endif %}
+                            </a>
                         </div>
-                    </td>
+                    {% endif %}
                 {% endfor %}
-            </tr>
-        </table>
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %}

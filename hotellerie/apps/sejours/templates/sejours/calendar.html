@@ -57,11 +57,14 @@
                                 {% if sejour_data.pretre %}
                                     pretre
                                 {% endif %}
-                                {% if sejour_data.chambres > 1 %}
+                                {% if sejour_data.chambres_nombre > 1 %}
                                     groupe
                                 {% endif %}"
                             style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};"
-                            title="{{ sejour.personne }} (du {{ sejour.sejour_du }} {{ sejour.repas_du }} au {{ sejour.sejour_au }} {{ sejour.repas_au }})"
+                            title="{{ sejour.personne }}
+du {{ sejour.sejour_du }} {{ sejour.repas_du }}
+au {{ sejour.sejour_au }} {{ sejour.repas_au }}
+chambre(s): {{ sejour_data.chambres_string }}"
                         >
                             <a href={% url 'sejours:details' sejour.id %}>
                                 {{ sejour.personne }}

@@ -5,7 +5,7 @@ import datetime
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 
-from .models import Sejour
+from .models import Chambre, Sejour
 
 
 @login_required
@@ -39,6 +39,7 @@ def calendar(request, *args, **kwargs):
     # Construct the list of days with all their data:
     days = {}
     for i in range(7):
+        coord_x = 0
         date = initial_date + datetime.timedelta(days=i)
         date_human = datetime.date(date.year, date.month, date.day)
         max_length = 7 - i
@@ -56,17 +57,37 @@ def calendar(request, *args, **kwargs):
 
             pretre = sejour.dit_messe
 
-            chambres = sejour.chambre_set.count()
+            chambres_nombre = sejour.chambre_set.count()
+            chambres_queryset = Chambre.objects.filter(
+                sejour=sejour).values('chambre')
+            chambres_string = ''
+            for chambre in chambres_queryset:
+                chambres_string += (', ' if chambres_string !=
+                                    '' else '') + chambre['chambre']
+
+            if sejour.sejour_du == date_human:
+                length = ((sejour.sejour_au - date_human).days + 1)
+                coord_x = i + 1
+            elif (sejour.sejour_du < date_human) and (sejour.sejour_au > (date_human + datetime.timedelta(days=7))) and (i == 0):
+                length = 7
+                coord_x = 1
+            elif (sejour.sejour_au == date_human) and (sejour.sejour_du < initial_date_human):
+                length = ((date_human - initial_date_human).days + 1)
+                coord_x = 1
+            else:
+                length = 0
 
             if length > max_length:
                 length = max_length
+
             days[date_human]['sejours'][sejour] = {
-                'x': i + 1,
+                'x': coord_x,
                 'length': length,
                 'arrow_left': arrow_left,
                 'arrow_right': arrow_right,
                 'pretre': pretre,
-                'chambres': chambres
+                'chambres_nombre': chambres_nombre,
+                'chambres_string': chambres_string
             }
 
     return render(request, 'sejours/calendar.html', {

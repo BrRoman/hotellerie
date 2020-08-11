@@ -1,5 +1,18 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'sejours:home' %}>Séjours</a></li>
+    <li class="breadcrumb-item active">{{ sejour }}</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Details of Sejour {{ id_sejour }}.
+    <h2>{{ sejour }}</h2>
+
+    Du {{ sejour.sejour_du }} {{ sejour.repas_du }}
+    au {{ sejour.sejour_au }} {{ sejour.repas_au }}
+
+    <a href={% url 'sejours:update' sejour.id %}>Mettre à jour</a>
+    <a href={% url 'sejours:delete' sejour.id %}>Supprimer</a>
 {% endblock %}

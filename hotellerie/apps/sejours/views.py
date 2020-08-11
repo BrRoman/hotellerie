@@ -2,9 +2,12 @@
 
 import datetime
 
-from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
+from .forms import SejourForm
 from .models import Chambre, Sejour
 
 
@@ -99,22 +102,60 @@ def calendar(request, *args, **kwargs):
 @login_required
 def create(request):
     """ Create a Sejour. """
-    return render(request, 'sejours/form.html', {})
+    if request.method == 'POST':
+        form = SejourForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('sejours:home'))
+
+    else:
+        form = SejourForm()
+
+    return render(request, 'sejours/form.html', {'form': form})
 
 
 @login_required
 def details(request, *args, **kwargs):
     """ Details of a Sejour. """
-    return render(request, 'sejours/details.html', {'id_sejour': kwargs['pk']})
+    sejour = get_object_or_404(Sejour, pk=kwargs['pk'])
+    return render(request, 'sejours/details.html', {'sejour': sejour})
 
 
 @login_required
 def update(request, *args, **kwargs):
     """ Update a Sejour. """
-    return render(request, 'sejours/form.html', {'id_sejour': kwargs['pk']})
+    sejour = get_object_or_404(Sejour, pk=kwargs['pk'])
+
+    if request.method == 'POST':
+        form = SejourForm(request.POST, instance=sejour)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('sejours:home'))
+
+    else:
+        form = SejourForm(instance=sejour)
+
+    return render(request, 'sejours/form.html', {
+        'form': form,
+        'sejour': sejour,
+    })
 
 
 @login_required
 def delete(request, *args, **kwargs):
     """ Delete a Sejour. """
-    return render(request, 'sejours/delete.html', {'id_sejour': kwargs['pk']})
+    sejour = get_object_or_404(Sejour, pk=kwargs['pk'])
+
+    if request.method == 'POST':
+        form = SejourForm(request.POST, instance=sejour)
+        sejour.delete()
+        return HttpResponseRedirect(reverse('sejours:home'))
+
+    else:
+        form = SejourForm(instance=sejour)
+
+    return render(request, 'sejours/delete.html', {
+        'form': form,
+        'sejour': sejour,
+    })

@@ -1,5 +1,27 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'sejours:home' %}>Séjours</a></li>
+
+    {% if sejour %}
+        <li class="breadcrumb-item"><a href={% url 'sejours:details' sejour.id %}>{{ sejour }}</a></li>
+        <li class="breadcrumb-item active">Mettre à jour</li>
+    {% else %}
+        <li class="breadcrumb-item active">Créer</li>
+    {% endif %}
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Form of Sejours.
+    {% if sejour %}
+        <h2>{{ sejour }}</h2>
+    {% else %}
+        <h2>Créer un nouveau séjour</h2>
+    {% endif %}
+
+    <form>
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
 {% endblock %}

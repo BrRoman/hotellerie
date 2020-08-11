@@ -1,5 +1,18 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'sejours:home' %}>Séjours</a></li>
+    <li class="breadcrumb-item"><a href={% url 'sejours:details' sejour.id %}>{{ sejour }}</a></li>
+    <li class="breadcrumb-item active">Supprimer</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Delete Sejour {{ id_sejour }}.
+    <form method="post">
+        {% csrf_token %}
+        <h6>Êtes-vous sûr de vouloir supprimer ce séjour ?</h6>
+        <button type="submit">Oui</button>
+        <a href={% url 'sejours:details' sejour.id %}>Non</a>
+    </form>
 {% endblock %}

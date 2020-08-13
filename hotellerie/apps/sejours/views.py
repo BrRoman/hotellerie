@@ -13,7 +13,7 @@ from .models import Chambre, Sejour
 
 @login_required
 def home(request):
-    """ Home view of Sejours = redirect to calendar with current date as paramter. """
+    """ Home view of Sejours = redirect to calendar with current date as parameter. """
     today = datetime.date.today()
     day = today.strftime('%d')
     month = today.strftime('%m')
@@ -23,7 +23,7 @@ def home(request):
 
 @login_required
 def calendar(request, *args, **kwargs):
-    """ Display calendar according to the required date. """
+    """ Display calendar of sejours according to the required date. """
     date_today = datetime.date.today()
     today = {'day': date_today.strftime(
         '%d'), 'month': date_today.strftime('%m'), 'year': date_today.strftime('%Y')}

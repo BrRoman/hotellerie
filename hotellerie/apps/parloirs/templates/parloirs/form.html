@@ -1,5 +1,34 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'parloirs:home' %}>Parloirs</a></li>
+
+    {% if parloir %}
+        <li class="breadcrumb-item"><a href={% url 'parloirs:details' parloir.id %}>{{ parloir }}</a></li>
+        <li class="breadcrumb-item active">Mettre à jour</li>
+    {% else %}
+        <li class="breadcrumb-item active">Créer</li>
+    {% endif %}
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Form of Parloir.
+    {% if parloir %}
+        <h2>{{ parloir }}</h2>
+    {% else %}
+        <h2>Créer un nouveau parloir</h2>
+    {% endif %}
+
+    <form>
+        {% csrf_token %}
+
+        {{ form.as_p }}
+        <button type="submit">Valider</button>
+        {% if parloir %}
+            <a href={% url 'parloirs:details' parloir.id %}>Annuler</a>
+        {% else %}
+            <a href={% url 'parloirs:home' %}>Annuler</a>
+        {% endif %}
+    </form>
 {% endblock %}

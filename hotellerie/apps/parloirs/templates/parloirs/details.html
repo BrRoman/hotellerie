@@ -1,5 +1,15 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'parloirs:home' %}>Parloirs</a></li>
+    <li class="breadcrumb-item active">{{ parloir }}</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Details of Parloir {{ id_parloir }}.
+    <h2>{{ parloir }}</h2>
+
+    <a href={% url 'parloirs:update' parloir.id %}>Mettre à jour</a>
+    <a href={% url 'parloirs:delete' parloir.id %}>Supprimer</a>
 {% endblock %}

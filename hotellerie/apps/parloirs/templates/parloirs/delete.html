@@ -1,5 +1,19 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'parloirs:home' %}>Parloirs</a></li>
+    <li class="breadcrumb-item"><a href={% url 'parloirs:details' parloir.id %}>{{ parloir }}</a></li>
+    <li class="breadcrumb-item active">Supprimer</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Delete Parloir {{ id_parloir }}.
+    <form method="post">
+        {% csrf_token %}
+        
+        <h6>Êtes-vous sûr de vouloir supprimer ce parloir ?</h6>
+        <button type="submit">Oui</button>
+        <a href={% url 'parloirs:details' parloir.id %}>Non</a>
+    </form>
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active">Parloirs</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <div class="d-flex flex-column justify-content-between align-items-center">
+        <!-- Title -->
+        <div id="title" class="form-inline">
+            <h1>Parloirs</h1>
+            <a href={% url 'parloirs:create' %}><p class="mr-auto" title="Ajouter un parloir"><span class="fas fa-plus-circle"></p></a>
+        </div>
+    </div>
+
+    <!-- Liste -->
+    <ul class="list-inline">
+        {% for parloir in parloirs %}
+            <li><a href={% url 'parloirs:details' parloir.id %}>{{ parloir }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

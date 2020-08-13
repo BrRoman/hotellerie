@@ -107,6 +107,7 @@ body {
             #calendar-bars {
                 display: grid;
                 grid-template-columns: repeat(7, 100% / 7);
+                grid-auto-flow: row dense;
 
                 .bar {
                     background-color: @green;

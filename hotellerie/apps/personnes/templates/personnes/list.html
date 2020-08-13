@@ -19,7 +19,7 @@
                     {% if letter == current %}
                         <li class="mx-1 full-red">{{ letter }}</li>
                     {% else %}
-                        <li class="mx-1"><a href="{% url 'personnes:list' letter %}">{{ letter }}</a></li>
+                        <li class="mx-1"><a href={% url 'personnes:list' letter %}>{{ letter }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>

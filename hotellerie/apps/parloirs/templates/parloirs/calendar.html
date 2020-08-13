@@ -1,22 +1,47 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
 {% block breadcrumbs %}
     <li class="breadcrumb-item active">Parloirs</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
-    <div class="d-flex flex-column justify-content-between align-items-center">
+    <div class="d-flex align-self-stretch align-items-center mx-5">
         <!-- Title -->
-        <div id="title" class="form-inline">
+        <div id="title" class="form-inline mr-auto">
             <h1>Parloirs</h1>
-            <a href={% url 'parloirs:create' %}><p class="mr-auto" title="Ajouter un parloir"><span class="fas fa-plus-circle"></p></a>
+            <a href={% url 'parloirs:create' %}><p class="mr-auto" title="Ajouter un séjour"><span class="fas fa-plus-circle"></span></p></a>
+        </div>
+
+        <!-- Tools -->
+        <div id="tools" class="d-flex align-items-center ml-auto">
+            <span id="previous_week" class="fas fa-angle-double-left" title="Semaine précédente"></span>
+
+            <div class="input-group" id="datepicker">
+                <span class="fas fa-calendar-alt" data-target="#datepicker" data-toggle="datetimepicker" title="Calendrier"></span>
+            </div>
+
+            <span id="next_week" class="fas fa-angle-double-right" title="Semaine suivante"></span>
         </div>
     </div>
 
-    <!-- Liste -->
-    <ul class="list-inline">
-        {% for parloir in parloirs %}
-            <li><a href={% url 'parloirs:details' parloir.id %}>{{ parloir }}</a></li>
-        {% endfor %}
-    </ul>
-{% endblock %}
+    <!-- Calendar -->
+    <div id="calendar">
+        <!-- Dates -->
+        {% include 'calendar_dates.html' %}
+
+        <!-- Parloirs -->
+        <div id="calendar-bars">
+            {% for day, day_data in days.items %}
+                {% for parloir in day_data.parloirs %}
+                    <div class="bar parloir px-1 mt-1 mr-1" style="grid-column: {{ forloop.parentloop.counter }};" title="{{ parloir.personne }} + {{ parloir.nombre }}">
+                        <a href={% url 'parloirs:details' parloir.id %}>
+                            {{ parloir.personne }} + {{ parloir.nombre }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

@@ -3,39 +3,41 @@ $(document).ready(function () {
 
     // Calendar: click on 'previous week':
     $('#previous_week').click(function () {
-        regex = /(\d{2})\/(\d{2})\/(\d{4})/;
-        result = regex.exec(url);
-        date = new Date(parseInt(result[3]), parseInt(result[2]) - 1, parseInt(result[1]));
-        previous_date = new Date(date.getTime() - (7 * 24 * 3600 * 1000));
+        const regex = /([^\/]*)\/(\d{2})\/(\d{2})\/(\d{4})/;
+        const result = regex.exec(url);
+        const date = new Date(parseInt(result[4]), parseInt(result[3]) - 1, parseInt(result[2]));
+        const previous_date = new Date(date.getTime() - (7 * 24 * 3600 * 1000));
 
-        previous_day = previous_date.getDate();
+        let previous_day = previous_date.getDate();
         previous_day = previous_day < 10 ? '0' + previous_day : previous_day;
 
-        previous_month = previous_date.getMonth() + 1;
+        let previous_month = previous_date.getMonth() + 1;
         previous_month = previous_month < 10 ? '0' + previous_month : previous_month;
 
-        previous_year = previous_date.getYear() + 1900;
+        const previous_year = previous_date.getYear() + 1900;
 
-        window.location.href = '/hotellerie/sejours/' + previous_day + '/' + previous_month + '/' + previous_year;
+        const page = result[1];
+        window.location.href = '/hotellerie/' + page + '/' + previous_day + '/' + previous_month + '/' + previous_year;
     });
 
 
     // Calendar: click on 'next week':
     $('#next_week').click(function () {
-        regex = /(\d{2})\/(\d{2})\/(\d{4})/;
-        result = regex.exec(url);
-        date = new Date(parseInt(result[3]), parseInt(result[2]) - 1, parseInt(result[1]));
-        next_date = new Date(date.getTime() + (7 * 24 * 3600 * 1000));
+        const regex = /([^\/]*)\/(\d{2})\/(\d{2})\/(\d{4})/;
+        const result = regex.exec(url);
+        const date = new Date(parseInt(result[4]), parseInt(result[3]) - 1, parseInt(result[2]));
+        const next_date = new Date(date.getTime() + (7 * 24 * 3600 * 1000));
 
-        next_day = next_date.getDate();
+        let next_day = next_date.getDate();
         next_day = next_day < 10 ? '0' + next_day : next_day;
 
-        next_month = next_date.getMonth() + 1;
+        let next_month = next_date.getMonth() + 1;
         next_month = next_month < 10 ? '0' + next_month : next_month;
 
         next_year = next_date.getYear() + 1900;
 
-        window.location.href = '/hotellerie/sejours/' + next_day + '/' + next_month + '/' + next_year;
+        const page = result[1];
+        window.location.href = '/hotellerie/' + page + '/' + next_day + '/' + next_month + '/' + next_year;
     });
 
 
@@ -44,12 +46,16 @@ $(document).ready(function () {
         format: 'L',
     });
     $('#datepicker').on('hide.datetimepicker', function (e) {
+        const regex = /([^\/]*)\/\d{2}\/\d{2}\/\d{4}/;
+        const result = regex.exec(url);
+        const page = result[1];
+
         date = e.date._d;
         day = date.getDate();
         day = day < 10 ? '0' + day : day;
         month = date.getMonth() + 1;
         month = month < 10 ? '0' + month : month;
         year = date.getYear() + 1900;
-        window.location.href = '/hotellerie/sejours/' + day + '/' + month + '/' + year;
+        window.location.href = '/hotellerie/' + page + '/' + day + '/' + month + '/' + year;
     });
 });

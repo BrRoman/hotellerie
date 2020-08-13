@@ -23,8 +23,27 @@ def home(request):
 @login_required
 def calendar(request, *args, **kwargs):
     """ Display calendar of parloirs according to the required date. """
-    parloirs = Parloir.objects.all()
-    return render(request, 'parloirs/calendar.html', {'parloirs': parloirs})
+    # Date that has been required in **kwargs:
+    display_date = datetime.datetime(
+        int(kwargs['year']), int(kwargs['month']), int(kwargs['day']))
+
+    # Initial date of the week containing the required date:
+    initial_date = display_date - \
+        datetime.timedelta(days=(display_date.weekday() + 1)
+                           if display_date.weekday() != 6 else 0)
+
+    # Construct the list of days with all their data:
+    days = {}
+    for i in range(7):
+        date = initial_date + datetime.timedelta(days=i)
+        date_human = datetime.date(date.year, date.month, date.day)
+
+        days[date_human] = {}
+        days[date_human]['current'] = (date_human == datetime.date.today())
+        days[date_human]['parloirs'] = Parloir.objects.filter(
+            date=date).order_by('-date')
+
+    return render(request, 'parloirs/calendar.html', {'days': days})
 
 
 @login_required

@@ -6,7 +6,7 @@ from . import views
 
 app_name = 'parloirs'
 urlpatterns = [
-    path('', views.calendar, name='home'),
+    path('', views.home, name='home'),
     re_path(r'^(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})/$',
             views.calendar, name='calendar'),
     path('create/', views.create, name='create'),

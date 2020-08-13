@@ -32,7 +32,7 @@
         {% include 'calendar_dates.html' %}
 
         <!-- Sejours -->
-        <div id="calendar-sejours">
+        <div id="calendar-bars">
             {% for day, day_data in days.items %}
                 {% for sejour, sejour_data in day_data.sejours.items %}
                     {% if sejour_data.length > 0 %}

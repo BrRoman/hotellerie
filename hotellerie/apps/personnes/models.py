@@ -22,17 +22,23 @@ class Personne(models.Model):
     qualite = models.CharField(
         max_length=25,
     )
-    pere_suiveur = models.CharField(
-        max_length=255,
+    pere_suiveur = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        db_column='pere_suiveur',
     )
     pretre = models.BooleanField(
         default=False,
     )
     messe_forme = models.CharField(
         max_length=25,
+        blank=True,
+        null=True,
     )
     messe_langue = models.CharField(
         max_length=25,
+        blank=True,
+        null=True,
     )
     commentaire = models.TextField()
     created_at = models.DateTimeField(

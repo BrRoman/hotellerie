@@ -61,11 +61,9 @@ def create(request):
 def details(request, **kwargs):
     """ Details of a Personne. """
     personne = get_object_or_404(Personne, pk=kwargs['pk'])
-    pere_suiveur = personne.pere_suiveur
     first_letter = personne.nom[0] if personne.nom else '-'
     return render(request, 'personnes/details.html', {
         'personne': personne,
-        'pere_suiveur': pere_suiveur,
         'first_letter': first_letter
     })
 
@@ -80,10 +78,12 @@ def update(request, **kwargs):
         form = PersonneForm(request.POST, instance=personne)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('personnes:list', args=first_letter))
+            return HttpResponseRedirect(reverse('personnes:details', args=[personne.id]))
 
     else:
-        form = PersonneForm(instance=personne)
+        form = PersonneForm(
+            instance=personne,
+        )
 
     return render(request, 'personnes/form.html', {
         'form': form,

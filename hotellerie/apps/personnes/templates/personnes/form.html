@@ -24,265 +24,267 @@
     <form method="post" novalidate>
         {% csrf_token %}
 
-            <!-- Qualité -->
-            <div class="form-group">
-                {{ form.qualite.label_tag }}
-                {% if form.is_bound %}
-                    {% if form.qualite.errors %}
-                        {% render_field form.qualite class="custom-select form-control is-invalid" %}
-                        {% for error in form.qualite.errors %}
-                            <div class="invalid-feedback d-block">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.qualite class="custom-select form-control is-valid" %}
-                    {% endif %}
+        <!-- Qualité -->
+        <div class="form-group">
+            {{ form.qualite.label_tag }}
+            {% if form.is_bound %}
+                {% if form.qualite.errors %}
+                    {% render_field form.qualite class="custom-select form-control is-invalid" %}
+                    {% for error in form.qualite.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.qualite class="custom-select form-control" %}
+                    {% render_field form.qualite class="custom-select form-control is-valid" %}
                 {% endif %}
+            {% else %}
+                {% render_field form.qualite class="custom-select form-control" %}
+            {% endif %}
 
-                {% if form.qualite.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.qualite.help_text }}
-                    </small>
-                {% endif %}
-            </div>
+            {% if form.qualite.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.qualite.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
 
-            <!-- Prénom -->
-            <div class="form-group">
-                {{ form.prenom.label_tag }}
-                {% if form.is_bound %}
-                    {% if form.prenom.errors %}
-                        {% render_field form.prenom class="form-control is-invalid" %}
-                        {% for error in form.prenom.errors %}
-                            <div class="invalid-feedback" style="display: block;">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.prenom class="form-control is-valid" %}
-                    {% endif %}
+        <!-- Prénom -->
+        <div class="form-group">
+            {{ form.prenom.label_tag }}
+            {% if form.is_bound %}
+                {% if form.prenom.errors %}
+                    {% render_field form.prenom class="form-control is-invalid" %}
+                    {% for error in form.prenom.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.prenom class="form-control" %}
+                    {% render_field form.prenom class="form-control is-valid" %}
                 {% endif %}
+            {% else %}
+                {% render_field form.prenom class="form-control" %}
+            {% endif %}
 
-                {% if form.prenom.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.prenom.help_text }}
-                    </small>
-                {% endif %}
-            </div>
+            {% if form.prenom.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.prenom.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
 
-            <!-- Nom -->
-            <div class="form-group">
-                {{ form.nom.label_tag }}
-                {% if form.is_bound %}
-                    {% if form.nom.errors %}
-                        {% render_field form.nom class="form-control is-invalid" %}
-                        {% for error in form.nom.errors %}
-                            <div class="invalid-feedback" style="display: block;">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.nom class="form-control is-valid" %}
-                    {% endif %}
+        <!-- Nom -->
+        <div class="form-group">
+            {{ form.nom.label_tag }}
+            {% if form.is_bound %}
+                {% if form.nom.errors %}
+                    {% render_field form.nom class="form-control is-invalid" %}
+                    {% for error in form.nom.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.nom class="form-control" %}
+                    {% render_field form.nom class="form-control is-valid" %}
                 {% endif %}
+            {% else %}
+                {% render_field form.nom class="form-control" %}
+            {% endif %}
 
-                {% if form.nom.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.nom.help_text }}
-                    </small>
-                {% endif %}
-            </div>
+            {% if form.nom.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.nom.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
 
-            <!-- Moine Flav -->
-            <div class="d-flex my-2">
-                {% if form.is_bound %}
-                    {% if form.moine_flav.errors %}
-                        {% render_field form.moine_flav class="form-control is-invalid" style="width: auto;" %}
-                        {% for error in form.moine_flav.errors %}
-                            <div class="invalid-feedback" style="display: block;">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.moine_flav class="form-control is-valid" style="width: auto;" %}
-                    {% endif %}
+        <!-- Moine Flav -->
+        <div class="d-flex my-2">
+            {% if form.is_bound %}
+                {% if form.moine_flav.errors %}
+                    {% render_field form.moine_flav class="form-control is-invalid" style="width: auto;" %}
+                    {% for error in form.moine_flav.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.moine_flav class="form-control" style="width: auto;" %}
+                    {% render_field form.moine_flav class="form-control is-valid" style="width: auto;" %}
                 {% endif %}
+            {% else %}
+                {% render_field form.moine_flav class="form-control" style="width: auto;" %}
+            {% endif %}
 
-                {% if form.moine_flav.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.moine_flav.help_text }}
-                    </small>
-                {% endif %}
-                {{ form.moine_flav.label_tag }}
-            </div>
+            {% if form.moine_flav.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.moine_flav.help_text }}
+                </small>
+            {% endif %}
+            {{ form.moine_flav.label_tag }}
+        </div>
 
 
-            <!-- Est Père suiveur -->
-            <div class="d-flex my-2">
-                {% if form.is_bound %}
-                    {% if form.est_pere_suiveur.errors %}
-                        {% render_field form.est_pere_suiveur class="form-control is-invalid" style="width: auto;" %}
-                        {% for error in form.est_pere_suiveur.errors %}
-                            <div class="invalid-feedback" style="display: block;">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.est_pere_suiveur class="form-control is-valid" style="width: auto;" %}
-                    {% endif %}
+        <!-- Est Père suiveur -->
+        <div class="d-flex my-2">
+            {% if form.is_bound %}
+                {% if form.est_pere_suiveur.errors %}
+                    {% render_field form.est_pere_suiveur class="form-control is-invalid" style="width: auto;" %}
+                    {% for error in form.est_pere_suiveur.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.est_pere_suiveur class="form-control" style="width: auto;" %}
+                    {% render_field form.est_pere_suiveur class="form-control is-valid" style="width: auto;" %}
                 {% endif %}
-                
-                {% if form.est_pere_suiveur.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.est_pere_suiveur.help_text }}
-                    </small>
-                {% endif %}
-                {{ form.est_pere_suiveur.label_tag }}
-            </div>
+            {% else %}
+                {% render_field form.est_pere_suiveur class="form-control" style="width: auto;" %}
+            {% endif %}
+            
+            {% if form.est_pere_suiveur.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.est_pere_suiveur.help_text }}
+                </small>
+            {% endif %}
+            {{ form.est_pere_suiveur.label_tag }}
+        </div>
 
 
-            <!-- Père suiveur -->
-            <div class="form-group">
-                {{ form.pere_suiveur.label_tag }}
-                {% if form.is_bound %}
-                    {% if form.pere_suiveur.errors %}
-                        {% render_field form.pere_suiveur class="custom-select form-control is-invalid" %}
-                        {% for error in form.pere_suiveur.errors %}
-                            <div class="invalid-feedback" style="display: block;">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.pere_suiveur class="custom-select form-control is-valid" %}
-                    {% endif %}
+        <!-- Père suiveur -->
+        <div class="form-group">
+            {{ form.pere_suiveur.label_tag }}
+            {% if form.is_bound %}
+                {% if form.pere_suiveur.errors %}
+                    {% render_field form.pere_suiveur class="custom-select form-control is-invalid" %}
+                    {% for error in form.pere_suiveur.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.pere_suiveur class="custom-select form-control" %}
+                    {% render_field form.pere_suiveur class="custom-select form-control is-valid" %}
                 {% endif %}
+            {% else %}
+                {% render_field form.pere_suiveur class="custom-select form-control" %}
+            {% endif %}
 
-                {% if form.pere_suiveur.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.pere_suiveur.help_text }}
-                    </small>
-                {% endif %}
-            </div>
+            {% if form.pere_suiveur.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.pere_suiveur.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
 
-            <!-- Est prêtre -->
-            <div class="d-flex my-2">
-                {% if form.is_bound %}
-                    {% if form.pretre.errors %}
-                        {% render_field form.pretre class="form-control is-invalid" style="width: auto;" %}
-                        {% for error in form.pretre.errors %}
-                            <div class="invalid-feedback" style="display: block;">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.pretre class="form-control is-valid" style="width: auto;" %}
-                    {% endif %}
+        <!-- Est prêtre -->
+        <div class="d-flex my-2">
+            {% if form.is_bound %}
+                {% if form.pretre.errors %}
+                    {% render_field form.pretre class="form-control is-invalid" style="width: auto;" %}
+                    {% for error in form.pretre.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.pretre class="form-control" style="width: auto;" %}
+                    {% render_field form.pretre class="form-control is-valid" style="width: auto;" %}
                 {% endif %}
-                
-                {% if form.pretre.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.pretre.help_text }}
-                    </small>
-                {% endif %}
-                {{ form.pretre.label_tag }}
-            </div>
+            {% else %}
+                {% render_field form.pretre class="form-control" style="width: auto;" %}
+            {% endif %}
+            
+            {% if form.pretre.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.pretre.help_text }}
+                </small>
+            {% endif %}
+            {{ form.pretre.label_tag }}
+        </div>
 
 
-            <!-- Messe forme -->
-            <div class="form-group">
-                {{ form.messe_forme.label_tag }}
-                {% if form.is_bound %}
-                    {% if form.messe_forme.errors %}
-                        {% render_field form.messe_forme class="custom-select form-control is-invalid" %}
-                        {% for error in form.messe_forme.errors %}
-                            <div class="invalid-feedback d-block">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.messe_forme class="custom-select form-control is-valid" %}
-                    {% endif %}
+        <!-- Messe forme -->
+        <div class="form-group">
+            {{ form.messe_forme.label_tag }}
+            {% if form.is_bound %}
+                {% if form.messe_forme.errors %}
+                    {% render_field form.messe_forme class="custom-select form-control is-invalid" %}
+                    {% for error in form.messe_forme.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.messe_forme class="custom-select form-control" %}
+                    {% render_field form.messe_forme class="custom-select form-control is-valid" %}
                 {% endif %}
+            {% else %}
+                {% render_field form.messe_forme class="custom-select form-control" %}
+            {% endif %}
 
-                {% if form.messe_forme.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.messe_forme.help_text }}
-                    </small>
-                {% endif %}
-            </div>
+            {% if form.messe_forme.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.messe_forme.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
 
-            <!-- Messe langue -->
-            <div class="form-group">
-                {{ form.messe_langue.label_tag }}
-                {% if form.is_bound %}
-                    {% if form.messe_langue.errors %}
-                        {% render_field form.messe_langue class="custom-select form-control is-invalid" %}
-                        {% for error in form.messe_langue.errors %}
-                            <div class="invalid-feedback d-block">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.messe_langue class="custom-select form-control is-valid" %}
-                    {% endif %}
+        <!-- Messe langue -->
+        <div class="form-group">
+            {{ form.messe_langue.label_tag }}
+            {% if form.is_bound %}
+                {% if form.messe_langue.errors %}
+                    {% render_field form.messe_langue class="custom-select form-control is-invalid" %}
+                    {% for error in form.messe_langue.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.messe_langue class="custom-select form-control" %}
+                    {% render_field form.messe_langue class="custom-select form-control is-valid" %}
                 {% endif %}
+            {% else %}
+                {% render_field form.messe_langue class="custom-select form-control" %}
+            {% endif %}
 
-                {% if form.messe_langue.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.messe_langue.help_text }}
-                    </small>
-                {% endif %}
-            </div>
+            {% if form.messe_langue.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.messe_langue.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
 
-            <!-- Commentaire -->
-            <div class="form-group">
-                {{ form.commentaire.label_tag }}
-                {% if form.is_bound %}
-                    {% if form.commentaire.errors %}
-                        {% render_field form.commentaire class="form-control is-invalid" %}
-                        {% for error in form.commentaire.errors %}
-                            <div class="invalid-feedback" style="display: block;">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field form.commentaire class="form-control is-valid" %}
-                    {% endif %}
+        <!-- Commentaire -->
+        <div class="form-group">
+            {{ form.commentaire.label_tag }}
+            {% if form.is_bound %}
+                {% if form.commentaire.errors %}
+                    {% render_field form.commentaire class="form-control is-invalid" %}
+                    {% for error in form.commentaire.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {% render_field form.commentaire class="form-control" %}
+                    {% render_field form.commentaire class="form-control is-valid" %}
                 {% endif %}
-                
-                {% if form.commentaire.help_text %}
-                    <small class="form-text text-muted">
-                        {{ form.commentaire.help_text }}
-                    </small>
-                {% endif %}
-            </div>
+            {% else %}
+                {% render_field form.commentaire class="form-control" %}
+            {% endif %}
+            
+            {% if form.commentaire.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.commentaire.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
+
+        <!-- Validation -->
         <div ="d-flex justify-content-center">
             <a href={% url 'personnes:details' personne.id %} class="btn btn-primary mx-3">Annuler</a>
             <button type="submit" class="btn btn-success mx-3">Valider</button>

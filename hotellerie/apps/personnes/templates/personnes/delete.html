@@ -5,6 +5,6 @@
         {% csrf_token %}
         <h6>Êtes-vous sûr de vouloir supprimer cette personne ?</h6>
         <button type="submit">Oui</button>
-        <a href={% url 'personnes:list' first_letter %}>Non</a>
+        <a href={% url 'personnes:details' personne.id %}>Non</a>
     </form>
 {% endblock %}

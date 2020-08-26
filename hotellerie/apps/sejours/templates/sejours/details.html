@@ -15,4 +15,5 @@
 
     <a href={% url 'sejours:update' sejour.id %}>Mettre à jour</a>
     <a href={% url 'sejours:delete' sejour.id %}>Supprimer</a>
+    <a href={% url 'sejours:calendar' calendar_day calendar_month calendar_year %}>Retour au calendrier</a>
 {% endblock %}

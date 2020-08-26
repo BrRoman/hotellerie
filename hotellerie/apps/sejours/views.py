@@ -119,7 +119,12 @@ def create(request):
 def details(request, *args, **kwargs):
     """ Details of a Sejour. """
     sejour = get_object_or_404(Sejour, pk=kwargs['pk'])
-    return render(request, 'sejours/details.html', {'sejour': sejour})
+    return render(request, 'sejours/details.html', {
+        'sejour': sejour,
+        'calendar_day': sejour.sejour_du.strftime('%d'),
+        'calendar_month': sejour.sejour_du.strftime('%m'),
+        'calendar_year': sejour.sejour_du.strftime('%Y')
+    })
 
 
 @login_required

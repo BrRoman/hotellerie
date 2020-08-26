@@ -2,8 +2,8 @@
 
 from django import forms
 
-from .models import Personne
 from apps.personnes.models import Personne
+from .models import Personne
 
 
 class PersonneForm(forms.ModelForm):

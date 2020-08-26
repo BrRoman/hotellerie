@@ -4,6 +4,12 @@
     <h1>Bienvenue sur le site de l'hôtellerie !</h1>
 
     {% if user.is_authenticated %}
+        <div class="d-flex my-5">
+            <h4><a href={% url 'personnes:list' 'A' %} class="mx-1">Personnes</a></h4>
+            <h4><a href={% url 'sejours:home' %} class="mx-1">Séjours</a></h4>
+            <h4><a href={% url 'parloirs:home' %} class="mx-1">Parloirs</a></h4>
+        </div>
+
         <h2>Notifications</h2>
     {% endif %}
 {% endblock content %}

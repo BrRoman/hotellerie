@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 
 {% load static %}
+{% load widget_tweaks %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href={% url 'sejours:home' %}>Séjours</a></li>
@@ -9,19 +10,302 @@
         <li class="breadcrumb-item"><a href={% url 'sejours:details' sejour.id %}>{{ sejour }}</a></li>
         <li class="breadcrumb-item active">Mettre à jour</li>
     {% else %}
+        <li class="breadcrumb-item active"><a href={% url 'sejours:home' %}>Séjours</a></li>
         <li class="breadcrumb-item active">Créer</li>
     {% endif %}
 {% endblock breadcrumbs %}
 
 {% block content %}
     {% if sejour %}
-        <h2>{{ sejour }}</h2>
+        <h2>Modifier {{ sejour }}</h2>
     {% else %}
         <h2>Créer un nouveau séjour</h2>
     {% endif %}
 
-    <form>
+    <form method="post" novalidate>
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <!-- Personne -->
+        <div class="form-group">
+            {{ form.personne.label_tag }}
+
+            {% if form.is_bound %}
+                {% if form.personne.errors %}
+                    {% render_field form.personne class="form-control is-invalid" %}
+                    {% for error in form.personne.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.personne class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.personne class="form-control" %}
+            {% endif %}
+
+            {% if form.personne.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.personne.help_text }}
+                </small>
+            {% endif %}
+        </div>
+
+
+        <!-- Du -->
+        <div class="row justify-content-between ml-0">
+            {{ form.sejour_du.label_tag }}
+
+            <!-- Séjour du -->
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.sejour_du.errors %}
+                        {% render_field form.sejour_du class="form-control is-invalid" %}
+                        {% for error in form.sejour_du.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.sejour_du class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.sejour_du class="form-control" %}
+                {% endif %}
+
+                {% if form.sejour_du.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.sejour_du.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+
+            <!-- Repas du -->
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.repas_du.errors %}
+                        {% render_field form.repas_du class="custom-select form-control is-invalid" %}
+                        {% for error in form.repas_du.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.repas_du class="custom-select form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.repas_du class="custom-select form-control" %}
+                {% endif %}
+
+                {% if form.repas_du.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.repas_du.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- Au -->
+        <div class="row justify-content-between ml-0">
+            {{ form.sejour_au.label_tag }}
+
+            <!-- Séjour au -->
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.sejour_au.errors %}
+                        {% render_field form.sejour_au class="form-control is-invalid" %}
+                        {% for error in form.sejour_au.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.sejour_au class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.sejour_au class="form-control" %}
+                {% endif %}
+
+                {% if form.sejour_au.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.sejour_au.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+
+            <!-- Repas au -->
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.repas_au.errors %}
+                        {% render_field form.repas_au class="custom-select form-control is-invalid" %}
+                        {% for error in form.repas_au.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.repas_au class="custom-select form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.repas_au class="custom-select form-control" %}
+                {% endif %}
+
+                {% if form.repas_au.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.repas_au.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- Table -->
+        <div class="d-flex my-2">
+            {{ form.mensa.label_tag }}
+
+            {% if form.is_bound %}
+                {% if form.mensa.errors %}
+                    {% render_field form.mensa class="custom-select form-control is-invalid" %}
+                    {% for error in form.mensa.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.mensa class="custom-select form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.mensa class="custom-select form-control" %}
+            {% endif %}
+
+            {% if form.mensa.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.mensa.help_text }}
+                </small>
+            {% endif %}
+        </div>
+
+
+        <!-- Prêtre avec Messe -->
+        <div class="d-flex my-2">
+            {% if form.is_bound %}
+                {% if form.dit_messe.errors %}
+                    {% render_field form.dit_messe class="form-control is-invalid" %}
+                    {% for error in form.dit_messe.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.dit_messe class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.dit_messe class="form-control" %}
+            {% endif %}
+
+            {% if form.dit_messe.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.dit_messe.help_text }}
+                </small>
+            {% endif %}
+
+            {{ form.dit_messe.label_tag }}
+        </div>
+
+
+        <!-- Messe lendemain -->
+        <div class="d-flex my-2">
+            {% if form.is_bound %}
+                {% if form.messe_lendemain.errors %}
+                    {% render_field form.messe_lendemain class="form-control is-invalid" %}
+                    {% for error in form.messe_lendemain.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.messe_lendemain class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.messe_lendemain class="form-control" %}
+            {% endif %}
+
+            {% if form.messe_lendemain.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.messe_lendemain.help_text }}
+                </small>
+            {% endif %}
+
+            {{ form.messe_lendemain.label_tag }}
+        </div>
+
+
+        <!-- Tour de Messe -->
+        <div class="d-flex my-2">
+            {{ form.tour_messe.label_tag }}
+
+            {% if form.is_bound %}
+                {% if form.tour_messe.errors %}
+                    {% render_field form.tour_messe class="custom-select form-control is-invalid" %}
+                    {% for error in form.tour_messe.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.tour_messe class="custom-select form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.tour_messe class="custom-select form-control" %}
+            {% endif %}
+
+            {% if form.tour_messe.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.tour_messe.help_text }}
+                </small>
+            {% endif %}
+        </div>
+
+
+        <!-- Servant -->
+        <div class="d-flex my-2">
+            {% if form.is_bound %}
+                {% if form.servant.errors %}
+                    {% render_field form.servant class="form-control is-invalid" %}
+                    {% for error in form.servant.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.servant class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.servant class="form-control" %}
+            {% endif %}
+
+            {% if form.servant.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.servant.help_text }}
+                </small>
+            {% endif %}
+
+            {{ form.servant.label_tag }}
+        </div>
+
+        <!-- Validation -->
+        <div class="d-flex justify-content-center">
+            {% if sejour %}
+                <a href={% url 'sejours:details' sejour.id %} class="btn btn-primary mx-3">Annuler</a>
+            {% else %}
+                <a href={% url 'sejours:home' %} class="btn btn-primary mx-3">Annuler</a>
+            {% endif %}
+            <button type="submit" class="btn btn-success mx-3">Valider</button>
+        </div>
     </form>
 {% endblock %}
+
+{% block javascript %}
+    {{ form.media }}
+{% endblock javascript %}

@@ -1,11 +1,12 @@
 """ apps/personnes/views.py """
 
+from dal import autocomplete
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from apps.sejours.models import Sejour
 from .forms import PersonneForm
 from .models import Personne
 
@@ -111,3 +112,16 @@ def delete(request, **kwargs):
         'personne': personne,
         'first_letter': first_letter
     })
+
+
+class PersonneAutocompleteView(autocomplete.Select2QuerySetView):
+    """ Return a set of Personnes according to the user search value. """
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Personne.objects.none()
+
+        personnes = Personne.objects.all()
+        if self.q:
+            personnes = personnes.filter(nom__istartswith=self.q)
+        return personnes

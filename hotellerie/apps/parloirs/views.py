@@ -66,7 +66,13 @@ def create(request):
 def details(request, *args, **kwargs):
     """ Details of a Parloir. """
     parloir = get_object_or_404(Parloir, id=kwargs['pk'])
-    return render(request, 'parloirs/details.html', {'parloir': parloir})
+
+    return render(request, 'parloirs/details.html', {
+        'parloir': parloir,
+        'calendar_day': parloir.date.strftime('%d'),
+        'calendar_month': parloir.date.strftime('%m'),
+        'calendar_year': parloir.date.strftime('%Y')
+    })
 
 
 @login_required

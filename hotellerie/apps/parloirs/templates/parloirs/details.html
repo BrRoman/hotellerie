@@ -10,6 +10,9 @@
 {% block content %}
     <h2>{{ parloir }}</h2>
 
+    Parloir : {{ parloir.parloir }}
+
     <a href={% url 'parloirs:update' parloir.id %}>Mettre à jour</a>
     <a href={% url 'parloirs:delete' parloir.id %}>Supprimer</a>
+    <a href={% url 'parloirs:calendar' calendar_day calendar_month calendar_year %}>Retour au calendrier</a>
 {% endblock %}

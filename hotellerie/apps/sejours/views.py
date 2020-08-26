@@ -131,7 +131,7 @@ def update(request, *args, **kwargs):
         form = SejourForm(request.POST, instance=sejour)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('sejours:home'))
+            return HttpResponseRedirect(reverse('sejours:details', args=[sejour.id]))
 
     else:
         form = SejourForm(instance=sejour)

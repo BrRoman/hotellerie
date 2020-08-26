@@ -16,7 +16,6 @@ class SejourForm(forms.ModelForm):
         error_messages={
             'required': 'Ce champ est obligatoire',
         },
-        help_text='Entrez les premières lettres du nom de la personne.',
         queryset=Personne.objects.all(),
         widget=autocomplete.ModelSelect2(url='personnes:autocomplete'),
     )

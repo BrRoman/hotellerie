@@ -49,6 +49,10 @@
                     {{ form.personne.help_text }}
                 </small>
             {% endif %}
+
+            {% if sejour %}
+                <small class="form-text text-muted"><a href={% url 'personnes:details' sejour.personne.id %}>Voir la fiche de cette personne</a></small>
+            {% endif %}
         </div>
 
 

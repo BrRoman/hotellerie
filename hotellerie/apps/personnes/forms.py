@@ -118,6 +118,7 @@ class PersonneForm(forms.ModelForm):
         label='Remarques',
         widget=forms.Textarea,
     )
+    # TODO: Mails, Adresses, Téléphones.
 
     class Meta:
         model = Personne

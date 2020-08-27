@@ -124,5 +124,6 @@ class PersonneAutocompleteView(autocomplete.Select2QuerySetView):
 
         personnes = Personne.objects.all()
         if self.q:
-            personnes = personnes.filter(nom__istartswith=self.q)
+            personnes = (personnes.filter(nom__icontains=self.q) |
+                         personnes.filter(prenom__icontains=self.q))
         return personnes

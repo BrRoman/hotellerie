@@ -78,8 +78,9 @@ def update(request, **kwargs):
     if request.method == 'POST':
         form = PersonneForm(request.POST, instance=personne)
         if form.is_valid():
+            letter = form.cleaned_data['nom'][0].upper()
             form.save()
-            return HttpResponseRedirect(reverse('personnes:details', args=[personne.id]))
+            return HttpResponseRedirect(reverse('personnes:list', args=letter))
 
     else:
         form = PersonneForm(

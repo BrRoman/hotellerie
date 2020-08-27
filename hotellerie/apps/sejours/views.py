@@ -107,7 +107,12 @@ def create(request):
 
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('sejours:home'))
+            date = form.cleaned_data['sejour_du']
+            return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
+                'day': '{:%d}'.format(date),
+                'month': '{:%m}'.format(date),
+                'year': '{:%Y}'.format(date),
+            }))
 
     else:
         form = SejourForm()
@@ -136,7 +141,12 @@ def update(request, *args, **kwargs):
         form = SejourForm(request.POST, instance=sejour)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('sejours:details', args=[sejour.id]))
+            date = form.cleaned_data['sejour_du']
+            return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
+                'day': '{:%d}'.format(date),
+                'month': '{:%m}'.format(date),
+                'year': '{:%Y}'.format(date),
+            }))
 
     else:
         form = SejourForm(instance=sejour)

@@ -68,6 +68,7 @@ def calendar(request, *args, **kwargs):
                 chambres_string += (', ' if chambres_string !=
                                     '' else '') + chambre['chambre']
 
+            # TODO: Case sejour monorepas.
             if sejour.sejour_du == date_human:
                 length = ((sejour.sejour_au - date_human).days + 1)
                 coord_x = i + 1

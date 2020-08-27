@@ -298,7 +298,57 @@
             {{ form.servant.label_tag }}
         </div>
 
-        <!-- TODO: Champ remarques/commentaire -->
+
+        <!-- Commentaire cuisine -->
+        <div class="form-group">
+            {{ form.commentaire_cuisine.label_tag }}
+            {% if form.is_bound %}
+                {% if form.commentaire_cuisine.errors %}
+                    {% render_field form.commentaire_cuisine class="form-control is-invalid" %}
+                    {% for error in form.commentaire_cuisine.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.commentaire_cuisine class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.commentaire_cuisine class="form-control" %}
+            {% endif %}
+            
+            {% if form.commentaire_cuisine.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.commentaire_cuisine.help_text }}
+                </small>
+            {% endif %}
+        </div>
+
+
+        <!-- Commentaire sacristie -->
+        <div class="form-group">
+            {{ form.commentaire_sacristie.label_tag }}
+            {% if form.is_bound %}
+                {% if form.commentaire_sacristie.errors %}
+                    {% render_field form.commentaire_sacristie class="form-control is-invalid" %}
+                    {% for error in form.commentaire_sacristie.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.commentaire_sacristie class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.commentaire_sacristie class="form-control" %}
+            {% endif %}
+            
+            {% if form.commentaire_sacristie.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.commentaire_sacristie.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
 
         <!-- Validation -->

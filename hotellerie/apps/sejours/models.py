@@ -35,6 +35,8 @@ class Sejour(models.Model):
     servant = models.BooleanField(
         default=False,
     )
+    commentaire_cuisine = models.TextField()
+    commentaire_sacristie = models.TextField()
     created_at = models.DateTimeField(
         auto_now_add=True,
         db_column='created',

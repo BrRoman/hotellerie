@@ -89,6 +89,24 @@ class SejourForm(forms.ModelForm):
         label_suffix='',
         required=False,
     )
+    commentaire_cuisine = forms.CharField(
+        required=False,
+        label='Remarques pour la cuisine :',
+        widget=forms.Textarea(
+            attrs={
+                'rows': 4,
+            }
+        ),
+    )
+    commentaire_sacristie = forms.CharField(
+        required=False,
+        label='Remarques pour la sacristie :',
+        widget=forms.Textarea(
+            attrs={
+                'rows': 4,
+            }
+        ),
+    )
 
     class Meta:
         model = Sejour

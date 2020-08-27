@@ -78,7 +78,7 @@ class SejourForm(forms.ModelForm):
         label='Tour de Messe :',
         required=False,
         choices=[
-            ('---------', ''),
+            ('', '---------'),
             ('1er tour', '1er tour'),
             ('2e tour', '2e tour'),
             ('Matinée', 'Matinée'),

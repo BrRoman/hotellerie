@@ -10,8 +10,45 @@
 {% block content %}
     <h2>{{ sejour }}</h2>
 
-    Du {{ sejour.sejour_du }} {{ sejour.repas_du }}
-    au {{ sejour.sejour_au }} {{ sejour.repas_au }}
+    <table>
+        <tr>
+            <td>Du</td>
+            <td>{{ sejour.sejour_du }} {{ sejour.repas_du }}</td>
+        </tr>
+        <tr>
+            <td>Au</td>
+            <td>{{ sejour.sejour_au }} {{ sejour.repas_au }}</td>
+        </tr>
+        <tr>
+            <td>Table :</td>
+            <td>{{ sejour.mensa }}</td>
+        </tr>
+        <tr>
+            <td>Prêtre avec Messe :</td>
+            <td>{{ sejour.pretre|yesno:'Oui,Non' }}</td>
+        </tr>
+        <tr>
+            <td>Messe lendemain :</td>
+            <td>{{ sejour.messe_lendemain|yesno:'Oui,Non' }}</td>
+        </tr>
+        <tr>
+            <td>Tour de Messe :</td>
+            <td>{{ sejour.tour_messe }}</td>
+        </tr>
+        <tr>
+            <td>Servant :</td>
+            <td>{{ sejour.servant|yesno:'Oui,Non' }}</td>
+        </tr>
+        <tr>
+            <td>Commentaire cuisine :</td>
+            <td>{{ sejour.commentaire_cuisine }}</td>
+        </tr>
+        <tr>
+            <td>Commentaire sacristie :</td>
+            <td>{{ sejour.commentaire_sacristie }}</td>
+        </tr>
+    </table>
+
 
     <a href={% url 'sejours:update' sejour.id %}>Modifier</a>
     <a href={% url 'sejours:delete' sejour.id %}>Supprimer</a>

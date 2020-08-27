@@ -51,10 +51,14 @@ def create(request):
     """ Create a Parloir. """
     if request.method == 'POST':
         form = ParloirForm(request.POST)
-
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('parloirs:home'))
+            date = form.cleaned_data['date']
+            return HttpResponseRedirect(reverse('parloirs:calendar', kwargs={
+                'day': '{:%d}'.format(date),
+                'month': '{:%m}'.format(date),
+                'year': '{:%Y}'.format(date),
+            }))
 
     else:
         form = ParloirForm()
@@ -84,8 +88,12 @@ def update(request, *args, **kwargs):
         form = ParloirForm(request.POST, instance=parloir)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('parloirs:home'))
-
+            date = form.cleaned_data['date']
+            return HttpResponseRedirect(reverse('parloirs:calendar', kwargs={
+                'day': '{:%d}'.format(date),
+                'month': '{:%m}'.format(date),
+                'year': '{:%Y}'.format(date),
+            }))
     else:
         form = ParloirForm(instance=parloir)
 

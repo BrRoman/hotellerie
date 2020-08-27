@@ -1,13 +1,14 @@
 {% extends 'main.html' %}
 
 {% load static %}
+{% load widget_tweaks %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href={% url 'parloirs:home' %}>Parloirs</a></li>
 
     {% if parloir %}
         <li class="breadcrumb-item"><a href={% url 'parloirs:details' parloir.id %}>{{ parloir }}</a></li>
-        <li class="breadcrumb-item active">Mettre à jour</li>
+        <li class="breadcrumb-item active">Modifier</li>
     {% else %}
         <li class="breadcrumb-item active">Créer</li>
     {% endif %}
@@ -20,10 +21,208 @@
         <h2>Créer un nouveau parloir</h2>
     {% endif %}
 
-    <form>
+    <form method="post" novalidate>
         {% csrf_token %}
 
-        {{ form.as_p }}
+        <!-- Personne -->
+        <div class="form-group">
+            {{ form.personne.label_tag }}
+
+            {% if form.is_bound %}
+                {% if form.personne.errors %}
+                    {% render_field form.personne class="form-control is-invalid" %}
+                    {% for error in form.personne.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.personne class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.personne class="form-control" %}
+            {% endif %}
+
+            {% if form.personne.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.personne.help_text }}
+                </small>
+            {% endif %}
+
+            {% if sejour %}
+                <small class="form-text text-muted"><a href={% url 'personnes:details' sejour.personne.id %}>Voir la fiche de cette personne</a></small>
+            {% endif %}
+        </div>
+
+
+        <!-- Nombre -->
+        <div class="row justify-content-start ml-0">
+            {{ form.nombre.label_tag }}
+
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.nombre.errors %}
+                        {% render_field form.nombre class="form-control is-invalid" %}
+                        {% for error in form.nombre.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.nombre class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.nombre class="form-control" %}
+                {% endif %}
+                
+                {% if form.nombre.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.nombre.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- Date -->
+        <div class="row justify-content-start ml-0">
+            {{ form.date.label_tag }}
+
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.date.errors %}
+                        {% render_field form.date class="form-control is-invalid" %}
+                        {% for error in form.date.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.date class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.date class="form-control" %}
+                {% endif %}
+
+                {% if form.date.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.date.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- Repas -->
+        <div class="row justify-content-start ml-0">
+            {{ form.repas.label_tag }}
+
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.repas.errors %}
+                        {% render_field form.repas class="form-control is-invalid" %}
+                        {% for error in form.repas.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.repas class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.repas class="form-control" %}
+                {% endif %}
+
+                {% if form.repas.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.repas.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- Parloir -->
+        <div class="row justify-content-start ml-0">
+            {{ form.parloir.label_tag }}
+
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.parloir.errors %}
+                        {% render_field form.parloir class="form-control is-invalid" %}
+                        {% for error in form.parloir.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.parloir class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.parloir class="form-control" %}
+                {% endif %}
+
+                {% if form.parloir.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.parloir.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- Repas apporté -->
+        <div class="d-flex my-2">
+            {% if form.is_bound %}
+                {% if form.repas_apporte.errors %}
+                    {% render_field form.repas_apporte class="form-control is-invalid" %}
+                    {% for error in form.repas_apporte.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.repas_apporte class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.repas_apporte class="form-control" %}
+            {% endif %}
+
+            {% if form.repas_apporte.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.repas_apporte.help_text }}
+                </small>
+            {% endif %}
+
+            {{ form.repas_apporte.label_tag }}
+        </div>
+
+        <!-- Commentaire -->
+        <div class="form-group">
+            {{ form.remarque.label_tag }}
+            {% if form.is_bound %}
+                {% if form.remarque.errors %}
+                    {% render_field form.remarque class="form-control is-invalid" %}
+                    {% for error in form.remarque.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.remarque class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.remarque class="form-control" %}
+            {% endif %}
+            
+            {% if form.remarque.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.remarque.help_text }}
+                </small>
+            {% endif %}
+        </div>
+
+
         <button type="submit">Valider</button>
         {% if parloir %}
             <a href={% url 'parloirs:details' parloir.id %}>Annuler</a>
@@ -32,3 +231,7 @@
         {% endif %}
     </form>
 {% endblock %}
+
+{% block javascript %}
+    {{ form.media }}
+{% endblock javascript %}

@@ -35,9 +35,14 @@
         <div id="calendar-bars">
             {% for day, day_data in days.items %}
                 {% for parloir in day_data.parloirs %}
-                    <div class="bar parloir px-1 mt-1 mr-1" style="grid-column: {{ forloop.parentloop.counter }};" title="{{ parloir.personne }} + {{ parloir.nombre }}">
+                    <div class="bar parloir px-1 mt-1 mr-1" style="grid-column: {{ forloop.parentloop.counter }};"
+                        title=
+"{{ parloir.personne }} + {{ parloir.nombre }}
+{{ parloir.repas }}
+{{ parloir.parloir }}"
+                    >
                         <a href={% url 'parloirs:details' parloir.id %}>
-                            {{ parloir.personne }} + {{ parloir.nombre }}
+                            {{ parloir.personne }} + {{ parloir.nombre }} ({{ parloir.parloir }})
                         </a>
                     </div>
                 {% endfor %}

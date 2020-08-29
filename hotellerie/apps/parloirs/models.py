@@ -55,4 +55,4 @@ class Parloir(models.Model):
         db_table = 'Parloirs'
 
     def __str__(self):
-        return "{} le {}".format(self.personne, self.date)
+        return "{} le {}".format(self.personne, self.date.strftime('%d/%m/%Y'))

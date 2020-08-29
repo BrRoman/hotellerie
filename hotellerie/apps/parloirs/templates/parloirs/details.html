@@ -8,9 +8,31 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-    <h2>{{ parloir }}</h2>
+    <h2>Parloir de {{ parloir.personne }}</h2>
 
-    Parloir : {{ parloir.parloir }}
+    <table class="col-5">
+        <tr>
+            <td>Nombre en plus de la personne :</td>
+            <td>{{ parloir.nombre }}</td>
+        </tr>
+        <tr>
+            <td>Date :</td>
+            <td>{{ parloir.date }} ({{ parloir.repas }})</td>
+        </tr>
+        <tr>
+            <td>Parloir :</td>
+            <td>{{ parloir.parloir }}</td>
+        </tr>
+        <tr>
+            <td>Repas apporté :</td>
+            <td>{{ parloir.repas_apporte|yesno:'Oui,Non' }}</td>
+        </tr>
+        <tr>
+            <td>Remarques :</td>
+            <td>{{ parloir.remarque }}</td>
+        </tr>
+    </table>
+
 
     <a href={% url 'parloirs:update' parloir.id %}>Modifier</a>
     <a href={% url 'parloirs:delete' parloir.id %}>Supprimer</a>

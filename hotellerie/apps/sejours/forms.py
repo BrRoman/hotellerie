@@ -10,7 +10,7 @@ from .models import Sejour
 
 
 class SejourForm(forms.ModelForm):
-    """ Form for Sejour. """
+    """ Form for Sejours. """
     personne = forms.ModelChoiceField(
         label='Personne :',
         error_messages={
@@ -82,7 +82,7 @@ class SejourForm(forms.ModelForm):
             ('1er tour', '1er tour'),
             ('2e tour', '2e tour'),
             ('Matinée', 'Matinée'),
-        ]
+        ],
     )
     servant = forms.BooleanField(
         label='Attribuer un servant',

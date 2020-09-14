@@ -10,7 +10,7 @@ from .models import Parloir
 
 
 class ParloirForm(forms.ModelForm):
-    """ Form for Parloir. """
+    """ Form for Parloirs. """
     personne = forms.ModelChoiceField(
         label='Personne :',
         error_messages={

@@ -51,7 +51,11 @@ class Sejour(models.Model):
         db_table = 'Sejours'
 
     def __str__(self):
-        return 'Séjour de {} du {} au {}'.format(self.personne, self.sejour_du.strftime('%d/%m/%Y'), self.sejour_au.strftime('%d/%m/%Y'))
+        return 'Séjour de {} du {} au {}'.format(
+            self.personne,
+            self.sejour_du.strftime('%d/%m/%Y'),
+            self.sejour_au.strftime('%d/%m/%Y') if self.sejour_au else '--'
+        )
 
 
 class Chambre(models.Model):
@@ -70,4 +74,4 @@ class Chambre(models.Model):
         db_table = 'Chambres'
 
     def __str__(self):
-        return self.chambre + ' | ' + self.sejour.__str__()
+        return '{} ({})'.format(self.chambre, self.sejour.__str__())

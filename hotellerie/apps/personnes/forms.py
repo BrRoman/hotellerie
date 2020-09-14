@@ -7,7 +7,7 @@ from .models import Personne
 
 
 class PersonneForm(forms.ModelForm):
-    """ Form for Personne. """
+    """ Form for Personnes. """
     qualite = forms.ChoiceField(
         label='Qualité :',
         choices=[

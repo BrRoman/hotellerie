@@ -34,7 +34,9 @@
                     name="filter"
                     type="text"
                     placeholder="Rechercher"
-                    {% if filter != '' %}value={{ filter }}{% endif %}
+                    {% if filter != '' %}
+                        value={{ filter }}
+                    {% endif %}
                 >
                 <script>window.onload = document.getElementById('filter').select();</script>
             </form>

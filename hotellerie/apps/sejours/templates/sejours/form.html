@@ -17,12 +17,12 @@
 
 {% block content %}
     {% if sejour %}
-        <h2>Modifier {{ sejour }}</h2>
+        <h2>Modifier un séjour</h2>
     {% else %}
         <h2>Créer un nouveau séjour</h2>
     {% endif %}
 
-    <form method="post" novalidate>
+    <form class="col-5" method="post" novalidate>
         {% csrf_token %}
 
         <!-- Personne -->

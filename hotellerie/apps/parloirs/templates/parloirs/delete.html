@@ -11,9 +11,13 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        
+
         <h6>Êtes-vous sûr de vouloir supprimer ce parloir ?</h6>
-        <button type="submit">Oui</button>
-        <a href={% url 'parloirs:details' parloir.id %}>Non</a>
+
+        <!-- Validation -->
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-success mx-3">Oui</button>
+            <a href={% url 'parloirs:details' parloir.id %} class="btn btn-primary mx-3">Non</a>
+        </div>
     </form>
 {% endblock %}

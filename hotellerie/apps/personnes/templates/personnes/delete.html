@@ -1,10 +1,23 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'personnes:list' 'A' %}>Personnes</a></li>
+    <li class="breadcrumb-item"><a href={% url 'personnes:details' personne.id %}>{{ personne }}</a></li>
+    <li class="breadcrumb-item active">Supprimer</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
     <form method="post">
         {% csrf_token %}
+
         <h6>Êtes-vous sûr de vouloir supprimer cette personne ?</h6>
-        <button type="submit">Oui</button>
-        <a href={% url 'personnes:details' personne.id %}>Non</a>
+
+        <!-- Validation -->
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-success mx-3">Oui</button>
+            <a href={% url 'personnes:details' personne.id %} class="btn btn-primary mx-3">Non</a>
+        </div>
     </form>
 {% endblock %}

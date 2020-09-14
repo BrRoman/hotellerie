@@ -10,6 +10,12 @@
 {% block content %}
     <h2>Séjour de {{ sejour.personne }}</h2>
 
+    <div class="row">
+        <a href={% url 'sejours:update' sejour.id %} class="mx-1">Modifier</a>
+        <a href={% url 'sejours:delete' sejour.id %} class="mx-1">Supprimer</a>
+        <a href={% url 'sejours:calendar' calendar_day calendar_month calendar_year %} class="mx-1">Retour au calendrier</a>
+    </div>
+
     <div class="col-6">
         <table class="table table-sm">
             <tr>
@@ -63,9 +69,4 @@
             </tr>
         </table>
     </div>
-
-
-    <a href={% url 'sejours:update' sejour.id %}>Modifier</a>
-    <a href={% url 'sejours:delete' sejour.id %}>Supprimer</a>
-    <a href={% url 'sejours:calendar' calendar_day calendar_month calendar_year %}>Retour au calendrier</a>
 {% endblock %}

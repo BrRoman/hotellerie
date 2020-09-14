@@ -129,17 +129,19 @@ def details(request, *args, **kwargs):
         'sejour': sejour,
         'calendar_day': sejour.sejour_du.strftime('%d'),
         'calendar_month': sejour.sejour_du.strftime('%m'),
-        'calendar_year': sejour.sejour_du.strftime('%Y')
+        'calendar_year': sejour.sejour_du.strftime('%Y'),
+        'chambres': ', '.join(list(Chambre.objects.filter(sejour=sejour.id).values_list('chambre', flat=True))),
     })
 
 
 @login_required
-def update(request, *args, **kwargs):
+def update(request, **kwargs):
     """ Update a Sejour. """
     sejour = get_object_or_404(Sejour, pk=kwargs['pk'])
 
     if request.method == 'POST':
         form = SejourForm(request.POST, instance=sejour)
+
         if form.is_valid():
             form.save()
             date = form.cleaned_data['sejour_du']
@@ -150,7 +152,13 @@ def update(request, *args, **kwargs):
             }))
 
     else:
-        form = SejourForm(instance=sejour)
+        chambres = list(Chambre.objects.filter(sejour=sejour.id).values_list('chambre', flat=True))
+        form = SejourForm(
+            instance=sejour,
+            initial={
+                'chambre': chambres,
+            }
+        )
 
     return render(request, 'sejours/form.html', {
         'form': form,

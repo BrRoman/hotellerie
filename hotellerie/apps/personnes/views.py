@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from .forms import PersonneForm
-from .models import Personne
+from .models import Mail, Personne
 
 
 @login_required
@@ -65,7 +65,8 @@ def details(request, **kwargs):
     first_letter = personne.nom[0] if personne.nom else '-'
     return render(request, 'personnes/details.html', {
         'personne': personne,
-        'first_letter': first_letter
+        'first_letter': first_letter,
+        'mails': Mail.objects.filter(personne=personne),
     })
 
 

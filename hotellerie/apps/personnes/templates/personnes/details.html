@@ -25,6 +25,11 @@
             <td>Son Père suiveur :</td>
             <td>{{ personne.pere_suiveur|default_if_none:"" }}</td>
         </tr>
+    
+            <tr>
+                <td>Mails :</td>
+                <td>{{ mails|join:' <br> ' }}</td>
+            </tr>
         <tr>
             <td>Est un prêtre :</td>
             <td>{{ personne.pretre|yesno:"oui,non" }}</td>

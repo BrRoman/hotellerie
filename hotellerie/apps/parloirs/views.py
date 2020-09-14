@@ -89,11 +89,7 @@ def update(request, *args, **kwargs):
         if form.is_valid():
             form.save()
             date = form.cleaned_data['date']
-            return HttpResponseRedirect(reverse('parloirs:calendar', kwargs={
-                'day': '{:%d}'.format(date),
-                'month': '{:%m}'.format(date),
-                'year': '{:%Y}'.format(date),
-            }))
+            return HttpResponseRedirect(reverse('parloirs:details', kwargs={'pk': parloir.id}))
     else:
         form = ParloirForm(instance=parloir)
 

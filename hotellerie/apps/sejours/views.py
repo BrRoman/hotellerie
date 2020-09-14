@@ -151,11 +151,7 @@ def update(request, **kwargs):
             form.save()
 
             date = form.cleaned_data['sejour_du']
-            return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
-                'day': '{:%d}'.format(date),
-                'month': '{:%m}'.format(date),
-                'year': '{:%Y}'.format(date),
-            }))
+            return HttpResponseRedirect(reverse('sejours:details', kwargs={'pk': sejour.id}))
 
     else:
         chambres = list(Chambre.objects.filter(sejour=sejour.id).values_list('chambre', flat=True))

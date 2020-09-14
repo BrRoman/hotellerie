@@ -143,7 +143,13 @@ def update(request, **kwargs):
         form = SejourForm(request.POST, instance=sejour)
 
         if form.is_valid():
+            # Remove old rooms and insert new ones:
+            Chambre.objects.filter(sejour=sejour).delete()
+            for chambre in form.cleaned_data['chambre']:
+                Chambre.objects.create(sejour=sejour, chambre=chambre)
+
             form.save()
+
             date = form.cleaned_data['sejour_du']
             return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
                 'day': '{:%d}'.format(date),

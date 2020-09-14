@@ -10,48 +10,59 @@
 {% block content %}
     <h2>Séjour de {{ sejour.personne }}</h2>
 
-    <table>
-        <tr>
-            <td>Du</td>
-            <td>{{ sejour.sejour_du }} {{ sejour.repas_du }}</td>
-        </tr>
-        <tr>
-            <td>Au</td>
-            <td>{{ sejour.sejour_au }} {{ sejour.repas_au }}</td>
-        </tr>
-        <tr>
-            <td>Chambres :</td>
-            <td>{{ chambres }}</td>
-        </tr>
-        <tr>
-            <td>Table :</td>
-            <td>{{ sejour.mensa }}</td>
-        </tr>
-        <tr>
-            <td>Prêtre avec Messe :</td>
-            <td>{{ sejour.pretre|yesno:'Oui,Non' }}</td>
-        </tr>
-        <tr>
-            <td>Messe lendemain :</td>
-            <td>{{ sejour.messe_lendemain|yesno:'Oui,Non' }}</td>
-        </tr>
-        <tr>
-            <td>Tour de Messe :</td>
-            <td>{{ sejour.tour_messe }}</td>
-        </tr>
-        <tr>
-            <td>Servant :</td>
-            <td>{{ sejour.servant|yesno:'Oui,Non' }}</td>
-        </tr>
-        <tr>
-            <td>Commentaire cuisine :</td>
-            <td>{{ sejour.commentaire_cuisine }}</td>
-        </tr>
-        <tr>
-            <td>Commentaire sacristie :</td>
-            <td>{{ sejour.commentaire_sacristie }}</td>
-        </tr>
-    </table>
+    <div class="col-6">
+        <table class="table table-sm">
+            <tr>
+                <td>Du</td>
+                <td>{{ sejour.sejour_du }} {{ sejour.repas_du }}</td>
+            </tr>
+
+            <tr>
+                <td>Au</td>
+                <td>{{ sejour.sejour_au }} {{ sejour.repas_au }}</td>
+            </tr>
+
+            <tr>
+                <td>Chambres :</td>
+                <td>{{ chambres }}</td>
+            </tr>
+
+            <tr>
+                <td>Table :</td>
+                <td>{{ sejour.mensa }}</td>
+            </tr>
+
+            <tr>
+                <td>Prêtre avec Messe :</td>
+                <td>{{ sejour.pretre|yesno:'Oui,Non' }}</td>
+            </tr>
+
+            <tr>
+                <td>Messe lendemain :</td>
+                <td>{{ sejour.messe_lendemain|yesno:'Oui,Non' }}</td>
+            </tr>
+
+            <tr>
+                <td>Tour de Messe :</td>
+                <td>{{ sejour.tour_messe }}</td>
+            </tr>
+
+            <tr>
+                <td>Servant :</td>
+                <td>{{ sejour.servant|yesno:'Oui,Non' }}</td>
+            </tr>
+
+            <tr>
+                <td>Commentaire cuisine :</td>
+                <td>{{ sejour.commentaire_cuisine }}</td>
+            </tr>
+            
+            <tr>
+                <td>Commentaire sacristie :</td>
+                <td>{{ sejour.commentaire_sacristie }}</td>
+            </tr>
+        </table>
+    </div>
 
 
     <a href={% url 'sejours:update' sejour.id %}>Modifier</a>

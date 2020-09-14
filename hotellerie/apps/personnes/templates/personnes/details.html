@@ -12,41 +12,49 @@
         <a href={% url 'personnes:delete' personne.id %} class="mx-1">Supprimer</a>
     </div>
 
-    <table class="col-5">
-        <tr>
-            <td>Est un moine de Flavigny :</td>
-            <td>{{ personne.moine_flav|yesno:"oui,non" }}</td>
-        </tr>
-        <tr>
-            <td>Est Père suiveur :</td>
-            <td>{{ personne.moine_flav|yesno:"oui,non" }}</td>
-        </tr>
-        <tr>
-            <td>Son Père suiveur :</td>
-            <td>{{ personne.pere_suiveur|default_if_none:"" }}</td>
-        </tr>
+    <div class="col-6">
+        <table class="table table-sm">
+            <tr>
+                <td>Est un moine de Flavigny :</td>
+                <td>{{ personne.moine_flav|yesno:"oui,non" }}</td>
+            </tr>
+    
+            <tr>
+                <td>Est Père suiveur :</td>
+                <td>{{ personne.moine_flav|yesno:"oui,non" }}</td>
+            </tr>
+    
+            <tr>
+                <td>Son Père suiveur :</td>
+                <td>{{ personne.pere_suiveur|default_if_none:"" }}</td>
+            </tr>
     
             <tr>
                 <td>Mails :</td>
                 <td>{{ mails|join:' <br> ' }}</td>
             </tr>
-        <tr>
-            <td>Est un prêtre :</td>
-            <td>{{ personne.pretre|yesno:"oui,non" }}</td>
-        </tr>
-        <tr>
-            <td>Messe forme :</td>
-            <td>{{ personne.messe_forme }}</td>
-        </tr>
-        <tr>
-            <td>Messe langue :</td>
-            <td>{{ personne.messe_langue }}</td>
-        </tr>
-        <tr>
-            <td>Commentaire :</td>
-            <td class="col-6">{{ personne.commentaire }}</td>
-        </tr>
-    </table>
+    
+            <tr>
+                <td>Est un prêtre :</td>
+                <td>{{ personne.pretre|yesno:"oui,non" }}</td>
+            </tr>
+    
+            <tr>
+                <td>Messe forme :</td>
+                <td>{{ personne.messe_forme }}</td>
+            </tr>
+    
+            <tr>
+                <td>Messe langue :</td>
+                <td>{{ personne.messe_langue }}</td>
+            </tr>
+    
+            <tr>
+                <td>Commentaire :</td>
+                <td class="col-6">{{ personne.commentaire }}</td>
+            </tr>
+        </table>
+    </div>
 
     <h4>Séjours</h4>
     <table class="col-3">

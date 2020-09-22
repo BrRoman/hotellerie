@@ -59,11 +59,17 @@ class Personne(models.Model):
         nom_complet += ' ' if self.qualite else ''
         nom_complet += self.prenom if self.prenom else ''
         nom_complet += ' ' if self.prenom else ''
-        nom_complet += re.sub(
-            r'^D([E\'])(\s??)',
-            lambda match: 'd' + match.group(1).lower() + match.group(2),
+        name = re.sub(
+            r'^DE ',
+            lambda match: 'de ',
             self.nom.upper()
         )
+        name = re.sub(
+            r'^D\'',
+            lambda match: 'd\'',
+            self.nom.upper()
+        )
+        nom_complet += name
         return nom_complet
 
 

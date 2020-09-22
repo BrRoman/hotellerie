@@ -180,6 +180,44 @@
         </div>
 
 
+        <!-- Mails -->
+        <div class="form-group">
+            <label class="m-0 p-0">Mails :</label>
+
+            {{ mails_formset.management_form }}
+
+            <div class="d-flex flex-column justify-content-center">
+                {% for mail_form in mails_formset %}
+                    <!-- Hidden fields (for example id) are required. -->
+                    {% for hidden in mail_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    {% if form.is_bound %}
+                        {% if mail_form.errors %}
+                            <div class="my-1 is-invalid">{{ mail_form.mail }}</div>
+                            {% for error in mail_form.errors %}
+                                <div class="invalid-feedback text-center" style="display: block;">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="my-1 is-valid">{{ mail_form.mail }}</div>
+                        {% endif %}
+                    {% else %}
+                        <div class="my-1">{{ mail_form.mail }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            {% if mails_formset.non_form_errors %}
+                {% for error in mails_formset.non_form_errors %}
+                    {{ error|escape }}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+
         <!-- Est prêtre -->
         <div class="d-flex my-2">
             {% if form.is_bound %}

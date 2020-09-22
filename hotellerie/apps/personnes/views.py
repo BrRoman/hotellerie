@@ -3,6 +3,7 @@
 from dal import autocomplete
 
 from django.contrib.auth.decorators import login_required
+from django.forms.models import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -75,23 +76,30 @@ def update(request, **kwargs):
     """ Update a Personne. """
     personne = get_object_or_404(Personne, pk=kwargs['pk'])
     first_letter = personne.nom[0] if personne.nom else '-'
+    MailFormSet = modelformset_factory(Mail, fields=('mail',))
 
     if request.method == 'POST':
         form = PersonneForm(request.POST, instance=personne)
-        if form.is_valid():
-            letter = form.cleaned_data['nom'][0].upper()
+        mails_formset = MailFormSet(request.POST)
+
+        if form.is_valid() and mails_formset.is_valid():
             form.save()
+            mails_formset.save()
             return HttpResponseRedirect(reverse('personnes:details', kwargs={'pk': personne.id}))
 
     else:
         form = PersonneForm(
             instance=personne,
         )
+        mails_formset = MailFormSet(
+            queryset=Mail.objects.filter(personne=personne)
+        )
 
     return render(request, 'personnes/form.html', {
         'form': form,
         'personne': personne,
-        'first_letter': first_letter
+        'first_letter': first_letter,
+        'mails_formset': mails_formset,
     })
 
 

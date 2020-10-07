@@ -123,4 +123,5 @@ class PersonneForm(forms.ModelForm):
     class Meta:
         model = Personne
         fields = ['qualite', 'nom', 'prenom', 'commentaire',
-                  'moine_flav', 'est_pere_suiveur', 'pere_suiveur', 'pretre', 'messe_forme', 'messe_langue']
+                  'moine_flav', 'est_pere_suiveur', 'pere_suiveur',
+                  'pretre', 'messe_forme', 'messe_langue']

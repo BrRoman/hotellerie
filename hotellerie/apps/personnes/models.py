@@ -81,9 +81,7 @@ class Mail(models.Model):
         db_column='id_personne',
         related_name='mail_personne',
     )
-    mail = models.CharField(
-        max_length=25,
-    )
+    mail = models.EmailField()
     created_at = models.DateTimeField(
         auto_now_add=True,
         db_column='creation',

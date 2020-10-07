@@ -3,7 +3,7 @@
 from dal import autocomplete
 
 from django.contrib.auth.decorators import login_required
-from django.forms.models import modelformset_factory
+from django import forms
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -76,23 +76,42 @@ def update(request, **kwargs):
     """ Update a Personne. """
     personne = get_object_or_404(Personne, pk=kwargs['pk'])
     first_letter = personne.nom[0] if personne.nom else '-'
-    MailFormSet = modelformset_factory(Mail, fields=('mail',))
+    mails_inline_formset = forms.inlineformset_factory(
+        Personne,
+        Mail,
+        fields=('mail',),
+        can_delete=True,
+        extra=1,
+        min_num=1,
+        widgets={'mail': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )}
+    )
 
     if request.method == 'POST':
         form = PersonneForm(request.POST, instance=personne)
-        mails_formset = MailFormSet(request.POST)
+        mails_formset = mails_inline_formset(request.POST, instance=personne)
 
         if form.is_valid() and mails_formset.is_valid():
             form.save()
-            mails_formset.save()
+            Mail.objects.filter(personne=personne).delete()
+
+            for form_mail in mails_formset:
+                print(form_mail.cleaned_data)
+                if form_mail.cleaned_data.get('mail') and not form_mail.cleaned_data.get('DELETE'):
+                    Mail.objects.create(personne=personne,
+                                        mail=form_mail.cleaned_data.get('mail'))
+
             return HttpResponseRedirect(reverse('personnes:details', kwargs={'pk': personne.id}))
 
     else:
         form = PersonneForm(
             instance=personne,
         )
-        mails_formset = MailFormSet(
-            queryset=Mail.objects.filter(personne=personne)
+        mails_formset = mails_inline_formset(
+            instance=personne
         )
 
     return render(request, 'personnes/form.html', {

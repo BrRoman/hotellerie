@@ -187,41 +187,37 @@
 
 
         <!-- Mails -->
-        <div class="form-group">
+        <table class="table table-borderless table-sm">
             <label class="m-0 p-0">Mails :</label>
 
             {{ mails_formset.management_form }}
 
-            <div class="d-flex flex-column justify-content-center">
-                {% for mail_form in mails_formset %}
-                    <!-- Hidden fields (for example id) are required. -->
-                    {% for hidden in mail_form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
+            {% for mail_form in mails_formset.forms %}
+                <tr class="formset_row_mail">
+                    {% for field in mail_form.visible_fields %}
+                        <td class="border-0">
+                            {% if forloop.first %}
+                                {% for hidden in mail_form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+                            {% endif %}
 
-                    {% if form.is_bound %}
-                        {% if mail_form.errors %}
-                            <div class="my-1 is-invalid">{{ mail_form.mail }}</div>
-                            {% for error in mail_form.errors %}
-                                <div class="invalid-feedback text-center" style="display: block;">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <div class="my-1 is-valid">{{ mail_form.mail }}</div>
-                        {% endif %}
-                    {% else %}
-                        <div class="my-1">{{ mail_form.mail }}</div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+                            {{ field }}
+
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ field.errors.as_ul }}
+                            </div>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
 
             {% if mails_formset.non_form_errors %}
                 {% for error in mails_formset.non_form_errors %}
                     {{ error|escape }}
                 {% endfor %}
             {% endif %}
-        </div>
+        </table>
 
 
         <!-- Est prêtre -->
@@ -343,3 +339,8 @@
         </div>
     </form>
 {% endblock %}
+
+{% block javascript %}
+    <script src="{% static "js/jquery.formset.js" %}"></script>
+    <script src="{% static "js/formset.js" %}"></script>
+{% endblock javascript %}

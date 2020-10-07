@@ -27,6 +27,7 @@
         <!-- Qualité -->
         <div class="form-group">
             {{ form.qualite.label_tag }}
+
             {% if form.is_bound %}
                 {% if form.qualite.errors %}
                     {% render_field form.qualite class="custom-select form-control is-invalid" %}
@@ -53,6 +54,7 @@
         <!-- Prénom -->
         <div class="form-group">
             {{ form.prenom.label_tag }}
+
             {% if form.is_bound %}
                 {% if form.prenom.errors %}
                     {% render_field form.prenom class="form-control is-invalid" %}
@@ -79,6 +81,7 @@
         <!-- Nom -->
         <div class="form-group">
             {{ form.nom.label_tag }}
+
             {% if form.is_bound %}
                 {% if form.nom.errors %}
                     {% render_field form.nom class="form-control is-invalid" %}
@@ -124,6 +127,7 @@
                     {{ form.moine_flav.help_text }}
                 </small>
             {% endif %}
+
             {{ form.moine_flav.label_tag }}
         </div>
 
@@ -150,6 +154,7 @@
                     {{ form.est_pere_suiveur.help_text }}
                 </small>
             {% endif %}
+
             {{ form.est_pere_suiveur.label_tag }}
         </div>
 
@@ -157,6 +162,7 @@
         <!-- Père suiveur -->
         <div class="form-group">
             {{ form.pere_suiveur.label_tag }}
+
             {% if form.is_bound %}
                 {% if form.pere_suiveur.errors %}
                     {% render_field form.pere_suiveur class="custom-select form-control is-invalid" %}
@@ -240,6 +246,7 @@
                     {{ form.pretre.help_text }}
                 </small>
             {% endif %}
+
             {{ form.pretre.label_tag }}
         </div>
 
@@ -247,6 +254,7 @@
         <!-- Messe forme -->
         <div class="form-group">
             {{ form.messe_forme.label_tag }}
+
             {% if form.is_bound %}
                 {% if form.messe_forme.errors %}
                     {% render_field form.messe_forme class="custom-select form-control is-invalid" %}
@@ -273,6 +281,7 @@
         <!-- Messe langue -->
         <div class="form-group">
             {{ form.messe_langue.label_tag }}
+
             {% if form.is_bound %}
                 {% if form.messe_langue.errors %}
                     {% render_field form.messe_langue class="custom-select form-control is-invalid" %}
@@ -299,6 +308,7 @@
         <!-- Commentaire -->
         <div class="form-group">
             {{ form.commentaire.label_tag }}
+
             {% if form.is_bound %}
                 {% if form.commentaire.errors %}
                     {% render_field form.commentaire class="form-control is-invalid" %}

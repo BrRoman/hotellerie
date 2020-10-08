@@ -42,6 +42,11 @@
             </tr>
 
             <tr>
+                <td>Adresses postales :</td>
+                <td>{{ adresses|join:' <br> ' }}</td>
+            </tr>
+
+            <tr>
                 <td>Est un prêtre :</td>
                 <td>{{ personne.pretre|yesno:"oui,non" }}</td>
             </tr>

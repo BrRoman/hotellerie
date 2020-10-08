@@ -135,14 +135,12 @@ class Adresse(models.Model):
         db_column='id_personne',
         related_name='adresse_personne',
     )
-    rue = models.CharField(
-        max_length=255,
-    )
+    rue = models.TextField()
     code_postal = models.CharField(
         max_length=25,
     )
     ville = models.CharField(
-        max_length=255,
+        max_length=50,
     )
     pays = models.CharField(
         max_length=25,
@@ -161,4 +159,8 @@ class Adresse(models.Model):
         db_table = 'Adresses'
 
     def __str__(self):
-        return self.rue + ' | ' + self.code_postal + ' | ' + self.ville
+        adresse_as_string = ''
+        adresse_as_string += self.rue + ' | ' if self.rue else ''
+        adresse_as_string += self.code_postal + ' | ' if self.code_postal else ''
+        adresse_as_string += self.ville + ' | ' if self.ville else ''
+        return adresse_as_string

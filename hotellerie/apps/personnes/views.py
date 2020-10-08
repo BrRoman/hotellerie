@@ -69,6 +69,7 @@ def details(request, **kwargs):
         'first_letter': first_letter,
         'mails': Mail.objects.filter(personne=personne),
         'tels': Telephone.objects.filter(personne=personne),
+        'adresses': Adresse.objects.filter(personne=personne),
     })
 
 

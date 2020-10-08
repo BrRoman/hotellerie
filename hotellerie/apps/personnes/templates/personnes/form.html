@@ -240,11 +240,61 @@
         </table>
 
 
-            {% if tels_formset.non_form_errors %}
-                {% for error in tels_formset.non_form_errors %}
-                    {{ error|escape }}
-                {% endfor %}
-            {% endif %}
+        <!-- Adresses postales -->
+        <table class="table table-borderless table-sm" style="border-collapse: separate;">
+            <label class="m-0 p-0">Adresses postales :</label>
+
+            {{ adresses_formset.management_form }}
+
+            {% for adresse_form in adresses_formset.forms %}
+                <tr class="formset_row_adresse">
+                    <td class=" border border-success rounded p-2 m-2">
+                        {% for hidden in adresse_form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        
+                        <!-- Rue -->
+                        <div class="form-group mb-0">
+                            {{ adresse_form.rue.label_tag }}
+                            {{ adresse_form.rue }}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ adresse_form.rue.errors.as_ul }}
+                            </div>
+                        </div>
+
+                        <div class="row m-0">
+                            <!-- Code postal -->
+                            <div class="form-group mb-0">
+                                {{ adresse_form.code_postal.label_tag }}
+                                {{ adresse_form.code_postal }}
+                                <div class="invalid-feedback" style="display: block;">
+                                    {{ adresse_form.code_postal.errors.as_ul }}
+                                </div>
+                            </div>
+
+                            <!-- Ville -->
+                            <div class="form-group ml-2 mb-0">
+                                {{ adresse_form.ville.label_tag }}
+                                {{ adresse_form.ville }}
+                                <div class="invalid-feedback" style="display: block;">
+                                    {{ adresse_form.ville.errors.as_ul }}
+                                </div>
+                            </div>
+
+                            <!-- Pays -->
+                            <div class="form-group ml-2 mb-0">
+                                {{ adresse_form.pays.label_tag }}
+                                {{ adresse_form.pays }}
+                                <div class="invalid-feedback" style="display: block;">
+                                    {{ adresse_form.pays.errors.as_ul }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ adresse_form.DELETE }}
+                    </td>
+                </tr>
+            {% endfor %}
         </table>
 
 

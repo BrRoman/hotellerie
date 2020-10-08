@@ -8,8 +8,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from .forms import MailForm, PersonneForm, TelephoneForm
-from .models import Mail, Personne, Telephone
+from .forms import AdresseForm, MailForm, PersonneForm, TelephoneForm
+from .models import Adresse, Mail, Personne, Telephone
 
 
 @login_required
@@ -94,28 +94,71 @@ def update(request, **kwargs):
         can_delete=True,
         extra=1,
     )
+    adresses_inline_formset = forms.inlineformset_factory(
+        Personne,
+        Adresse,
+        fields=('rue', 'code_postal', 'ville', 'pays',),
+        form=AdresseForm,
+        can_delete=True,
+        extra=1,
+    )
 
     if request.method == 'POST':
         form = PersonneForm(request.POST, instance=personne)
-        mails_formset = mails_inline_formset(request.POST, instance=personne)
-        tels_formset = tels_inline_formset(request.POST, instance=personne)
+        mails_formset = mails_inline_formset(
+            request.POST, instance=personne
+        )
+        tels_formset = tels_inline_formset(
+            request.POST, instance=personne
+        )
+        adresses_formset = adresses_inline_formset(
+            request.POST, instance=personne
+        )
 
-        if form.is_valid() and mails_formset.is_valid() and tels_formset.is_valid():
+        if form.is_valid() \
+                and mails_formset.is_valid() \
+                and tels_formset.is_valid() \
+                and adresses_formset.is_valid():
             form.save()
             Mail.objects.filter(personne=personne).delete()
             Telephone.objects.filter(personne=personne).delete()
+            Adresse.objects.filter(personne=personne).delete()
 
             for form_mail in mails_formset:
-                if form_mail.cleaned_data.get('mail') and not form_mail.cleaned_data.get('DELETE'):
-                    Mail.objects.create(personne=personne,
-                                        mail=form_mail.cleaned_data.get('mail'))
+                if form_mail.cleaned_data.get('mail') \
+                        and not form_mail.cleaned_data.get('DELETE'):
+                    Mail.objects.create(
+                        personne=personne,
+                        mail=form_mail.cleaned_data.get('mail'),
+                    )
 
             for form_tel in tels_formset:
-                if form_tel.cleaned_data.get('num_tel') and not form_tel.cleaned_data.get('DELETE'):
-                    Telephone.objects.create(personne=personne,
-                                             num_tel=form_tel.cleaned_data.get('num_tel'))
+                if form_tel.cleaned_data.get('num_tel') \
+                        and not form_tel.cleaned_data.get('DELETE'):
+                    Telephone.objects.create(
+                        personne=personne,
+                        num_tel=form_tel.cleaned_data.get('num_tel'),
+                    )
 
-            return HttpResponseRedirect(reverse('personnes:details', kwargs={'pk': personne.id}))
+            for form_adresse in adresses_formset:
+                if form_adresse.cleaned_data.get('rue') \
+                        or form_adresse.cleaned_data.get('code_postal')\
+                        or form_adresse.cleaned_data.get('ville') \
+                        or form_adresse.cleaned_data.get('pays'):
+                    if not form_adresse.cleaned_data.get('DELETE'):
+                        Adresse.objects.create(
+                            personne=personne,
+                            rue=form_adresse.cleaned_data.get('rue'),
+                            code_postal=form_adresse.cleaned_data.get(
+                                'code_postal'),
+                            ville=form_adresse.cleaned_data.get('ville'),
+                            pays=form_adresse.cleaned_data.get('pays'),
+                        )
+
+            return HttpResponseRedirect(reverse(
+                'personnes:details',
+                kwargs={'pk': personne.id}
+            ))
 
     else:
         form = PersonneForm(
@@ -127,6 +170,9 @@ def update(request, **kwargs):
         tels_formset = tels_inline_formset(
             instance=personne
         )
+        adresses_formset = adresses_inline_formset(
+            instance=personne
+        )
 
     return render(request, 'personnes/form.html', {
         'form': form,
@@ -134,6 +180,7 @@ def update(request, **kwargs):
         'first_letter': first_letter,
         'mails_formset': mails_formset,
         'tels_formset': tels_formset,
+        'adresses_formset': adresses_formset,
     })
 
 

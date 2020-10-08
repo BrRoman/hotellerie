@@ -10,4 +10,10 @@ $(function () {
         deleteText: 'Supprimer',
         prefix: 'tel_personne',
     });
+
+    $('.formset_row_adresse').formset({
+        addText: 'Ajouter une adresse postale',
+        deleteText: 'Supprimer',
+        prefix: 'adresse_personne',
+    });
 });

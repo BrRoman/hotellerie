@@ -82,7 +82,6 @@ def update(request, **kwargs):
         fields=('mail',),
         can_delete=True,
         extra=1,
-        min_num=1,
         widgets={'mail': forms.TextInput(
             attrs={
                 'class': 'form-control',

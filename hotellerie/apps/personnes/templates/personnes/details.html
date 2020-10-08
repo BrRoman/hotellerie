@@ -37,6 +37,11 @@
             </tr>
 
             <tr>
+                <td>Téléphones :</td>
+                <td>{{ tels|join:' <br> ' }}</td>
+            </tr>
+
+            <tr>
                 <td>Est un prêtre :</td>
                 <td>{{ personne.pretre|yesno:"oui,non" }}</td>
             </tr>

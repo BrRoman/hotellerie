@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from .forms import PersonneForm
-from .models import Mail, Personne
+from .models import Mail, Personne, Telephone
 
 
 @login_required
@@ -68,6 +68,7 @@ def details(request, **kwargs):
         'personne': personne,
         'first_letter': first_letter,
         'mails': Mail.objects.filter(personne=personne),
+        'tels': Telephone.objects.filter(personne=personne),
     })
 
 
@@ -88,20 +89,38 @@ def update(request, **kwargs):
             }
         )}
     )
+    tels_inline_formset = forms.inlineformset_factory(
+        Personne,
+        Telephone,
+        fields=('num_tel',),
+        can_delete=True,
+        extra=1,
+        widgets={'num_tel': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )}
+    )
 
     if request.method == 'POST':
         form = PersonneForm(request.POST, instance=personne)
         mails_formset = mails_inline_formset(request.POST, instance=personne)
+        tels_formset = tels_inline_formset(request.POST, instance=personne)
 
-        if form.is_valid() and mails_formset.is_valid():
+        if form.is_valid() and mails_formset.is_valid() and tels_formset.is_valid():
             form.save()
             Mail.objects.filter(personne=personne).delete()
+            Telephone.objects.filter(personne=personne).delete()
 
             for form_mail in mails_formset:
-                print(form_mail.cleaned_data)
                 if form_mail.cleaned_data.get('mail') and not form_mail.cleaned_data.get('DELETE'):
                     Mail.objects.create(personne=personne,
                                         mail=form_mail.cleaned_data.get('mail'))
+
+            for form_tel in tels_formset:
+                if form_tel.cleaned_data.get('num_tel') and not form_tel.cleaned_data.get('DELETE'):
+                    Telephone.objects.create(personne=personne,
+                                             num_tel=form_tel.cleaned_data.get('num_tel'))
 
             return HttpResponseRedirect(reverse('personnes:details', kwargs={'pk': personne.id}))
 
@@ -112,12 +131,16 @@ def update(request, **kwargs):
         mails_formset = mails_inline_formset(
             instance=personne
         )
+        tels_formset = tels_inline_formset(
+            instance=personne
+        )
 
     return render(request, 'personnes/form.html', {
         'form': form,
         'personne': personne,
         'first_letter': first_letter,
         'mails_formset': mails_formset,
+        'tels_formset': tels_formset,
     })
 
 

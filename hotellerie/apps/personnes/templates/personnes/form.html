@@ -220,6 +220,40 @@
         </table>
 
 
+        <!-- Téléphones -->
+        <table class="table table-borderless table-sm">
+            <label class="m-0 p-0">Téléphones :</label>
+
+            {{ tels_formset.management_form }}
+
+            {% for tel_form in tels_formset.forms %}
+                <tr class="formset_row_tel">
+                    {% for field in tel_form.visible_fields %}
+                        <td class="border-0">
+                            {% if forloop.first %}
+                                {% for hidden in tel_form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+                            {% endif %}
+
+                            {{ field }}
+
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ field.errors.as_ul }}
+                            </div>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+
+            {% if tels_formset.non_form_errors %}
+                {% for error in tels_formset.non_form_errors %}
+                    {{ error|escape }}
+                {% endfor %}
+            {% endif %}
+        </table>
+
+
         <!-- Est prêtre -->
         <div class="d-flex my-2">
             {% if form.is_bound %}

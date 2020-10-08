@@ -124,3 +124,70 @@ class PersonneForm(forms.ModelForm):
         fields = ['qualite', 'nom', 'prenom', 'commentaire',
                   'moine_flav', 'est_pere_suiveur', 'pere_suiveur',
                   'pretre', 'messe_forme', 'messe_langue']
+
+
+class MailForm(forms.ModelForm):
+    """ Form for Mails. """
+    mail = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'width: 250px',
+            }
+        )
+    )
+
+
+class TelephoneForm(forms.ModelForm):
+    """ Form for Telephones. """
+    num_tel = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'width: 150px',
+            }
+        )
+    )
+
+
+class AdresseForm(forms.ModelForm):
+    """ Form for Adresses. """
+    rue = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        ),
+        label_suffix='',
+    )
+    code_postal = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'width: 100px',
+            }
+        ),
+        label_suffix='',
+    )
+    ville = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'width: 150px',
+            }
+        ),
+        label_suffix='',
+    )
+    pays = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'width: 150px',
+            }
+        ),
+        label_suffix='',
+    )

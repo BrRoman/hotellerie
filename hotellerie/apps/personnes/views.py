@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from .forms import PersonneForm
+from .forms import MailForm, PersonneForm, TelephoneForm
 from .models import Mail, Personne, Telephone
 
 
@@ -81,25 +81,17 @@ def update(request, **kwargs):
         Personne,
         Mail,
         fields=('mail',),
+        form=MailForm,
         can_delete=True,
         extra=1,
-        widgets={'mail': forms.TextInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )}
     )
     tels_inline_formset = forms.inlineformset_factory(
         Personne,
         Telephone,
         fields=('num_tel',),
+        form=TelephoneForm,
         can_delete=True,
         extra=1,
-        widgets={'num_tel': forms.TextInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )}
     )
 
     if request.method == 'POST':

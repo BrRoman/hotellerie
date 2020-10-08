@@ -194,29 +194,22 @@
 
             {% for mail_form in mails_formset.forms %}
                 <tr class="formset_row_mail">
-                    {% for field in mail_form.visible_fields %}
-                        <td class="border-0">
-                            {% if forloop.first %}
-                                {% for hidden in mail_form.hidden_fields %}
-                                    {{ hidden }}
-                                {% endfor %}
-                            {% endif %}
+                    <td class="border-0 row m-0">
+                        <div>
+                            {% for hidden in mail_form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
 
-                            {{ field }}
-
+                            {{ mail_form.mail }}
                             <div class="invalid-feedback" style="display: block;">
-                                {{ field.errors.as_ul }}
+                                {{ mail_form.mail.errors.as_ul }}
                             </div>
-                        </td>
-                    {% endfor %}
+                        </div>
+
+                        <div class="ml-2">{{ mail_form.DELETE }}</div>
+                    </td>
                 </tr>
             {% endfor %}
-
-            {% if mails_formset.non_form_errors %}
-                {% for error in mails_formset.non_form_errors %}
-                    {{ error|escape }}
-                {% endfor %}
-            {% endif %}
         </table>
 
 
@@ -228,23 +221,24 @@
 
             {% for tel_form in tels_formset.forms %}
                 <tr class="formset_row_tel">
-                    {% for field in tel_form.visible_fields %}
-                        <td class="border-0">
-                            {% if forloop.first %}
-                                {% for hidden in tel_form.hidden_fields %}
-                                    {{ hidden }}
-                                {% endfor %}
-                            {% endif %}
-
-                            {{ field }}
-
+                    <td class="border-0 row m-0">
+                        <div>
+                            {% for hidden in tel_form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+    
+                            {{ tel_form.num_tel }}
                             <div class="invalid-feedback" style="display: block;">
-                                {{ field.errors.as_ul }}
+                                {{ tel_form.num_tel.errors.as_ul }}
                             </div>
-                        </td>
-                    {% endfor %}
+                        </div>
+
+                        <div class="ml-2">{{ tel_form.DELETE }}</div>
+                    </td>
                 </tr>
             {% endfor %}
+        </table>
+
 
             {% if tels_formset.non_form_errors %}
                 {% for error in tels_formset.non_form_errors %}

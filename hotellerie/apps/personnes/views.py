@@ -13,12 +13,6 @@ from .models import Adresse, Mail, Personne, Telephone
 
 
 @login_required
-def home(request):
-    """ Home view of Personnes. """
-    return render(request, 'personnes/home.html', {})
-
-
-@login_required
 def list(request, letter, search=''):
     """ List of Personnes. """
     if letter == '-':

@@ -30,8 +30,10 @@ def list(request, letter, search=''):
         search = request.POST['filter']
 
     if search != '':
-        personnes = (personnes.filter(nom__icontains=search) |
-                     personnes.filter(prenom__icontains=search))
+        personnes = (
+            personnes.filter(nom__icontains=search) |
+            personnes.filter(prenom__icontains=search)
+        )
 
     personnes = personnes.order_by('nom')
 

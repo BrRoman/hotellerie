@@ -162,5 +162,5 @@ class Adresse(models.Model):
         adresse_as_string = ''
         adresse_as_string += self.rue + ' | ' if self.rue else ''
         adresse_as_string += self.code_postal + ' | ' if self.code_postal else ''
-        adresse_as_string += self.ville + ' | ' if self.ville else ''
+        adresse_as_string += self.ville if self.ville else ''
         return adresse_as_string

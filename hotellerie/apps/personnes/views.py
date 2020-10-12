@@ -1,10 +1,11 @@
 """ apps/personnes/views.py """
 
+import re
 from dal import autocomplete
 
 from django.contrib.auth.decorators import login_required
 from django import forms
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
@@ -17,8 +18,13 @@ def list(request, letter, search=''):
     """ List of Personnes. """
     if letter == '-':
         personnes = Personne.objects.filter(nom='')
-    else:
+    elif (len(letter) == 1) and (re.fullmatch(r'[A-Z]', letter)):
         personnes = Personne.objects.filter(nom__istartswith=letter)
+
+    try:
+        personnes
+    except NameError:
+        raise Http404()
 
     if request.method == 'POST':
         search = request.POST['filter']

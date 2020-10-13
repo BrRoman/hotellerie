@@ -25,7 +25,8 @@ class Personne(models.Model):
     pere_suiveur = models.ForeignKey(
         'self',
         on_delete=models.CASCADE,
-        db_column='pere_suiveur',
+        blank=True,
+        null=True,
     )
     pretre = models.BooleanField(
         default=False,
@@ -43,16 +44,10 @@ class Personne(models.Model):
     commentaire = models.TextField()
     created_at = models.DateTimeField(
         auto_now_add=True,
-        db_column='created',
     )
     last_modified = models.DateTimeField(
         auto_now=True,
-        db_column='last_update',
     )
-
-    class Meta:
-        managed = False
-        db_table = 'Personnes'
 
     def __str__(self):
         nom_complet = self.qualite
@@ -78,22 +73,15 @@ class Mail(models.Model):
     personne = models.ForeignKey(
         to='Personne',
         on_delete=models.CASCADE,
-        db_column='id_personne',
         related_name='mail_personne',
     )
     mail = models.EmailField()
     created_at = models.DateTimeField(
         auto_now_add=True,
-        db_column='creation',
     )
     last_modified = models.DateTimeField(
         auto_now=True,
-        db_column='last_update',
     )
-
-    class Meta:
-        managed = False
-        db_table = 'Mails'
 
     def __str__(self):
         return self.mail
@@ -104,7 +92,6 @@ class Telephone(models.Model):
     personne = models.ForeignKey(
         to='Personne',
         on_delete=models.CASCADE,
-        db_column='id_personne',
         related_name='tel_personne',
     )
     num_tel = models.CharField(
@@ -112,16 +99,10 @@ class Telephone(models.Model):
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        db_column='creation',
     )
     last_modified = models.DateTimeField(
         auto_now=True,
-        db_column='last_update',
     )
-
-    class Meta:
-        managed = False
-        db_table = 'Telephones'
 
     def __str__(self):
         return self.num_tel
@@ -132,7 +113,6 @@ class Adresse(models.Model):
     personne = models.ForeignKey(
         to='Personne',
         on_delete=models.CASCADE,
-        db_column='id_personne',
         related_name='adresse_personne',
     )
     rue = models.TextField()
@@ -147,16 +127,10 @@ class Adresse(models.Model):
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        db_column='creation',
     )
     last_modified = models.DateTimeField(
         auto_now=True,
-        db_column='last_update',
     )
-
-    class Meta:
-        managed = False
-        db_table = 'Adresses'
 
     def __str__(self):
         adresse_as_string = ''

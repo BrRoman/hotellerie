@@ -10,7 +10,6 @@ class Parloir(models.Model):
     personne = models.ForeignKey(
         to=Personne,
         on_delete=models.CASCADE,
-        db_column='id_personne',
     )
     date = models.DateField()
     REPAS_NAMES = [
@@ -43,16 +42,10 @@ class Parloir(models.Model):
     remarque = models.TextField()
     created_at = models.DateTimeField(
         auto_now_add=True,
-        db_column='created',
     )
     last_modified = models.DateTimeField(
         auto_now=True,
-        db_column='last_update',
     )
-
-    class Meta:
-        managed = False
-        db_table = 'Parloirs'
 
     def __str__(self):
         return "{} le {}".format(self.personne, self.date.strftime('%d/%m/%Y'))

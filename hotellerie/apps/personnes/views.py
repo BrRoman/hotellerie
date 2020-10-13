@@ -83,7 +83,6 @@ def create(request):
                 and mails_formset.is_valid() \
                 and tels_formset.is_valid() \
                 and adresses_formset.is_valid():
-            letter = form.cleaned_data['nom'][0].upper()
             personne = form.save()
 
             for form_mail in mails_formset:
@@ -116,9 +115,10 @@ def create(request):
                             ville=form_adresse.cleaned_data.get('ville'),
                             pays=form_adresse.cleaned_data.get('pays'),
                         )
+
             return HttpResponseRedirect(reverse(
-                'personnes:list',
-                args=letter
+                'personnes:details',
+                kwargs={'pk': personne.id}
             ))
 
     else:

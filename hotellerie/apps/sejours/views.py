@@ -1,9 +1,10 @@
 """ apps/sejours/views.py """
 
 import datetime
+import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -185,3 +186,22 @@ def delete(request, *args, **kwargs):
         'form': form,
         'sejour': sejour,
     })
+
+
+def get_rooms_status(request):
+    """ Returns the rooms' status between start and end dates. """
+    rooms = {
+        '4': {
+            'occupied': True,
+            'title': 'Title of room 4',
+        },
+        '5': {
+            'occupied': False,
+            'title': 'Title of room 5',
+        },
+        '6': {
+            'occupied': True,
+            'title': 'Title of room 6',
+        }
+    }
+    return HttpResponse(json.dumps(rooms))

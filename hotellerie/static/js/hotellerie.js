@@ -58,4 +58,29 @@ $(document).ready(function () {
         year = date.getYear() + 1900;
         window.location.href = '/hotellerie/' + page + '/' + day + '/' + month + '/' + year;
     });
+
+
+    // Sejours: room's status:
+    $('.sejour_date_row .datetimepicker-input').on({
+        focusout: function(){
+            refresh_rooms();
+        },
+    });
+    $('.sejour_date_row select').on({
+        change: function(){
+            refresh_rooms();
+        },
+    });
 });
+
+function refresh_rooms(){
+    $.get(
+        '/hotellerie/sejours/rooms/',
+        {'start': 1,
+        'end': 2},
+        function(back){
+            console.log(back);
+        },
+        'json',
+    );
+}

@@ -44,10 +44,12 @@ class Sejour(models.Model):
     )
 
     def __str__(self):
-        return 'Séjour de {} du {} au {}'.format(
+        return 'Séjour de {} du {} ({}) au {} ({})'.format(
             self.personne,
             self.sejour_du.strftime('%d/%m/%Y'),
-            self.sejour_au.strftime('%d/%m/%Y') if self.sejour_au else '--'
+            self.repas_du,
+            self.sejour_au.strftime('%d/%m/%Y') if self.sejour_au else '--',
+            self.repas_au
         )
 
 

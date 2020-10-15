@@ -10,7 +10,6 @@
         <li class="breadcrumb-item"><a href={% url 'sejours:details' sejour.id %}>{{ sejour }}</a></li>
         <li class="breadcrumb-item active">Modifier</li>
     {% else %}
-        <li class="breadcrumb-item active"><a href={% url 'sejours:home' %}>Séjours</a></li>
         <li class="breadcrumb-item active">Créer</li>
     {% endif %}
 {% endblock breadcrumbs %}

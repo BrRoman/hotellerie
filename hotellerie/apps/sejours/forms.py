@@ -101,6 +101,7 @@ class SejourForm(forms.ModelForm):
             ('Table abbatiale', 'Table abbatiale'),
             ('Moines', 'Table des moines'),
         ],
+        initial='Hôtes',
     )
     dit_messe = forms.BooleanField(
         label='Prêtre avec Messe',

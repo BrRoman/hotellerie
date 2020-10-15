@@ -58,4 +58,49 @@ $(document).ready(function () {
         year = date.getYear() + 1900;
         window.location.href = '/hotellerie/' + page + '/' + day + '/' + month + '/' + year;
     });
+
+
+    // Sejours: manage rooms (checkboxes):
+    // On start:
+    refresh_rooms();
+    // On modif datepickers:
+    $('.sejour_date_row .datetimepicker-input').on({
+        focusout: function(){
+            refresh_rooms();
+        },
+    });
+    // On modif repas (selects):
+    $('.sejour_date_row select').on({
+        change: function(){
+            refresh_rooms();
+        },
+    });
 });
+
+function refresh_rooms(){
+    const sejour_du = $('#id_sejour_du').val();
+    const sejour_au = $('#id_sejour_au').val();
+    const repas_du = $('#id_repas_du').val();
+    const repas_au = $('#id_repas_au').val();
+    if(sejour_du && sejour_au){
+        $.get(
+            '/hotellerie/sejours/rooms/', {
+                'start': sejour_du,
+                'end': sejour_au,
+                'repas_start': repas_du,
+                'repas_end': repas_au,
+            },
+            function(back){
+                for(i in back){
+                    room = back[i];
+                    if(room['occupied']){
+                        const checkbox = $(`#id_chambre input[type=checkbox][value="${i}"]`);
+                        checkbox.parent().css({'color': 'red'});
+                        checkbox.parent().attr('title', room['title']);
+                    }
+                }
+            },
+            'json',
+        );
+    }
+}

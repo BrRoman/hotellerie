@@ -107,7 +107,11 @@ def create(request):
         form = SejourForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            # Create rooms:
+            sejour = form.save()
+            for chambre in form.cleaned_data['chambre']:
+                Chambre.objects.create(sejour=sejour, chambre=chambre)
+
             date = form.cleaned_data['sejour_du']
             return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
                 'day': '{:%d}'.format(date),

@@ -1,10 +1,9 @@
 """ apps/sejours/views.py """
 
 import datetime
-import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -189,19 +188,56 @@ def delete(request, *args, **kwargs):
 
 
 def get_rooms_status(request):
-    """ Returns the rooms' status between start and end dates. """
-    rooms = {
-        '4': {
-            'occupied': True,
-            'title': 'Title of room 4',
-        },
-        '5': {
-            'occupied': False,
-            'title': 'Title of room 5',
-        },
-        '6': {
-            'occupied': True,
-            'title': 'Title of room 6',
+    """ Returns the rooms' status between sejour_du and sejour_au. """
+    # Get data from JS:
+    start_raw = request.GET['start']
+    start_split = start_raw.split('/')
+    start = datetime.date(
+        int(start_split[2]), int(start_split[1]), int(start_split[0])
+    )
+    end_raw = request.GET['end']
+    end_split = end_raw.split('/')
+    end = datetime.date(
+        int(end_split[2]), int(end_split[1]), int(end_split[0])
+    )
+
+    # Create the rooms' dict:
+    rooms = {}
+    for i in range(26):
+        rooms[str(i)] = {
+            'occupied': '',
+            'title': '',
         }
+    rooms['Chambre de l\'évêque'] = {
+        'occupied': '',
+        'title': '',
     }
-    return HttpResponse(json.dumps(rooms))
+
+    # Get sejours having a day between start and end:
+    sejours_du_inside = Sejour.objects.filter(
+        sejour_du__gte=start
+    ).filter(
+        sejour_du__lte=end
+    )
+    sejours_au_inside = Sejour.objects.filter(
+        sejour_au__gte=start
+    ).filter(
+        sejour_au__lte=end
+    )
+    sejours_before_and_after = Sejour.objects.filter(
+        sejour_du__lte=start
+    ).filter(
+        sejour_au__gte=end
+    )
+    sejours = sejours_du_inside.union(
+        sejours_au_inside,
+        sejours_before_and_after
+    )
+
+    for i, sejour in enumerate(sejours):
+        chambres = Chambre.objects.filter(sejour=sejour)
+        for j, chambre in enumerate(chambres):
+            rooms[chambre.chambre]['occupied'] = True
+            rooms[chambre.chambre]['title'] += '{}\n'.format(sejour)
+
+    return JsonResponse(rooms)

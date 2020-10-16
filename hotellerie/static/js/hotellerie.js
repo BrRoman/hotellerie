@@ -84,7 +84,8 @@ $(document).ready(function () {
 });
 
 function refresh_rooms(){
-    const id_sejour = url['pathname'].split('/')[3];
+    const param_sejour = url['pathname'].split('/')[3];
+    const id_sejour = typeof(param_sejour) == 'Number' ? param_sejour : 0;
     const sejour_du = $('#id_sejour_du').val();
     const sejour_au = $('#id_sejour_au').val();
     const repas_du = $('#id_repas_du').val();

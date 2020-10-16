@@ -66,12 +66,18 @@ $(document).ready(function () {
     // On modif datepickers:
     $('.sejour_date_row .datetimepicker-input').on({
         focusout: function(){
+            if($('#id_sejour_au').val() == ''){
+                $('#id_sejour_au').val($('#id_sejour_du').val());
+            }
             refresh_rooms();
         },
     });
     // On modif repas (selects):
     $('.sejour_date_row select').on({
         change: function(){
+            if($('#id_repas_au option:selected').val() == '---------'){
+                $('#id_repas_au').val($('#id_repas_du option:selected').val());
+            }
             refresh_rooms();
         },
     });

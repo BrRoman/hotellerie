@@ -195,6 +195,7 @@ def delete(request, *args, **kwargs):
 def get_rooms_status(request):
     """ Returns the rooms' status between sejour_du and sejour_au. """
     # Get data from JS:
+    id_sejour = int(request.GET['id_sejour'])
     start_raw = request.GET['start']
     start_split = start_raw.split('/')
     start = datetime.date(
@@ -241,8 +242,9 @@ def get_rooms_status(request):
 
     for i, sejour in enumerate(sejours):
         chambres = Chambre.objects.filter(sejour=sejour)
-        for j, chambre in enumerate(chambres):
-            rooms[chambre.chambre]['occupied'] = True
-            rooms[chambre.chambre]['title'] += '{}\n'.format(sejour)
+        if sejour.pk != id_sejour:
+            for j, chambre in enumerate(chambres):
+                rooms[chambre.chambre]['occupied'] = True
+                rooms[chambre.chambre]['title'] += '{}\n'.format(sejour)
 
     return JsonResponse(rooms)

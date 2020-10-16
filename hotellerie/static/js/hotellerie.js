@@ -78,6 +78,7 @@ $(document).ready(function () {
 });
 
 function refresh_rooms(){
+    const id_sejour = url['pathname'].split('/')[3];
     const sejour_du = $('#id_sejour_du').val();
     const sejour_au = $('#id_sejour_au').val();
     const repas_du = $('#id_repas_du').val();
@@ -85,6 +86,7 @@ function refresh_rooms(){
     if(sejour_du && sejour_au){
         $.get(
             '/hotellerie/sejours/rooms/', {
+                'id_sejour': id_sejour,
                 'start': sejour_du,
                 'end': sejour_au,
                 'repas_start': repas_du,

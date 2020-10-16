@@ -50,6 +50,7 @@ class PersonneForm(forms.ModelForm):
             ('Sœurs', 'Sœurs'),
             ('TR PERE', 'TR PERE'),
         ],
+        initial='Monsieur',
         error_messages={
             'required': 'Ce champ est obligatoire',
         },

@@ -3,7 +3,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -107,7 +107,11 @@ def create(request):
         form = SejourForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            # Create rooms:
+            sejour = form.save()
+            for chambre in form.cleaned_data['chambre']:
+                Chambre.objects.create(sejour=sejour, chambre=chambre)
+
             date = form.cleaned_data['sejour_du']
             return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
                 'day': '{:%d}'.format(date),
@@ -150,11 +154,11 @@ def update(request, **kwargs):
 
             form.save()
 
-            date = form.cleaned_data['sejour_du']
             return HttpResponseRedirect(reverse('sejours:details', kwargs={'pk': sejour.id}))
 
     else:
-        chambres = list(Chambre.objects.filter(sejour=sejour.id).values_list('chambre', flat=True))
+        chambres = list(Chambre.objects.filter(
+            sejour=sejour.id).values_list('chambre', flat=True))
         form = SejourForm(
             instance=sejour,
             initial={
@@ -185,3 +189,59 @@ def delete(request, *args, **kwargs):
         'form': form,
         'sejour': sejour,
     })
+
+
+def get_rooms_status(request):
+    """ Returns the rooms' status between sejour_du and sejour_au. """
+    # Get data from JS:
+    start_raw = request.GET['start']
+    start_split = start_raw.split('/')
+    start = datetime.date(
+        int(start_split[2]), int(start_split[1]), int(start_split[0])
+    )
+    end_raw = request.GET['end']
+    end_split = end_raw.split('/')
+    end = datetime.date(
+        int(end_split[2]), int(end_split[1]), int(end_split[0])
+    )
+
+    # Create the rooms' dict:
+    rooms = {}
+    for i in range(26):
+        rooms[str(i)] = {
+            'occupied': '',
+            'title': '',
+        }
+    rooms['Chambre de l\'évêque'] = {
+        'occupied': '',
+        'title': '',
+    }
+
+    # Get sejours having a day between start and end:
+    sejours_du_inside = Sejour.objects.filter(
+        sejour_du__gte=start
+    ).filter(
+        sejour_du__lte=end
+    )
+    sejours_au_inside = Sejour.objects.filter(
+        sejour_au__gte=start
+    ).filter(
+        sejour_au__lte=end
+    )
+    sejours_before_and_after = Sejour.objects.filter(
+        sejour_du__lte=start
+    ).filter(
+        sejour_au__gte=end
+    )
+    sejours = sejours_du_inside.union(
+        sejours_au_inside,
+        sejours_before_and_after
+    )
+
+    for i, sejour in enumerate(sejours):
+        chambres = Chambre.objects.filter(sejour=sejour)
+        for j, chambre in enumerate(chambres):
+            rooms[chambre.chambre]['occupied'] = True
+            rooms[chambre.chambre]['title'] += '{}\n'.format(sejour)
+
+    return JsonResponse(rooms)

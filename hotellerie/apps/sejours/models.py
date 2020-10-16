@@ -10,7 +10,6 @@ class Sejour(models.Model):
     personne = models.ForeignKey(
         to=Personne,
         on_delete=models.CASCADE,
-        db_column='id_personne',
     )
     sejour_du = models.DateField()
     sejour_au = models.DateField()
@@ -39,22 +38,18 @@ class Sejour(models.Model):
     commentaire_sacristie = models.TextField()
     created_at = models.DateTimeField(
         auto_now_add=True,
-        db_column='created',
     )
     last_modified = models.DateTimeField(
         auto_now=True,
-        db_column='last_update',
     )
 
-    class Meta:
-        managed = False
-        db_table = 'Sejours'
-
     def __str__(self):
-        return 'Séjour de {} du {} au {}'.format(
+        return 'Séjour de {} du {} ({}) au {} ({})'.format(
             self.personne,
             self.sejour_du.strftime('%d/%m/%Y'),
-            self.sejour_au.strftime('%d/%m/%Y') if self.sejour_au else '--'
+            self.repas_du,
+            self.sejour_au.strftime('%d/%m/%Y') if self.sejour_au else '--',
+            self.repas_au
         )
 
 
@@ -63,15 +58,10 @@ class Chambre(models.Model):
     sejour = models.ForeignKey(
         to='Sejour',
         on_delete=models.CASCADE,
-        db_column='id_sejour',
     )
     chambre = models.CharField(
         max_length=25,
     )
-
-    class Meta:
-        managed = False
-        db_table = 'Chambres'
 
     def __str__(self):
         return '{} ({})'.format(self.chambre, self.sejour.__str__())

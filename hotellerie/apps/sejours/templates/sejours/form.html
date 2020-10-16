@@ -10,7 +10,6 @@
         <li class="breadcrumb-item"><a href={% url 'sejours:details' sejour.id %}>{{ sejour }}</a></li>
         <li class="breadcrumb-item active">Modifier</li>
     {% else %}
-        <li class="breadcrumb-item active"><a href={% url 'sejours:home' %}>Séjours</a></li>
         <li class="breadcrumb-item active">Créer</li>
     {% endif %}
 {% endblock breadcrumbs %}
@@ -57,7 +56,7 @@
 
 
         <!-- Du -->
-        <div class="row justify-content-between ml-0">
+        <div class="row justify-content-between ml-0 sejour_date_row">
             {{ form.sejour_du.label_tag }}
 
             <!-- Séjour du -->
@@ -111,7 +110,7 @@
 
 
         <!-- Au -->
-        <div class="row justify-content-between ml-0">
+        <div class="row justify-content-between ml-0 sejour_date_row">
             {{ form.sejour_au.label_tag }}
 
             <!-- Séjour au -->
@@ -171,6 +170,7 @@
                 {{ form.chambre }}
             </div>
         </div>
+
 
         <!-- Table -->
         <div class="d-flex my-2">

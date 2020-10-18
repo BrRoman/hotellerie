@@ -1,5 +1,18 @@
 {% extends 'main.html' %}
 
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active">Listing cuisine</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
-    Listing cuisine.
+    <div>
+        <h5>Explication des symboles</h5>
+        <h5>TODO $</h5>
+    </div>
+
+    {% for day in days %}
+        <div class="col-6 day">
+            {% include 'listings/cuisine_unit.html' %}
+        </div>
+    {% endfor %}
 {% endblock content %}

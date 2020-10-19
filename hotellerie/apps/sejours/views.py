@@ -60,12 +60,7 @@ def calendar(request, *args, **kwargs):
             pretre = sejour.dit_messe
 
             chambres_nombre = sejour.chambre_set.count()
-            chambres_queryset = Chambre.objects.filter(
-                sejour=sejour).values('chambre')
-            chambres_string = ''
-            for chambre in chambres_queryset:
-                chambres_string += (', ' if chambres_string !=
-                                    '' else '') + chambre['chambre']
+            chambres_string = sejour.chambres_string()
 
             # TODO: Case sejour monorepas.
             if sejour.sejour_du == date_human:

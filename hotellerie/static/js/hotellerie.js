@@ -66,18 +66,26 @@ $(document).ready(function () {
     // On modif datepickers:
     $('.sejour_date_row .datetimepicker-input').on({
         focusout: function(){
+            if($('#id_sejour_au').val() == ''){
+                $('#id_sejour_au').val($('#id_sejour_du').val());
+            }
             refresh_rooms();
         },
     });
     // On modif repas (selects):
     $('.sejour_date_row select').on({
         change: function(){
+            if($('#id_repas_au option:selected').val() == '---------'){
+                $('#id_repas_au').val($('#id_repas_du option:selected').val());
+            }
             refresh_rooms();
         },
     });
 });
 
 function refresh_rooms(){
+    const param_sejour = url['pathname'].split('/')[3];
+    const id_sejour = typeof(param_sejour) == 'Number' ? param_sejour : 0;
     const sejour_du = $('#id_sejour_du').val();
     const sejour_au = $('#id_sejour_au').val();
     const repas_du = $('#id_repas_du').val();
@@ -85,6 +93,7 @@ function refresh_rooms(){
     if(sejour_du && sejour_au){
         $.get(
             '/hotellerie/sejours/rooms/', {
+                'id_sejour': id_sejour,
                 'start': sejour_du,
                 'end': sejour_au,
                 'repas_start': repas_du,

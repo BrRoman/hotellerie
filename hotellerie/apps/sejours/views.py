@@ -7,6 +7,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from modules.mails import mail_pere_suiveur, mail_sacristie
+
 from .forms import SejourForm
 from .models import Chambre, Sejour
 
@@ -45,7 +47,6 @@ def calendar(request, *args, **kwargs):
         coord_x = 0
         date = initial_date + datetime.timedelta(days=i)
         date_human = datetime.date(date.year, date.month, date.day)
-        max_length = 7 - i
 
         days[date_human] = {}
         days[date_human]['current'] = (date_human == datetime.date.today())
@@ -61,12 +62,7 @@ def calendar(request, *args, **kwargs):
             pretre = sejour.dit_messe
 
             chambres_nombre = sejour.chambre_set.count()
-            chambres_queryset = Chambre.objects.filter(
-                sejour=sejour).values('chambre')
-            chambres_string = ''
-            for chambre in chambres_queryset:
-                chambres_string += (', ' if chambres_string !=
-                                    '' else '') + chambre['chambre']
+            chambres_string = sejour.chambres_string()
 
             # TODO: Case sejour monorepas.
             if sejour.sejour_du == date_human:
@@ -80,6 +76,8 @@ def calendar(request, *args, **kwargs):
                 coord_x = 1
             else:
                 length = 0
+
+            max_length = 7 if (sejour.sejour_du < date_human) else (7 - i)
 
             if length > max_length:
                 length = max_length
@@ -111,6 +109,10 @@ def create(request):
             sejour = form.save()
             for chambre in form.cleaned_data['chambre']:
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
+            if sejour.dit_messe:
+                mail_sacristie(sejour)
+            if sejour.personne:
+                mail_pere_suiveur(sejour)
 
             date = form.cleaned_data['sejour_du']
             return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
@@ -154,6 +156,11 @@ def update(request, **kwargs):
 
             form.save()
 
+            if sejour.dit_messe:
+                mail_sacristie(sejour)
+            if sejour.personne:
+                mail_pere_suiveur(sejour)
+
             return HttpResponseRedirect(reverse('sejours:details', kwargs={'pk': sejour.id}))
 
     else:
@@ -194,6 +201,7 @@ def delete(request, *args, **kwargs):
 def get_rooms_status(request):
     """ Returns the rooms' status between sejour_du and sejour_au. """
     # Get data from JS:
+    id_sejour = int(request.GET['id_sejour'])
     start_raw = request.GET['start']
     start_split = start_raw.split('/')
     start = datetime.date(
@@ -240,8 +248,9 @@ def get_rooms_status(request):
 
     for i, sejour in enumerate(sejours):
         chambres = Chambre.objects.filter(sejour=sejour)
-        for j, chambre in enumerate(chambres):
-            rooms[chambre.chambre]['occupied'] = True
-            rooms[chambre.chambre]['title'] += '{}\n'.format(sejour)
+        if sejour.pk != id_sejour:
+            for j, chambre in enumerate(chambres):
+                rooms[chambre.chambre]['occupied'] = True
+                rooms[chambre.chambre]['title'] += '{}\n'.format(sejour)
 
     return JsonResponse(rooms)

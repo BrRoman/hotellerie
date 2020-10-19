@@ -292,4 +292,4 @@ class PersonneAutocompleteView(autocomplete.Select2QuerySetView):
         if self.q:
             personnes = (personnes.filter(nom__icontains=self.q) |
                          personnes.filter(prenom__icontains=self.q))
-        return personnes
+        return personnes.order_by('nom', 'prenom', 'last_modified')

@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from modules.mails import mail_sacristie
+from modules.mails import mail_pere_suiveur, mail_sacristie
 
 from .forms import SejourForm
 from .models import Chambre, Sejour
@@ -116,6 +116,8 @@ def create(request):
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
             if sejour.dit_messe:
                 mail_sacristie(sejour)
+            if sejour.personne:
+                mail_pere_suiveur(sejour)
 
             date = form.cleaned_data['sejour_du']
             return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
@@ -158,6 +160,11 @@ def update(request, **kwargs):
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
 
             form.save()
+
+            if sejour.dit_messe:
+                mail_sacristie(sejour)
+            if sejour.personne:
+                mail_pere_suiveur(sejour)
 
             return HttpResponseRedirect(reverse('sejours:details', kwargs={'pk': sejour.id}))
 

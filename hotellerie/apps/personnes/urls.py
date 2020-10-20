@@ -12,6 +12,7 @@ urlpatterns = [
     path('<int:pk>/', views.details, name='details'),
     path('<int:pk>/update/', views.update, name='update'),
     path('<int:pk>/delete/', views.delete, name='delete'),
+    path('get_pere_suiveur/', views.get_pere_suiveur, name='get_pere_suiveur'),
     path('autocomplete/', views.PersonneAutocompleteView.as_view(),
          name='autocomplete'),
 ]

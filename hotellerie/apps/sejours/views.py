@@ -64,7 +64,6 @@ def calendar(request, *args, **kwargs):
             chambres_nombre = sejour.chambre_set.count()
             chambres_string = sejour.chambres_string()
 
-            # TODO: Case sejour monorepas.
             if sejour.sejour_du == date_human:
                 length = ((sejour.sejour_au - date_human).days + 1)
                 coord_x = i + 1
@@ -105,10 +104,13 @@ def create(request):
         form = SejourForm(request.POST)
 
         if form.is_valid():
-            # Create rooms:
             sejour = form.save()
+
+            # Create rooms:
             for chambre in form.cleaned_data['chambre']:
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
+
+            # Send mails:
             if sejour.dit_messe:
                 mail_sacristie(sejour)
             if sejour.personne:
@@ -136,7 +138,8 @@ def details(request, *args, **kwargs):
         'calendar_day': sejour.sejour_du.strftime('%d'),
         'calendar_month': sejour.sejour_du.strftime('%m'),
         'calendar_year': sejour.sejour_du.strftime('%Y'),
-        'chambres': ', '.join(list(Chambre.objects.filter(sejour=sejour.id).values_list('chambre', flat=True))),
+        'chambres': ', '.join(list(Chambre.objects.filter(
+            sejour=sejour.id).values_list('chambre', flat=True))),
     })
 
 
@@ -149,13 +152,14 @@ def update(request, **kwargs):
         form = SejourForm(request.POST, instance=sejour)
 
         if form.is_valid():
+            form.save()
+
             # Remove old rooms and insert new ones:
             Chambre.objects.filter(sejour=sejour).delete()
             for chambre in form.cleaned_data['chambre']:
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
 
-            form.save()
-
+            # Send mails:
             if sejour.dit_messe:
                 mail_sacristie(sejour)
             if sejour.personne:

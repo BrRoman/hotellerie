@@ -36,6 +36,12 @@ class Sejour(models.Model):
     )
     commentaire_cuisine = models.TextField()
     commentaire_sacristie = models.TextField()
+    mail_sacristie = models.BooleanField(
+        default=False,
+    )
+    mail_pere_suiveur = models.BooleanField(
+        default=False,
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
     )

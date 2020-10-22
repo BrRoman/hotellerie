@@ -40,16 +40,13 @@ class SejourForm(forms.ModelForm):
     )
     repas_du = forms.ChoiceField(
         choices=[
-            ('---------', ''),
             ('Petit-déjeuner', 'Petit-déjeuner'),
             ('Déjeuner', 'Déjeuner'),
             ('Dîner', 'Dîner'),
         ],
     )
     repas_au = forms.ChoiceField(
-        required=False,
         choices=[
-            ('---------', ''),
             ('Petit-déjeuner', 'Petit-déjeuner'),
             ('Déjeuner', 'Déjeuner'),
             ('Dîner', 'Dîner'),

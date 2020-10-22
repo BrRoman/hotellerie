@@ -122,7 +122,10 @@ function check_pere_suiveur(){
             function(back){
                 $('#id_mail_pere_suiveur').prop('disabled', !back['pere_suiveur']);
                 $('#id_mail_pere_suiveur').parent().find('label').css('color', back['pere_suiveur'] ? green : 'rgb(150, 150, 150)');
-                if(!back['pere_suiveur']){
+                if(back['pere_suiveur']){
+                    $('#id_mail_pere_suiveur').prop('checked', true);
+                }
+                else{
                     $('#id_mail_pere_suiveur').prop('checked', false);
                 }
             },
@@ -165,7 +168,10 @@ function refresh_rooms(){
 
 function priests_block_appearance(){
     const green = $('#id_personne').parent().find('label').css('color');
-    if(!$('#id_dit_messe').prop('checked')){
+    if($('#id_dit_messe').prop('checked')){
+        $('#id_mail_sacristie').prop('checked', true);
+    }
+    else{
         $('#id_messe_lendemain').prop('checked', false);
         $('#id_tour_messe').val('---------');
         $('#id_servant').prop('checked', false);

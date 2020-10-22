@@ -80,6 +80,12 @@ def calendar(request, *args, **kwargs):
 
             if length > max_length:
                 length = max_length
+            # Warnings about mails:
+            warning_pere_suiveur = warning_sacristie = False
+            if (sejour.personne.pere_suiveur is not None) and (not sejour.mail_pere_suiveur):
+                warning_pere_suiveur = True
+            if pretre and not sejour.mail_sacristie:
+                warning_sacristie = True
 
             days[date_human]['sejours'][sejour] = {
                 'x': coord_x,
@@ -88,7 +94,9 @@ def calendar(request, *args, **kwargs):
                 'arrow_right': arrow_right,
                 'pretre': pretre,
                 'chambres_nombre': chambres_nombre,
-                'chambres_string': chambres_string
+                'chambres_string': chambres_string,
+                'warning_pere_suiveur': warning_pere_suiveur,
+                'warning_sacristie': warning_sacristie,
             }
 
     return render(request, 'sejours/calendar.html', {

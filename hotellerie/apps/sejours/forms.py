@@ -43,7 +43,7 @@ class SejourForm(forms.ModelForm):
             ('---------', ''),
             ('Petit-déjeuner', 'Petit-déjeuner'),
             ('Déjeuner', 'Déjeuner'),
-            ('Dîner', 'Diner'),
+            ('Dîner', 'Dîner'),
         ],
     )
     repas_au = forms.ChoiceField(
@@ -52,7 +52,7 @@ class SejourForm(forms.ModelForm):
             ('---------', ''),
             ('Petit-déjeuner', 'Petit-déjeuner'),
             ('Déjeuner', 'Déjeuner'),
-            ('Dîner', 'Diner'),
+            ('Dîner', 'Dîner'),
         ],
     )
     chambre = forms.MultipleChoiceField(

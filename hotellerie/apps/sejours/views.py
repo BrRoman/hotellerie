@@ -55,15 +55,16 @@ def calendar(request, *args, **kwargs):
         sejours = Sejour.objects.filter(
             sejour_du__lte=date).filter(sejour_au__gte=date)
         for index, sejour in enumerate(sejours):
+            # Arrows:
             arrow_left = sejour.sejour_du < initial_date_human
             arrow_right = sejour.sejour_au > (
                 initial_date_human + datetime.timedelta(days=7))
-
+            # Priest:
             pretre = sejour.dit_messe
-
+            # Rooms:
             chambres_nombre = sejour.chambre_set.count()
             chambres_string = sejour.chambres_string()
-
+            # Length:
             if sejour.sejour_du == date_human:
                 length = ((sejour.sejour_au - date_human).days + 1)
                 coord_x = i + 1
@@ -75,9 +76,7 @@ def calendar(request, *args, **kwargs):
                 coord_x = 1
             else:
                 length = 0
-
             max_length = 7 if (sejour.sejour_du < date_human) else (7 - i)
-
             if length > max_length:
                 length = max_length
             # Warnings about mails:

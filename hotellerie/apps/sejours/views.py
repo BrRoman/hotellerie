@@ -111,9 +111,9 @@ def create(request):
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
 
             # Send mails:
-            if sejour.dit_messe:
+            if sejour.dit_messe and sejour.mail_sacristie:
                 mail_sacristie(sejour)
-            if sejour.personne:
+            if sejour.personne and sejour.mail_pere_suiveur:
                 mail_pere_suiveur(sejour)
 
             date = form.cleaned_data['sejour_du']
@@ -160,9 +160,9 @@ def update(request, **kwargs):
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
 
             # Send mails:
-            if sejour.dit_messe:
+            if sejour.dit_messe and sejour.mail_sacristie:
                 mail_sacristie(sejour)
-            if sejour.personne:
+            if sejour.personne and sejour.mail_pere_suiveur:
                 mail_pere_suiveur(sejour)
 
             return HttpResponseRedirect(reverse('sejours:details', kwargs={'pk': sejour.id}))

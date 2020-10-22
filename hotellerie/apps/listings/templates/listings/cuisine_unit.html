@@ -1,6 +1,23 @@
 <div class="mt-5 border border-success rounded p-1">
-    <h3 class="self-align-left">{{ day }}</h3>
+    <h2 class="text-center red">{{ day.day_string }}</h2>
 
-    <h5>Déjeuner</h5>
-    <h5>Dîner</h5>
+    <h3 class="green text-center">Déjeuner</h3>
+        <h4 class="blue">Table des hôtes</h4>
+        {% for hote in day.midi.table_hotes %}
+            <div class="row ml-5">
+                {% if hote.is_monorepas %}
+                    <span class="fas fa-thumbs-up orange"></span>
+                {% else %}
+                    {% if hote.is_last_repas %}
+                        <span class="fas fa-arrow-alt-circle-left red"></span>
+                    {% endif %}
+                    {% if hote.is_first_repas %}
+                        <span class="fas fa-arrow-alt-circle-right green"></span>
+                    {% endif %}
+                {% endif %}
+                <p class="ml-1 my-0">{{ hote.hote }}</p>
+            </div>
+        {% endfor %}
+
+    <h3 class="green text-center mt-3">Dîner</h3>
 </div>

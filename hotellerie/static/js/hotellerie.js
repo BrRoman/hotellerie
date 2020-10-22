@@ -61,8 +61,11 @@ $(document).ready(function () {
 
 
     // Sejours: has the personne a pere_suiveur?
-    // On start:
-    check_pere_suiveur();
+    // On start (if we are on the right page,
+    // elsewhere it raises an error on the server):
+    if($('#id_mail_pere_suiveur').length){
+        check_pere_suiveur();
+    }
     // On change personne:
     $('#id_personne').change(function(){
         check_pere_suiveur();

@@ -128,6 +128,16 @@ class SejourForm(forms.ModelForm):
         label_suffix='',
         required=False,
     )
+    mail_sacristie = forms.BooleanField(
+        label='Envoyer un mail à la sacristie',
+        label_suffix='',
+        required=False,
+    )
+    mail_pere_suiveur = forms.BooleanField(
+        label='Envoyer un mail au Père suiveur',
+        label_suffix='',
+        required=False,
+    )
     commentaire_cuisine = forms.CharField(
         required=False,
         label='Remarques pour la cuisine :',

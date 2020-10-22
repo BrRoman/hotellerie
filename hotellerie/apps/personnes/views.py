@@ -5,7 +5,7 @@ from dal import autocomplete
 
 from django.contrib.auth.decorators import login_required
 from django import forms
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
@@ -281,6 +281,14 @@ def delete(request, **kwargs):
     })
 
 
+@login_required
+def get_pere_suiveur(request):
+    """ Returns the pere_suiveur of a personne. """
+    personne = Personne.objects.get(pk=request.GET['personne'])
+    pere_suiveur = personne.pere_suiveur.__str__() if personne.pere_suiveur else None
+    return JsonResponse({'pere_suiveur': pere_suiveur})
+
+
 class PersonneAutocompleteView(autocomplete.Select2QuerySetView):
     """ Return a set of Personnes according to the user search value. """
 
@@ -292,4 +300,4 @@ class PersonneAutocompleteView(autocomplete.Select2QuerySetView):
         if self.q:
             personnes = (personnes.filter(nom__icontains=self.q) |
                          personnes.filter(prenom__icontains=self.q))
-        return personnes
+        return personnes.order_by('nom', 'prenom', 'last_modified')

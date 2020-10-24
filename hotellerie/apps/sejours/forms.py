@@ -40,19 +40,16 @@ class SejourForm(forms.ModelForm):
     )
     repas_du = forms.ChoiceField(
         choices=[
-            ('---------', ''),
             ('Petit-déjeuner', 'Petit-déjeuner'),
             ('Déjeuner', 'Déjeuner'),
-            ('Dîner', 'Diner'),
+            ('Dîner', 'Dîner'),
         ],
     )
     repas_au = forms.ChoiceField(
-        required=False,
         choices=[
-            ('---------', ''),
             ('Petit-déjeuner', 'Petit-déjeuner'),
             ('Déjeuner', 'Déjeuner'),
-            ('Dîner', 'Diner'),
+            ('Dîner', 'Dîner'),
         ],
     )
     chambre = forms.MultipleChoiceField(
@@ -125,6 +122,16 @@ class SejourForm(forms.ModelForm):
     )
     servant = forms.BooleanField(
         label='Attribuer un servant',
+        label_suffix='',
+        required=False,
+    )
+    mail_sacristie = forms.BooleanField(
+        label='Envoyer un mail à la sacristie',
+        label_suffix='',
+        required=False,
+    )
+    mail_pere_suiveur = forms.BooleanField(
+        label='Envoyer un mail au Père suiveur',
         label_suffix='',
         required=False,
     )

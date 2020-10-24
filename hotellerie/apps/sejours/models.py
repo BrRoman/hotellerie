@@ -36,6 +36,12 @@ class Sejour(models.Model):
     )
     commentaire_cuisine = models.TextField()
     commentaire_sacristie = models.TextField()
+    mail_sacristie = models.BooleanField(
+        default=False,
+    )
+    mail_pere_suiveur = models.BooleanField(
+        default=False,
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
@@ -51,6 +57,16 @@ class Sejour(models.Model):
             self.sejour_au.strftime('%d/%m/%Y') if self.sejour_au else '--',
             self.repas_au
         )
+
+    def chambres_string(self):
+        """ Returns the rooms of the Sejour as a string. """
+        chambres_queryset = Chambre.objects.filter(
+            sejour=self).values('chambre')
+        chambres_string = ''
+        for chambre in chambres_queryset:
+            chambres_string += (', ' if chambres_string !=
+                                '' else '') + chambre['chambre']
+        return chambres_string
 
 
 class Chambre(models.Model):

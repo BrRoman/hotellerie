@@ -7,6 +7,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from modules.mails import mail_pere_suiveur, mail_sacristie
+
 from .forms import SejourForm
 from .models import Chambre, Sejour
 
@@ -53,21 +55,16 @@ def calendar(request, *args, **kwargs):
         sejours = Sejour.objects.filter(
             sejour_du__lte=date).filter(sejour_au__gte=date)
         for index, sejour in enumerate(sejours):
+            # Arrows:
             arrow_left = sejour.sejour_du < initial_date_human
             arrow_right = sejour.sejour_au > (
                 initial_date_human + datetime.timedelta(days=7))
-
+            # Priest:
             pretre = sejour.dit_messe
-
+            # Rooms:
             chambres_nombre = sejour.chambre_set.count()
-            chambres_queryset = Chambre.objects.filter(
-                sejour=sejour).values('chambre')
-            chambres_string = ''
-            for chambre in chambres_queryset:
-                chambres_string += (', ' if chambres_string !=
-                                    '' else '') + chambre['chambre']
-
-            # TODO: Case sejour monorepas.
+            chambres_string = sejour.chambres_string()
+            # Length:
             if sejour.sejour_du == date_human:
                 length = ((sejour.sejour_au - date_human).days + 1)
                 coord_x = i + 1
@@ -79,11 +76,15 @@ def calendar(request, *args, **kwargs):
                 coord_x = 1
             else:
                 length = 0
-
             max_length = 7 if (sejour.sejour_du < date_human) else (7 - i)
-
             if length > max_length:
                 length = max_length
+            # Warnings about mails:
+            warning_pere_suiveur = warning_sacristie = False
+            if (sejour.personne.pere_suiveur is not None) and (not sejour.mail_pere_suiveur):
+                warning_pere_suiveur = True
+            if pretre and not sejour.mail_sacristie:
+                warning_sacristie = True
 
             days[date_human]['sejours'][sejour] = {
                 'x': coord_x,
@@ -92,7 +93,9 @@ def calendar(request, *args, **kwargs):
                 'arrow_right': arrow_right,
                 'pretre': pretre,
                 'chambres_nombre': chambres_nombre,
-                'chambres_string': chambres_string
+                'chambres_string': chambres_string,
+                'warning_pere_suiveur': warning_pere_suiveur,
+                'warning_sacristie': warning_sacristie,
             }
 
     return render(request, 'sejours/calendar.html', {
@@ -108,10 +111,17 @@ def create(request):
         form = SejourForm(request.POST)
 
         if form.is_valid():
-            # Create rooms:
             sejour = form.save()
+
+            # Create rooms:
             for chambre in form.cleaned_data['chambre']:
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
+
+            # Send mails:
+            if sejour.dit_messe and sejour.mail_sacristie:
+                mail_sacristie(sejour)
+            if sejour.personne and sejour.mail_pere_suiveur:
+                mail_pere_suiveur(sejour)
 
             date = form.cleaned_data['sejour_du']
             return HttpResponseRedirect(reverse('sejours:calendar', kwargs={
@@ -135,7 +145,8 @@ def details(request, *args, **kwargs):
         'calendar_day': sejour.sejour_du.strftime('%d'),
         'calendar_month': sejour.sejour_du.strftime('%m'),
         'calendar_year': sejour.sejour_du.strftime('%Y'),
-        'chambres': ', '.join(list(Chambre.objects.filter(sejour=sejour.id).values_list('chambre', flat=True))),
+        'chambres': ', '.join(list(Chambre.objects.filter(
+            sejour=sejour.id).values_list('chambre', flat=True))),
     })
 
 
@@ -148,12 +159,18 @@ def update(request, **kwargs):
         form = SejourForm(request.POST, instance=sejour)
 
         if form.is_valid():
+            form.save()
+
             # Remove old rooms and insert new ones:
             Chambre.objects.filter(sejour=sejour).delete()
             for chambre in form.cleaned_data['chambre']:
                 Chambre.objects.create(sejour=sejour, chambre=chambre)
 
-            form.save()
+            # Send mails:
+            if sejour.dit_messe and sejour.mail_sacristie:
+                mail_sacristie(sejour)
+            if sejour.personne and sejour.mail_pere_suiveur:
+                mail_pere_suiveur(sejour)
 
             return HttpResponseRedirect(reverse('sejours:details', kwargs={'pk': sejour.id}))
 

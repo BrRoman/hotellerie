@@ -21,10 +21,17 @@ def cuisine(request):
     for i in range(15):
         day = today + timedelta(days=i)
         day_string = date_to_french_string(day)
+        hote = is_first_repas = is_last_repas = is_monorepas = ''
+        table_hotes_midi, \
+            table_hotes_soir, \
+            table_abbatiale_midi, \
+            table_abbatiale_soir, \
+            table_moines_midi, \
+            table_moines_soir = (
+                [] for i in range(6)
+            )
 
         # MIDI:
-        # Tables hôtes:
-        table_hotes_midi = []
         sejours_midi = ((Sejour.objects.filter(
             sejour_du__lte=day
         ) & Sejour.objects.filter(
@@ -62,17 +69,36 @@ def cuisine(request):
             ) and (
                 sejour.repas_du == sejour.repas_au
             )
-            table_hotes_midi.append({
-                'hote': hote,
-                'is_first_repas': is_first_repas,
-                'is_last_repas': is_last_repas,
-                'is_monorepas': is_monorepas,
-            })
+
+            # Midi - tables hôtes:
+            if sejour.mensa == 'Hôtes':
+                table_hotes_midi.append({
+                    'hote': hote,
+                    'is_first_repas': is_first_repas,
+                    'is_last_repas': is_last_repas,
+                    'is_monorepas': is_monorepas,
+                })
+
+            # Midi - table abbatiale:
+            if sejour.mensa == 'Table abbatiale':
+                table_abbatiale_midi.append({
+                    'hote': hote,
+                    'is_first_repas': is_first_repas,
+                    'is_last_repas': is_last_repas,
+                    'is_monorepas': is_monorepas,
+                })
+
+            # Midi - table moines:
+            if sejour.mensa == 'Moines':
+                table_moines_midi.append({
+                    'hote': hote,
+                    'is_first_repas': is_first_repas,
+                    'is_last_repas': is_last_repas,
+                    'is_monorepas': is_monorepas,
+                })
 
         # SOIR:
-        # Tables hôtes:
-        table_hotes_soir = []
-        sejours_midi = ((Sejour.objects.filter(
+        sejours_soir = ((Sejour.objects.filter(
             sejour_du__lte=day
         ) & Sejour.objects.filter(
             sejour_au__gte=day
@@ -90,7 +116,7 @@ def cuisine(request):
             sejour_au=day, repas_au='Déjeuner'
         )
 
-        for index, sejour in enumerate(sejours_midi):
+        for index, sejour in enumerate(sejours_soir):
             hote = sejour.personne.__str__()
             is_first_repas = (
                 sejour.sejour_du == day
@@ -100,7 +126,7 @@ def cuisine(request):
             is_last_repas = ((
                 sejour.sejour_au == day
             ) and (
-                sejour.repas_au == 'Déjeuner'
+                sejour.repas_au == 'Dîner'
             )) or ((
                 sejour.sejour_au == day + timedelta(days=1)
             ) and (
@@ -111,26 +137,49 @@ def cuisine(request):
             ) and (
                 sejour.repas_du == sejour.repas_au
             )
-            table_hotes_soir.append({
-                'hote': hote,
-                'is_first_repas': is_first_repas,
-                'is_last_repas': is_last_repas,
-                'is_monorepas': is_monorepas,
-            })
 
+            # Soir - tables hôtes:
+            if sejour.mensa == 'Hôtes':
+                table_hotes_soir.append({
+                    'hote': hote,
+                    'is_first_repas': is_first_repas,
+                    'is_last_repas': is_last_repas,
+                    'is_monorepas': is_monorepas,
+                })
+
+            # Soir - table abbatiale:
+            if sejour.mensa == 'Table abbatiale':
+                table_abbatiale_soir.append({
+                    'hote': hote,
+                    'is_first_repas': is_first_repas,
+                    'is_last_repas': is_last_repas,
+                    'is_monorepas': is_monorepas,
+                })
+
+            # Soir - table moines:
+            if sejour.mensa == 'Moines':
+                table_moines_soir.append({
+                    'hote': hote,
+                    'is_first_repas': is_first_repas,
+                    'is_last_repas': is_last_repas,
+                    'is_monorepas': is_monorepas,
+                })
+
+        # On compile le tout pour le jour concerné :
         days[day] = {
             'day_string': day_string,
             'midi': {
                 'table_hotes': table_hotes_midi,
-                # 'table_moines': moines_midi,
-                # 'table_abbatiale': abbatiale_midi,
+                'table_moines': table_moines_midi,
+                'table_abbatiale': table_abbatiale_midi,
             },
             'soir': {
                 'table_hotes': table_hotes_soir,
-                # 'table_moines': moines_soir,
-                # 'table_abbatiale': abbatiale_soir,
+                'table_moines': table_moines_soir,
+                'table_abbatiale': table_abbatiale_soir,
             },
         }
+
     return render(request, 'listings/cuisine.html', {'days': days})
 
 

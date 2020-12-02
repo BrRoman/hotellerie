@@ -6,8 +6,16 @@
 
 {% block content %}
     <div>
-        <h5>Explication des symboles</h5>
-        <h5>TODO $</h5>
+        <h6 class="text-center">+</h6>
+        <h6 class="text-center">PAX</h6>
+        <h3 class="text-center">LISTE DES HÔTES</h3>
+
+        <div class="border border-success rounded m-1 p-3">
+            <h5 class="text-center">Explication des symboles</h5>
+            <h6><span class="fas fa-arrow-alt-circle-right green mr-1"></span>Premier repas</h6>
+            <h6><span class="fas fa-arrow-alt-circle-left red mr-1"></span>Dernier repas</h6>
+            <h6><span class="fas fa-thumbs-up orange mr-1"></span>Monorepas</h6>
+        </div>
     </div>
 
     {% for day in days.values %}

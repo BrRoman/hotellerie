@@ -14,8 +14,13 @@ urlpatterns = [
     path('<int:pk>/delete/', views.delete, name='delete'),
     path('get_pere_suiveur/', views.get_pere_suiveur, name='get_pere_suiveur'),
     path(
-        'autocomplete/',
-        views.PersonneAutocompleteView.as_view(),
-        name='autocomplete'
+        'autocomplete_hotes/',
+        views.PersonneAutocompleteHotesView.as_view(),
+        name='autocomplete_hotes'
+    ),
+    path(
+        'autocomplete_monks/',
+        views.PersonneAutocompleteMonksView.as_view(),
+        name='autocomplete_monks'
     ),
 ]

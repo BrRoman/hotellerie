@@ -17,7 +17,7 @@ class SejourForm(forms.ModelForm):
             'required': 'Ce champ est obligatoire',
         },
         queryset=Personne.objects.all(),
-        widget=autocomplete.ModelSelect2(url='personnes:autocomplete'),
+        widget=autocomplete.ModelSelect2(url='personnes:autocomplete_hotes'),
     )
     sejour_du = forms.DateField(
         label='Du :',
@@ -97,6 +97,7 @@ class SejourForm(forms.ModelForm):
             ('Hôtes', 'Table des hôtes'),
             ('Table abbatiale', 'Table abbatiale'),
             ('Moines', 'Table des moines'),
+            ('Parloirs', 'Repas aux parloirs'),
         ],
         initial='Hôtes',
     )

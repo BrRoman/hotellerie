@@ -11,6 +11,7 @@ from django.http import FileResponse
 from django.shortcuts import render
 
 from modules.dates import date_to_french_string
+from apps.parloirs.models import Parloir
 from apps.sejours.models import Sejour
 
 
@@ -27,8 +28,12 @@ def cuisine(request):
             table_abbatiale_midi, \
             table_abbatiale_soir, \
             table_moines_midi, \
-            table_moines_soir = (
-                [] for i in range(6)
+            table_moines_soir, \
+            table_parloirs_midi, \
+            table_parloirs_soir, \
+            parloirs_midi, \
+            parloirs_soir = (
+                [] for i in range(10)
             )
 
         # MIDI:
@@ -96,6 +101,26 @@ def cuisine(request):
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
                 })
+
+            # Midi - repas aux parloirs:
+            if sejour.mensa == 'Parloirs':
+                table_parloirs_midi.append({
+                    'hote': hote,
+                    'is_first_repas': is_first_repas,
+                    'is_last_repas': is_last_repas,
+                    'is_monorepas': is_monorepas,
+                })
+
+        # Midi: moines aux parloirs:
+        parloirs_midi = Parloir.objects.filter(
+            date=day
+        ) & Parloir.objects.filter(
+            repas='Déjeuner'
+        )
+        total_parloirs_midi = 0
+        for index, parloir in enumerate(parloirs_midi):
+            if not parloir.repas_apporte:
+                total_parloirs_midi += (parloir.nombre + 1)
 
         # SOIR:
         sejours_soir = ((Sejour.objects.filter(
@@ -165,18 +190,44 @@ def cuisine(request):
                     'is_monorepas': is_monorepas,
                 })
 
+            # Soir - repas aux parloirs:
+            if sejour.mensa == 'Parloirs':
+                table_parloirs_soir.append({
+                    'hote': hote,
+                    'is_first_repas': is_first_repas,
+                    'is_last_repas': is_last_repas,
+                    'is_monorepas': is_monorepas,
+                })
+
+        # Soir: moines aux parloirs:
+        parloirs_soir = Parloir.objects.filter(
+            date=day
+        ) & Parloir.objects.filter(
+            repas='Dîner'
+        )
+        total_parloirs_soir = 0
+        for index, parloir in enumerate(parloirs_soir):
+            if not parloir.repas_apporte:
+                total_parloirs_soir += (parloir.nombre + 1)
+
         # On compile le tout pour le jour concerné :
         days[day] = {
             'day_string': day_string,
             'midi': {
                 'table_hotes': table_hotes_midi,
-                'table_moines': table_moines_midi,
                 'table_abbatiale': table_abbatiale_midi,
+                'table_moines': table_moines_midi,
+                'table_parloirs': table_parloirs_midi,
+                'parloirs': parloirs_midi,
+                'total_parloirs_midi': total_parloirs_midi,
             },
             'soir': {
                 'table_hotes': table_hotes_soir,
-                'table_moines': table_moines_soir,
                 'table_abbatiale': table_abbatiale_soir,
+                'table_moines': table_moines_soir,
+                'table_parloirs': table_parloirs_soir,
+                'parloirs': parloirs_soir,
+                'total_parloirs_soir': total_parloirs_soir,
             },
         }
 
@@ -193,6 +244,9 @@ def hotellerie(request):
     pdf.saveState()
     pdf.setLineWidth(0.2)
 
+    pdf.drawString(100, 100, "Listing hôtellerie")
+    pdf.drawString(100, 100, "Listing hôtellerie")
+    pdf.drawString(100, 100, "Listing hôtellerie")
     pdf.drawString(100, 100, "Listing hôtellerie")
 
     pdf.showPage()

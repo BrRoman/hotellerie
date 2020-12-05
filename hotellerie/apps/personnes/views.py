@@ -289,14 +289,28 @@ def get_pere_suiveur(request):
     return JsonResponse({'pere_suiveur': pere_suiveur})
 
 
-class PersonneAutocompleteView(autocomplete.Select2QuerySetView):
-    """ Return a set of Personnes according to the user search value. """
+class PersonneAutocompleteHotesView(autocomplete.Select2QuerySetView):
+    """ Return a set of Hotes according to the user search value. """
 
     def get_queryset(self):
         if not self.request.user.is_authenticated:
             return Personne.objects.none()
 
-        personnes = Personne.objects.all()
+        personnes = Personne.objects.filter(moine_flav=False)
+        if self.q:
+            personnes = (personnes.filter(nom__icontains=self.q) |
+                         personnes.filter(prenom__icontains=self.q))
+        return personnes.order_by('nom', 'prenom', 'last_modified')
+
+
+class PersonneAutocompleteMonksView(autocomplete.Select2QuerySetView):
+    """ Return a set of Monks according to the user search value. """
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Personne.objects.none()
+
+        personnes = Personne.objects.filter(moine_flav=True)
         if self.q:
             personnes = (personnes.filter(nom__icontains=self.q) |
                          personnes.filter(prenom__icontains=self.q))

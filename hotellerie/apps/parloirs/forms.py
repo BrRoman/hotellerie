@@ -17,7 +17,7 @@ class ParloirForm(forms.ModelForm):
             'required': 'Ce champ est obligatoire',
         },
         queryset=Personne.objects.all(),
-        widget=autocomplete.ModelSelect2(url='personnes:autocomplete'),
+        widget=autocomplete.ModelSelect2(url='personnes:autocomplete_monks'),
     )
     date = forms.DateField(
         label='Date :',

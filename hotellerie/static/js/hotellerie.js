@@ -87,7 +87,15 @@ $(document).ready(function () {
     // On modif repas (selects):
     $('.sejour_date_row select').on({
         change: function(){
-            if($('#id_repas_au option:selected').val() == '---------'){
+            refresh_rooms();
+        },
+    });
+
+
+    // Sejours: repas_au = repas_du if sejour_du = sejour_au:
+    $('#id_repas_du').on({
+        change: function(){
+            if($('#id_sejour_au').val() == $('#id_sejour_du').val()){
                 $('#id_repas_au').val($('#id_repas_du option:selected').val());
             }
             refresh_rooms();

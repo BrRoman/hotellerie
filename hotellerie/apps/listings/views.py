@@ -35,6 +35,16 @@ def cuisine(request):
             parloirs_soir = (
                 [] for i in range(10)
             )
+        total_table_hotes_midi = \
+            total_table_hotes_soir = \
+            total_table_abbatiale_midi = \
+            total_table_abbatiale_soir = \
+            total_table_moines_midi = \
+            total_table_moines_soir = \
+            total_table_parloirs_midi = \
+            total_table_parloirs_soir = \
+            total_parloirs_midi = \
+            total_parloirs_soir = 0
 
         # MIDI:
         sejours_midi = ((Sejour.objects.filter(
@@ -57,6 +67,7 @@ def cuisine(request):
 
         for index, sejour in enumerate(sejours_midi):
             hote = sejour.personne.__str__()
+            nombre = len(sejour.chambres_string().split(', '))
             is_first_repas = (
                 sejour.sejour_du == day
             ) and ((
@@ -77,8 +88,10 @@ def cuisine(request):
 
             # Midi - tables hôtes:
             if sejour.mensa == 'Hôtes':
+                total_table_hotes_midi += nombre
                 table_hotes_midi.append({
                     'hote': hote,
+                    'nombre': nombre,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -86,8 +99,10 @@ def cuisine(request):
 
             # Midi - table abbatiale:
             if sejour.mensa == 'Table abbatiale':
+                total_table_abbatiale_midi += nombre
                 table_abbatiale_midi.append({
                     'hote': hote,
+                    'nombre': nombre,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -95,8 +110,10 @@ def cuisine(request):
 
             # Midi - table moines:
             if sejour.mensa == 'Moines':
+                total_table_moines_midi += nombre
                 table_moines_midi.append({
                     'hote': hote,
+                    'nombre': nombre,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -104,8 +121,10 @@ def cuisine(request):
 
             # Midi - repas aux parloirs:
             if sejour.mensa == 'Parloirs':
+                total_table_parloirs_midi += nombre
                 table_parloirs_midi.append({
                     'hote': hote,
+                    'nombre': nombre,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -117,7 +136,6 @@ def cuisine(request):
         ) & Parloir.objects.filter(
             repas='Déjeuner'
         )
-        total_parloirs_midi = 0
         for index, parloir in enumerate(parloirs_midi):
             if not parloir.repas_apporte:
                 total_parloirs_midi += (parloir.nombre + 1)
@@ -143,6 +161,7 @@ def cuisine(request):
 
         for index, sejour in enumerate(sejours_soir):
             hote = sejour.personne.__str__()
+            nombre = len(sejour.chambres_string().split(', '))
             is_first_repas = (
                 sejour.sejour_du == day
             ) and (
@@ -165,8 +184,10 @@ def cuisine(request):
 
             # Soir - tables hôtes:
             if sejour.mensa == 'Hôtes':
+                total_table_hotes_soir += nombre
                 table_hotes_soir.append({
                     'hote': hote,
+                    'nombre': nombre,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -174,8 +195,10 @@ def cuisine(request):
 
             # Soir - table abbatiale:
             if sejour.mensa == 'Table abbatiale':
+                total_table_abbatiale_soir += nombre
                 table_abbatiale_soir.append({
                     'hote': hote,
+                    'nombre': nombre,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -183,8 +206,10 @@ def cuisine(request):
 
             # Soir - table moines:
             if sejour.mensa == 'Moines':
+                total_table_moines_soir += nombre
                 table_moines_soir.append({
                     'hote': hote,
+                    'nombre': nombre,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -192,8 +217,10 @@ def cuisine(request):
 
             # Soir - repas aux parloirs:
             if sejour.mensa == 'Parloirs':
+                total_table_parloirs_soir += nombre
                 table_parloirs_soir.append({
                     'hote': hote,
+                    'nombre': nombre,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -205,7 +232,6 @@ def cuisine(request):
         ) & Parloir.objects.filter(
             repas='Dîner'
         )
-        total_parloirs_soir = 0
         for index, parloir in enumerate(parloirs_soir):
             if not parloir.repas_apporte:
                 total_parloirs_soir += (parloir.nombre + 1)
@@ -215,17 +241,25 @@ def cuisine(request):
             'day_string': day_string,
             'midi': {
                 'table_hotes': table_hotes_midi,
+                'total_table_hotes_midi': total_table_hotes_midi,
                 'table_abbatiale': table_abbatiale_midi,
+                'total_table_abbatiale_midi': total_table_abbatiale_midi,
                 'table_moines': table_moines_midi,
+                'total_table_moines_midi': total_table_moines_midi,
                 'table_parloirs': table_parloirs_midi,
+                'total_table_parloirs_midi': total_table_parloirs_midi,
                 'parloirs': parloirs_midi,
                 'total_parloirs_midi': total_parloirs_midi,
             },
             'soir': {
                 'table_hotes': table_hotes_soir,
+                'total_table_hotes_soir': total_table_hotes_soir,
                 'table_abbatiale': table_abbatiale_soir,
+                'total_table_abbatiale_soir': total_table_abbatiale_soir,
                 'table_moines': table_moines_soir,
+                'total_table_moines_soir': total_table_moines_soir,
                 'table_parloirs': table_parloirs_soir,
+                'total_table_parloirs_soir': total_table_parloirs_soir,
                 'parloirs': parloirs_soir,
                 'total_parloirs_soir': total_parloirs_soir,
             },

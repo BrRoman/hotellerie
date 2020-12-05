@@ -28,7 +28,7 @@ def mail_sacristie(sejour):
         sejour.commentaire_sacristie) \
         if sejour.commentaire_sacristie else ''
     body += 'Bien à vous.\n'
-    body += 'P. Jean de la Croix'
+    body += 'P. Vianney Marie'
 
     send_mail(
         'MESSE : {}'.format(priest),
@@ -47,7 +47,7 @@ def mail_pere_suiveur(sejour):
     guest = Personne.objects.get(pk=sejour.personne.pk)
 
     body = 'Mon cher Père,\n\n'
-    body += 'Veuillez prendre bonne note de l’information suivante :\n\n'
+    body += 'Veuillez prendre bonne note de l’arrivée de cet hôte :\n\n'
     body += '{}\n\n'.format(guest)
     body += 'Arrivée le : {} ({})\n'.format(
         date_to_french_string(sejour.sejour_du),
@@ -58,10 +58,9 @@ def mail_pere_suiveur(sejour):
         sejour.repas_au if sejour.repas_au != '---------' else 'repas non précisé'
     )
     body += 'Chambre(s) : {}\n\n'.format(sejour.chambres_string())
-    body += 'Pouvez-vous, s’il vous plaît, l’accueillir\n'
-    body += 'et demander au portier de vous prévenir ? Merci.\n\n'
+    body += 'Je m’occupe de l’accueillir.\n\n'
     body += 'Bien à vous.\n'
-    body += 'Père Jean de la Croix Marie'
+    body += 'Père Vianney Marie'
 
     send_mail(
         'HÔTE : {}'.format(guest),

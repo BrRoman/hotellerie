@@ -128,9 +128,9 @@ function check_pere_suiveur(){
             '/hotellerie/personnes/get_pere_suiveur/',
             {'personne': personne},
             function(back){
-                $('#id_mail_pere_suiveur').prop('disabled', !back['pere_suiveur']);
-                $('#id_mail_pere_suiveur').parent().find('label').css('color', back['pere_suiveur'] ? green : 'rgb(150, 150, 150)');
-                if(back['pere_suiveur']){
+                $('#id_mail_pere_suiveur').prop('disabled', !(back['pere_suiveur'] && back['has_mail']));
+                $('#id_mail_pere_suiveur').parent().find('label').css('color', (back['pere_suiveur'] && back['has_mail']) ? green : 'rgb(150, 150, 150)');
+                if(back['pere_suiveur'] && back['has_mail']){
                     $('#id_mail_pere_suiveur').prop('checked', true);
                 }
                 else{

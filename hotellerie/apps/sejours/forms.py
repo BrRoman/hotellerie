@@ -6,7 +6,7 @@ from django import forms
 from tempus_dominus.widgets import DatePicker
 
 from apps.personnes.models import Personne
-from .models import Chambre, Sejour
+from .models import Sejour
 
 
 class SejourForm(forms.ModelForm):

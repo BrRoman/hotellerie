@@ -19,7 +19,7 @@ def mail_sacristie(sejour):
     body += 'Au : {}\n\n'.format(date_to_french_string(sejour.sejour_au))
     body += 'Messe le lendemain de son arrivée\n' \
         if sejour.messe_lendemain \
-        else 'IL CÉLÉBRERA LA MESSE LE JOUR DE SON ARRIVÉE'
+        else 'IL CÉLÉBRERA LA MESSE LE JOUR DE SON ARRIVÉE\n\n'
     body += 'Forme : {}\n'.format(priest.messe_forme)
     body += 'Langue : {}\n'.format(priest.messe_langue)
     body += 'Tour de Messe : {}\n'.format(sejour.tour_messe)
@@ -46,20 +46,20 @@ def mail_pere_suiveur(sejour):
     """ Sends an email to the Père suiveur. """
     guest = Personne.objects.get(pk=sejour.personne.pk)
 
-    body = 'Mon cher Père,\n\n'
-    body += 'Veuillez prendre bonne note de l’arrivée de cet hôte :\n\n'
-    body += '{}\n\n'.format(guest)
-    body += 'Arrivée le : {} ({})\n'.format(
+    body = 'Cher Père,\n\n'
+    body += '{} va venir faire un séjour à l\'hôtellerie.\n\n'.format(guest)
+    body += 'La chambre {} lui est attribuée.\n\n'.format(
+        sejour.chambres_string())
+    body += 'Il arrivera le {} ({})'.format(
         date_to_french_string(sejour.sejour_du),
         sejour.repas_du if sejour.repas_du != '---------' else 'repas non précisé'
     )
-    body += 'Départ le : {} ({})\n'.format(
+    body += ' et repartira le {} ({}).\n\n'.format(
         date_to_french_string(sejour.sejour_au),
         sejour.repas_au if sejour.repas_au != '---------' else 'repas non précisé'
     )
-    body += 'Chambre(s) : {}\n\n'.format(sejour.chambres_string())
-    body += 'Je m’occupe de l’accueillir.\n\n'
-    body += 'Bien à vous.\n'
+    body += 'Les frères de l\'hôtellerie s\'occuperont de l’accueillir et vous préviendront lorsqu\'il sera installé.\n\n'
+    body += 'In Domino.\n'
     body += 'Père Vianney Marie'
 
     send_mail(

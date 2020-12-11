@@ -35,7 +35,7 @@ def list(request, letter, search=''):
             personnes.filter(prenom__icontains=search)
         )
 
-    personnes = personnes.order_by('nom')
+    personnes = personnes.order_by('nom', 'prenom')
 
     return render(request, 'personnes/list.html', {
         'letters': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-'],
@@ -283,10 +283,15 @@ def delete(request, **kwargs):
 
 @login_required
 def get_pere_suiveur(request):
-    """ Returns the pere_suiveur of a personne. """
+    """ Returns the pere_suiveur of a personne and checks if this pere_suiveur has an email. """
     personne = Personne.objects.get(pk=request.GET['personne'])
-    pere_suiveur = personne.pere_suiveur.__str__() if personne.pere_suiveur else None
-    return JsonResponse({'pere_suiveur': pere_suiveur})
+    pere_suiveur = personne.pere_suiveur if personne.pere_suiveur else None
+    pere_suiveur_str = pere_suiveur.__str__()
+    has_mail = pere_suiveur.mail_personne.count() > 0
+    return JsonResponse({
+        'pere_suiveur': pere_suiveur_str,
+        'has_mail': has_mail
+    })
 
 
 class PersonneAutocompleteHotesView(autocomplete.Select2QuerySetView):

@@ -35,7 +35,7 @@ def list(request, letter, search=''):
             personnes.filter(prenom__icontains=search)
         )
 
-    personnes = personnes.order_by('nom')
+    personnes = personnes.order_by('nom', 'prenom')
 
     return render(request, 'personnes/list.html', {
         'letters': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-'],

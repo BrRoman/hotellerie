@@ -226,7 +226,7 @@ def get_rooms_status(request):
 
     # Create the rooms' dict:
     rooms = {}
-    for i in range(26):
+    for i in range(27):
         rooms[str(i)] = {
             'occupied': '',
             'title': '',

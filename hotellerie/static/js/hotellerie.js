@@ -72,7 +72,7 @@ $(document).ready(function () {
     });
 
 
-    // Sejours: manage rooms (checkboxes):
+    // Sejours: manage rooms (checkboxes) and selects:
     // On start:
     refresh_rooms();
     // On modif datepickers:
@@ -150,6 +150,7 @@ function refresh_rooms(){
     const sejour_au = $('#id_sejour_au').val();
     const repas_du = $('#id_repas_du').val();
     const repas_au = $('#id_repas_au').val();
+    const green = $('#id_chambre').parent().parent().find('label').css('color');
     if(sejour_du && sejour_au){
         $.get(
             '/hotellerie/sejours/rooms/', {
@@ -162,10 +163,14 @@ function refresh_rooms(){
             function(back){
                 for(i in back){
                     room = back[i];
+                    const checkbox = $(`#id_chambre input[type=checkbox][value="${i}"]`);
                     if(room['occupied']){
-                        const checkbox = $(`#id_chambre input[type=checkbox][value="${i}"]`);
                         checkbox.parent().css({'color': 'red'});
                         checkbox.parent().attr('title', room['title']);
+                    }
+                    else{
+                        checkbox.parent().css({'color': green});
+                        checkbox.parent().attr('title', '');
                     }
                 }
             },

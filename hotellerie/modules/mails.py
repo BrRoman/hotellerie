@@ -47,7 +47,7 @@ def mail_pere_suiveur(sejour):
     guest = Personne.objects.get(pk=sejour.personne.pk)
 
     body = 'Cher Père,\n\n'
-    body += '{} va venir faire un séjour à l\'hôtellerie.\n\n'.format(guest)
+    body += '{} séjournera à l\'hôtellerie.\n\n'.format(guest)
     body += 'La chambre {} lui est attribuée.\n\n'.format(
         sejour.chambres_string())
     body += 'Il arrivera le {} ({})'.format(
@@ -58,7 +58,7 @@ def mail_pere_suiveur(sejour):
         date_to_french_string(sejour.sejour_au),
         sejour.repas_au if sejour.repas_au != '---------' else 'repas non précisé'
     )
-    body += 'Les frères de l\'hôtellerie s\'occuperont de l’accueillir et vous préviendront lorsqu\'il sera installé.\n\n'
+    body += 'Les frères de l\'hôtellerie l’accueilleront et vous préviendront lorsqu\'il sera installé.\n\n'
     body += 'In Domino.\n'
     body += 'Père Vianney Marie'
 

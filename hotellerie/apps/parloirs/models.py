@@ -48,4 +48,7 @@ class Parloir(models.Model):
     )
 
     def __str__(self):
-        return "{} le {}".format(self.personne, self.date.strftime('%d/%m/%Y'))
+        return "{} le {}".format(
+            self.personne,
+            self.date.strftime('%d/%m/%Y'),
+        )

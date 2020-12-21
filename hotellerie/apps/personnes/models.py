@@ -51,9 +51,9 @@ class Personne(models.Model):
 
     def __str__(self):
         nom_complet = self.qualite
-        nom_complet += ' ' if self.qualite and self.prenom else ''
+        nom_complet += ' ' if self.qualite or self.prenom else ''
         nom_complet += self.prenom if self.prenom else ''
-        nom_complet += ' ' if self.prenom and self.nom else ''
+        nom_complet += ' ' if self.prenom or self.nom else ''
         name = re.sub(
             r'^DE ',
             lambda match: 'de ',

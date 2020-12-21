@@ -18,7 +18,7 @@ def list(request, letter, search=''):
     """ List of Personnes. """
     if letter == '-':
         personnes = Personne.objects.filter(nom='')
-    elif (len(letter) == 1) and (re.fullmatch(r'[A-Z]', letter)):
+    elif (len(letter) == 1) and (re.fullmatch(r'[A-Zd]', letter)):
         personnes = Personne.objects.filter(nom__istartswith=letter)
 
     try:

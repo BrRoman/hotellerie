@@ -16,7 +16,7 @@
             <!-- Letters -->
             <ul id="letters" class="list-inline row mx-5 my-0">
                 {% for letter in letters %}
-                    {% if letter == current %}
+                    {% if letter == current or letter == 'D' and current == 'd' %}
                         <li class="mx-1 full-red">{{ letter }}</li>
                     {% else %}
                         <li class="mx-1"><a href={% url 'personnes:list' letter %}>{{ letter }}</a></li>

@@ -275,7 +275,7 @@ def hotellerie(request):
     # Settings:
     width, height = A4
     pdf = canvas.Canvas(buffer, pagesize=A4, bottomup=0)
-    pdf.setFont("Courier", 10)
+    pdf.setFont("Helvetica", 10)
     pdf.saveState()
     pdf.setLineWidth(0.2)
 
@@ -335,11 +335,11 @@ def hotellerie(request):
         sejour_du__lte=TODAY + timedelta(days=15)
     ))).order_by('sejour_du', 'sejour_au')
     for index, sejour in enumerate(sejours):
-        coord_y += 15
+        coord_y += 20
         line = ''
         line += '- {}'.format(sejour.personne.__str__())
         pdf.drawString(40, coord_y, line)
-        coord_y += 15
+        coord_y += 13
         line = 'Du {} ({}) au {} ({})'.format(
             date_to_french_string(sejour.sejour_du),
             sejour.repas_du,
@@ -347,7 +347,7 @@ def hotellerie(request):
             sejour.repas_au,
         )
         pdf.drawString(60, coord_y, line)
-        coord_y += 15
+        coord_y += 13
         line = 'Chambre(s) : {}'.format(sejour.chambres_string())
         pdf.drawString(60, coord_y, line)
 

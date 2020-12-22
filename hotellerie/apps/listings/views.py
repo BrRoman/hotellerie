@@ -288,29 +288,30 @@ def hotellerie(request):
     pdf.drawCentredString(width/2.0, coord_y, "LISTING HÔTELLERIE")
 
     # Parloirs:
-    coord_y += 35
-    pdf.drawCentredString(width/2.0, coord_y, "PARLOIRS")
-    coord_y += 10
     parloirs = Parloir.objects.filter(
         date__gte=TODAY
     ) & Parloir.objects.filter(
         date__lte=TODAY + timedelta(days=15)
     ).order_by('date')
-    for index, parloir in enumerate(parloirs):
-        coord_y += 15
-        line = ''
-        line += '- {}'.format(
-            date_to_french_string(parloir.date))
-        line += ' ({})'.format(parloir.repas) if parloir.repas else ''
-        line += ' : {}'.format(parloir.personne.__str__())
-        line += ' + {}'.format(parloir.nombre) if parloir.nombre else ''
-        line += ' (repas apporté)' if parloir.repas_apporte else ''
-        pdf.drawString(40, coord_y, line)
-        line = 'Parloir : {}'.format(
-            parloir.parloir) if parloir.parloir and parloir.parloir != 'Non défini' else ''
-        if line:
+    if parloirs:
+        coord_y += 35
+        pdf.drawCentredString(width/2.0, coord_y, "PARLOIRS")
+        coord_y += 10
+        for index, parloir in enumerate(parloirs):
             coord_y += 15
-            pdf.drawString(60, coord_y, line)
+            line = ''
+            line += '- {}'.format(
+                date_to_french_string(parloir.date))
+            line += ' ({})'.format(parloir.repas) if parloir.repas else ''
+            line += ' : {}'.format(parloir.personne.__str__())
+            line += ' + {}'.format(parloir.nombre) if parloir.nombre else ''
+            line += ' (repas apporté)' if parloir.repas_apporte else ''
+            pdf.drawString(40, coord_y, line)
+            line = 'Parloir : {}'.format(
+                parloir.parloir) if parloir.parloir and parloir.parloir != 'Non défini' else ''
+            if line:
+                coord_y += 15
+                pdf.drawString(60, coord_y, line)
 
     # Hôtes:
     coord_y += 35

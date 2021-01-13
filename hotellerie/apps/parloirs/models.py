@@ -7,9 +7,22 @@ from apps.personnes.models import Personne
 
 class Parloir(models.Model):
     """ Parloir model. """
-    personne = models.ForeignKey(
+    personne_1 = models.ForeignKey(
         to=Personne,
         on_delete=models.CASCADE,
+        related_name='parloir_personne_1',
+    )
+    personne_2 = models.ForeignKey(
+        null=True,
+        to=Personne,
+        on_delete=models.CASCADE,
+        related_name='parloir_personne_2',
+    )
+    personne_3 = models.ForeignKey(
+        null=True,
+        to=Personne,
+        on_delete=models.CASCADE,
+        related_name='parloir_personne_3',
     )
     date = models.DateField()
     REPAS_NAMES = [
@@ -47,8 +60,15 @@ class Parloir(models.Model):
         auto_now=True,
     )
 
+    def moines_string(self):
+        """ Returns the monks concerned by the parloir as a string. """
+        moines = self.personne_1.__str__()
+        moines += ' + ' + self.personne_2.__str__() if self.personne_2 else ''
+        moines += ' + ' + self.personne_3.__str__() if self.personne_3 else ''
+        return moines
+
     def __str__(self):
         return "{} le {}".format(
-            self.personne,
+            self.moines_string(),
             self.date.strftime('%d/%m/%Y'),
         )

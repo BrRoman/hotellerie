@@ -24,28 +24,90 @@
     <form method="post" novalidate>
         {% csrf_token %}
 
-        <!-- Personne -->
+        <!-- Moine 1 -->
         <div class="form-group">
-            {{ form.personne.label_tag }}
+            {{ form.personne_1.label_tag }}
 
             {% if form.is_bound %}
-                {% if form.personne.errors %}
-                    {% render_field form.personne class="form-control is-invalid" %}
-                    {% for error in form.personne.errors %}
+                {% if form.personne_1.errors %}
+                    {% render_field form.personne_1 class="form-control is-invalid" %}
+                    {% for error in form.personne_1.errors %}
                         <div class="invalid-feedback" style="display: block;">
                             {{ error }}
                         </div>
                     {% endfor %}
                 {% else %}
-                    {% render_field form.personne class="form-control is-valid" %}
+                    {% render_field form.personne_1 class="form-control is-valid" %}
                 {% endif %}
             {% else %}
-                {% render_field form.personne class="form-control" %}
+                {% render_field form.personne_1 class="form-control" %}
             {% endif %}
 
-            {% if form.personne.help_text %}
+            {% if form.personne_1.help_text %}
                 <small class="form-text text-muted">
-                    {{ form.personne.help_text }}
+                    {{ form.personne_1.help_text }}
+                </small>
+            {% endif %}
+
+            {% if sejour %}
+                <small class="form-text text-muted"><a href={% url 'personnes:details' sejour.personne.id %}>Voir la fiche de cette personne</a></small>
+            {% endif %}
+        </div>
+
+
+        <!-- Moine 2 -->
+        <div class="form-group">
+            {{ form.personne_2.label_tag }}
+
+            {% if form.is_bound %}
+                {% if form.personne_2.errors %}
+                    {% render_field form.personne_2 class="form-control is-invalid" %}
+                    {% for error in form.personne_2.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.personne_2 class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.personne_2 class="form-control" %}
+            {% endif %}
+
+            {% if form.personne_2.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.personne_2.help_text }}
+                </small>
+            {% endif %}
+
+            {% if sejour %}
+                <small class="form-text text-muted"><a href={% url 'personnes:details' sejour.personne.id %}>Voir la fiche de cette personne</a></small>
+            {% endif %}
+        </div>
+
+
+        <!-- Moine 3 -->
+        <div class="form-group">
+            {{ form.personne_3.label_tag }}
+
+            {% if form.is_bound %}
+                {% if form.personne_3.errors %}
+                    {% render_field form.personne_3 class="form-control is-invalid" %}
+                    {% for error in form.personne_3.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.personne_3 class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.personne_3 class="form-control" %}
+            {% endif %}
+
+            {% if form.personne_3.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.personne_3.help_text }}
                 </small>
             {% endif %}
 

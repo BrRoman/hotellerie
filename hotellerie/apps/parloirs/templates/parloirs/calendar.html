@@ -37,12 +37,12 @@
                 {% for parloir in day_data.parloirs %}
                     <div class="bar parloir px-1 mt-1 mr-1" style="grid-column: {{ forloop.parentloop.counter }};"
                         title=
-"{{ parloir.personne }} + {{ parloir.nombre }}
+"{{ parloir.moines_string }} + {{ parloir.nombre }}
 {{ parloir.repas }}
 {{ parloir.parloir }}"
                     >
                         <a href={% url 'parloirs:details' parloir.id %}>
-                            {{ parloir.personne }} + {{ parloir.nombre }} ({{ parloir.parloir }})
+                            {{ parloir.moines_string }} + {{ parloir.nombre }} ({{ parloir.parloir }})
                         </a>
                     </div>
                 {% endfor %}

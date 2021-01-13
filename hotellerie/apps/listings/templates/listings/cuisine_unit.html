@@ -86,7 +86,7 @@
     {% for parloir in day.midi.parloirs %}
         <div class="row ml-5">
             <p class="ml-1 my-0">
-                {{ parloir.personne }}
+                {{ parloir.moines_string }}
                 + {{ parloir.nombre }}
                 {% if parloir.repas_apporte %} (repas apporté){% endif %}
             </p>
@@ -179,7 +179,7 @@
     {% for parloir in day.soir.parloirs %}
         <div class="row ml-5">
             <p class="ml-1 my-0">
-                {{ parloir.personne }}
+                {{ parloir.moines_string }}
                 + {{ parloir.nombre }}
                 {% if parloir.repas_apporte %} (repas apporté){% endif %}
             </p>

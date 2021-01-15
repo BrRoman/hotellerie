@@ -21,7 +21,7 @@ def home(request):
 
 
 @login_required
-def calendar(request, *args, **kwargs):
+def calendar(request, **kwargs):
     """ Display calendar of parloirs according to the required date. """
     # Date that has been required in **kwargs:
     display_date = datetime.datetime(

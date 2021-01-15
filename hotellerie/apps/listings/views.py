@@ -2,9 +2,9 @@
 
 from datetime import date, timedelta
 import io
+import re
 
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 
 from django.http import FileResponse
@@ -139,7 +139,10 @@ def cuisine(request):
         )
         for index, parloir in enumerate(parloirs_midi):
             if not parloir.repas_apporte:
-                total_parloirs_midi += (parloir.nombre + 1)
+                total_parloirs_midi += (
+                    parloir.nombre + 1 +
+                    len(re.findall(' + ', parloir.moines_string()))
+                )
 
         # SOIR:
         sejours_soir = ((Sejour.objects.filter(
@@ -235,7 +238,10 @@ def cuisine(request):
         )
         for index, parloir in enumerate(parloirs_soir):
             if not parloir.repas_apporte:
-                total_parloirs_soir += (parloir.nombre + 1)
+                total_parloirs_soir += (
+                    parloir.nombre + 1 +
+                    len(re.findall(' + ', parloir.moines_string()))
+                )
 
         # On compile le tout pour le jour concerné :
         DAYS[day] = {
@@ -303,7 +309,7 @@ def hotellerie(request):
             line += '- {}'.format(
                 date_to_french_string(parloir.date))
             line += ' ({})'.format(parloir.repas) if parloir.repas else ''
-            line += ' : {}'.format(parloir.personne.__str__())
+            line += ' : {}'.format(parloir.moines_string())
             line += ' + {}'.format(parloir.nombre) if parloir.nombre else ''
             line += ' (repas apporté)' if parloir.repas_apporte else ''
             pdf.drawString(40, coord_y, line)

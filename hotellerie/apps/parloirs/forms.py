@@ -11,11 +11,23 @@ from .models import Parloir
 
 class ParloirForm(forms.ModelForm):
     """ Form for Parloirs. """
-    personne = forms.ModelChoiceField(
-        label='Personne :',
+    personne_1 = forms.ModelChoiceField(
+        label='Moine 1 :',
         error_messages={
             'required': 'Ce champ est obligatoire',
         },
+        queryset=Personne.objects.all(),
+        widget=autocomplete.ModelSelect2(url='personnes:autocomplete_monks'),
+    )
+    personne_2 = forms.ModelChoiceField(
+        label='Moine 2 :',
+        required=False,
+        queryset=Personne.objects.all(),
+        widget=autocomplete.ModelSelect2(url='personnes:autocomplete_monks'),
+    )
+    personne_3 = forms.ModelChoiceField(
+        label='Moine 3 :',
+        required=False,
         queryset=Personne.objects.all(),
         widget=autocomplete.ModelSelect2(url='personnes:autocomplete_monks'),
     )
@@ -37,7 +49,7 @@ class ParloirForm(forms.ModelForm):
         ],
     )
     nombre = forms.IntegerField(
-        help_text="Nombre de personnes en plus de la personne ci-dessus",
+        help_text="Nombre de personnes en plus des personnes ci-dessus",
     )
     parloir = forms.ChoiceField(
         label="Parloir :",

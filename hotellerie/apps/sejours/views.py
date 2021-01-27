@@ -58,27 +58,57 @@ def calendar(request, *args, **kwargs):
             # Arrows:
             arrow_left = sejour.sejour_du < initial_date_human
             arrow_right = sejour.sejour_au > (
-                initial_date_human + datetime.timedelta(days=7))
+                initial_date_human + datetime.timedelta(days=6))
+
             # Priest:
             pretre = sejour.dit_messe
+
             # Rooms:
             chambres_nombre = sejour.chambre_set.count()
             chambres_string = sejour.chambres_string()
-            # Length:
+
+            # Length and coord_x:
+            length_to_subtract_du = length_to_subtract_au = 0
+            # Length to subtract at the beginning of the bar depending on repas_du:
+            if not sejour.sejour_du < initial_date_human:
+                if sejour.repas_du == 'Petit-déjeuner':
+                    length_to_subtract_du = 0
+                elif sejour.repas_du == 'Déjeuner':
+                    length_to_subtract_du = 1
+                elif sejour.repas_du == 'Dîner':
+                    length_to_subtract_du = 2
+            # Length to subtract at the end of the bar depending on repas_au:
+            if not sejour.sejour_au > (initial_date_human + datetime.timedelta(days=6)):
+                if sejour.repas_au == 'Petit-déjeuner':
+                    length_to_subtract_au = 2
+                elif sejour.repas_au == 'Déjeuner':
+                    length_to_subtract_au = 1
+                elif sejour.repas_au == 'Dîner':
+                    length_to_subtract_au = 0
+
+            # Max length allowed to the bar:
+            max_length = 21 if (sejour.sejour_du < date_human) \
+                else (7 - i) * 3
+
             if sejour.sejour_du == date_human:
-                length = ((sejour.sejour_au - date_human).days + 1)
-                coord_x = i + 1
-            elif (sejour.sejour_du < date_human) and (sejour.sejour_au > (date_human + datetime.timedelta(days=7))) and (i == 0):
-                length = 7
+                length = (((sejour.sejour_au - date_human).days + 1) * 3)
+                coord_x = (i * 3) + 1 + length_to_subtract_du
+            elif (sejour.sejour_du < date_human) \
+                    and (sejour.sejour_au > (date_human + datetime.timedelta(days=7))) \
+                    and (i == 0):
+                length = 21
                 coord_x = 1
             elif (sejour.sejour_au == date_human) and (sejour.sejour_du < initial_date_human):
-                length = ((date_human - initial_date_human).days + 1)
+                length = (((date_human - initial_date_human).days + 1) * 3)
                 coord_x = 1
             else:
                 length = 0
-            max_length = 7 if (sejour.sejour_du < date_human) else (7 - i)
-            if length > max_length:
+
+            if length >= max_length:
                 length = max_length
+            else:
+                length = length - length_to_subtract_du - length_to_subtract_au
+
             # Warnings about mails:
             warning_pere_suiveur = warning_sacristie = False
             if (sejour.personne.pere_suiveur is not None) and (not sejour.mail_pere_suiveur):

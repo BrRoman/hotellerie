@@ -1,7 +1,8 @@
 @blue: rgb(0, 40, 114);
 @full-red: rgb(255, 0, 0);
 @green: rgb(0, 100, 0);
-@grey: rgb(201, 201, 201);
+@grey: rgb(200, 200, 200);
+@grey_light: rgb(220, 220, 220);
 @grey_text: rgb(49, 50, 57);
 @orange: rgb(255, 145, 0);
 @red: rgb(200, 0, 0);
@@ -135,60 +136,86 @@ body {
                 }
             }
 
-            #calendar-bars {
-                display: grid;
-                grid-template-columns: repeat(21, 100% / 21);
-                grid-auto-flow: row dense;
+            #calendar_with_lines {
+                position: relative;
 
-                .bar {
-                    background-color: @green;
-                    border-radius: 3px;
-                    color: white;
-                    font-size: 10pt;
-                    height: 20px;
-                    overflow: hidden;
-                    text-align: left;
-                    text-overflow: ellipsis;
-                    vertical-align: top;
-                    white-space: nowrap;
-                }
+                #calendar_lines {
+                    position: absolute;
+                    z-index: 1;
 
-                a {
-                    color: white;
-                    font-size: 9pt;
-                    vertical-align: middle;
-                }
+                    .vertical_line {
+                        border-right: 1px solid @grey_light;
+                        height: calc(100vh - 250px);
 
-                .arrow-left {
-                    border-top-left-radius: 12px;
-                    border-bottom-left-radius: 12px;
-                }
+                        &.zero {
+                            border-right: 1px solid @grey_light;
+                            border-left: 3px solid @grey_light;
+                        }
 
-                .arrow-right {
-                    border-top-right-radius: 12px;
-                    border-bottom-right-radius: 12px;
-                }
-
-                .pretre {
-                    background-color: blue;
-                }
-
-                .groupe {
-                    background-color: @full-red;
-                }
-
-                .pretre.groupe {
-                    background-color: rgb(189, 0, 189);
-                }
-
-                .parloir {
-                    background-color: yellow;
-                    color: black;
-
-                    a {
-                        color: black;
+                        &.bold {
+                            border-right: 3px solid @grey_light;
+                        }
                     }
                 }
+
+                #calendar_bars {
+                    display: grid;
+                    grid-template-columns: repeat(21, 100% / 21);
+                    grid-auto-flow: row dense;
+                    position: absolute;
+                    z-index: 2;
+
+                    .bar {
+                        background-color: @green;
+                        border-radius: 3px;
+                        color: white;
+                        font-size: 10pt;
+                        height: 20px;
+                        overflow: hidden;
+                        text-align: left;
+                        text-overflow: ellipsis;
+                        vertical-align: top;
+                        white-space: nowrap;
+                    }
+
+                    a {
+                        color: white;
+                        font-size: 9pt;
+                        vertical-align: middle;
+                    }
+
+                    .arrow-left {
+                        border-top-left-radius: 12px;
+                        border-bottom-left-radius: 12px;
+                    }
+
+                    .arrow-right {
+                        border-top-right-radius: 12px;
+                        border-bottom-right-radius: 12px;
+                    }
+
+                    .pretre {
+                        background-color: blue;
+                    }
+
+                    .groupe {
+                        background-color: @full-red;
+                    }
+
+                    .pretre.groupe {
+                        background-color: rgb(189, 0, 189);
+                    }
+
+                    .parloir {
+                        background-color: yellow;
+                        color: black;
+
+                        a {
+                            color: black;
+                        }
+                    }
+                }
+
             }
         }
 

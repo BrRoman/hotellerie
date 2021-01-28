@@ -131,6 +131,8 @@ def calendar(request, *args, **kwargs):
     return render(request, 'sejours/calendar.html', {
         'today': today,
         'days': days,
+        'lines': range(21),
+        'bold_lines': [2, 5, 8, 11, 14, 17, 20],
     })
 
 

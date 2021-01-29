@@ -136,7 +136,7 @@ body {
                 }
             }
 
-            #calendar_with_lines {
+            #calendar_sejours {
                 position: relative;
 
                 #calendar_lines {
@@ -205,17 +205,34 @@ body {
                     .pretre.groupe {
                         background-color: rgb(189, 0, 189);
                     }
+                }
+            }
+
+            #calendar_parloirs {
+                #calendar_bars {
+                    display: grid;
+                    grid-template-columns: repeat(7, 100% / 7);
+                    grid-auto-flow: row dense;
 
                     .parloir {
+                        border-radius: 3px;
+                        font-size: 10pt;
+                        height: 20px;
+                        overflow: hidden;
+                        text-align: left;
+                        text-overflow: ellipsis;
+                        vertical-align: top;
+                        white-space: nowrap;
                         background-color: yellow;
                         color: black;
 
                         a {
+                            font-size: 9pt;
+                            vertical-align: middle;
                             color: black;
                         }
                     }
                 }
-
             }
         }
 

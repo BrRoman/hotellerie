@@ -16,16 +16,16 @@
 
 {% block content %}
     {% if retreat %}
-        <h2>Modifier une retraite</h2>
+        <h2 class="mb-4">Modifier une retraite</h2>
     {% else %}
-        <h2>Créer une nouvelle retraite</h2>
+        <h2 class="mb-4">Créer une nouvelle retraite</h2>
     {% endif %}
 
-    <form class="col-5" method="post" novalidate>
+    <form class="col-3" method="post" novalidate>
         {% csrf_token %}
 
         <!-- Date from -->
-        <div class="row justify-content-start ml-0">
+        <div class="row justify-content-between ml-0">
             {{ form.date_from.label_tag }}
 
             <div class="form-group">
@@ -53,7 +53,7 @@
         </div>
 
         <!-- Duration -->
-        <div class="row justify-content-start ml-0">
+        <div class="row justify-content-between ml-0">
             {{ form.duration.label_tag }}
 
             <div class="form-group">
@@ -81,7 +81,7 @@
         </div>
 
         <!-- Validation -->
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-5">
             {% if retreat %}
                 <a href={% url 'retreats:details' retreat.id %} class="btn btn-primary mx-3">Annuler</a>
             {% else %}

@@ -18,7 +18,11 @@ class RetreatForm(forms.ModelForm):
             'format': 'DD/MM/YYYY',
         }),
     )
-    duration = forms.NumberInput()
+    duration = forms.IntegerField(
+        label='Durée :',
+        label_suffix='',
+        initial=5,
+    )
 
     class Meta:
         model = Retreat

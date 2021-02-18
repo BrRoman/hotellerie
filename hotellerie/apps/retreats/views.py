@@ -32,8 +32,6 @@ def create(request):
 
         if form.is_valid():
             form.save()
-
-            date = form.cleaned_data['date_du']
             return HttpResponseRedirect(reverse('retreats:list'))
 
     else:

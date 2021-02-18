@@ -9,6 +9,8 @@ from django.urls import reverse
 
 from modules.mails import mail_pere_suiveur, mail_sacristie
 
+from apps.retreats.models import Retreat
+
 from .forms import SejourForm
 from .models import Chambre, Sejour
 
@@ -50,8 +52,20 @@ def calendar(request, *args, **kwargs):
 
         days[date_human] = {}
         days[date_human]['current'] = (date_human == datetime.date.today())
+        days[date_human]['retreats'] = {}
         days[date_human]['sejours'] = {}
 
+        # Retreats:
+        retreats = Retreat.objects.filter(
+            date_from__lte=date)
+        for index, retreat in enumerate(retreats):
+            if retreat.date_to() >= initial_date_human:
+                days[date_human]['retreats'][retreat] = {
+                    'x': 2,
+                    'length': 5,
+                }
+
+        # Séjours:
         sejours = Sejour.objects.filter(
             sejour_du__lte=date).filter(sejour_au__gte=date)
         for index, sejour in enumerate(sejours):

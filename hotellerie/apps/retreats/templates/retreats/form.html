@@ -1,0 +1,97 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'retreats:list' %}>Retraites</a></li>
+
+    {% if retreat %}
+        <li class="breadcrumb-item"><a href={% url 'retreats:details' retreat.id %}>{{ retreat }}</a></li>
+        <li class="breadcrumb-item active">Modifier</li>
+    {% else %}
+        <li class="breadcrumb-item active">Créer</li>
+    {% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+    {% if retreat %}
+        <h2>Modifier une retraite</h2>
+    {% else %}
+        <h2>Créer une nouvelle retraite</h2>
+    {% endif %}
+
+    <form class="col-5" method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- Date from -->
+        <div class="row justify-content-start ml-0">
+            {{ form.date_from.label_tag }}
+
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.date_from.errors %}
+                        {% render_field form.date_from class="form-control is-invalid" %}
+                        {% for error in form.date_from.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.date_from class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.date_from class="form-control" %}
+                {% endif %}
+
+                {% if form.date_from.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.date_from.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Duration -->
+        <div class="row justify-content-start ml-0">
+            {{ form.duration.label_tag }}
+
+            <div class="form-group">
+                {% if form.is_bound %}
+                    {% if form.duration.errors %}
+                        {% render_field form.duration class="form-control is-invalid" %}
+                        {% for error in form.duration.errors %}
+                            <div class="invalid-feedback" style="display: block;">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.duration class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.duration class="form-control" %}
+                {% endif %}
+
+                {% if form.duration.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.duration.help_text }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Validation -->
+        <div class="d-flex justify-content-center">
+            {% if retreat %}
+                <a href={% url 'retreats:details' retreat.id %} class="btn btn-primary mx-3">Annuler</a>
+            {% else %}
+                <a href={% url 'retreats:list' %} class="btn btn-primary mx-3">Annuler</a>
+            {% endif %}
+            <button type="submit" class="btn btn-success mx-3">Valider</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block javascript %}
+    {{ form.media }}
+{% endblock javascript %}

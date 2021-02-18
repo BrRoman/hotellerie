@@ -9,6 +9,7 @@ urlpatterns = [
     path('hotellerie/personnes/', include('apps.personnes.urls')),
     path('hotellerie/sejours/', include('apps.sejours.urls')),
     path('hotellerie/parloirs/', include('apps.parloirs.urls')),
+    path('hotellerie/retreats/', include('apps.retreats.urls')),
     path('hotellerie/listings/', include('apps.listings.urls')),
     path('hotellerie/admin/', admin.site.urls),
 ]

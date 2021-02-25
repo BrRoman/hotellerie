@@ -1,23 +1,23 @@
 {% extends 'main.html' %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item active">Retraites</li>
+    <li class="breadcrumb-item active">Séjours</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
-    <h1 class="mb-3">Retraites</h1>
+    <h1 class="mb-3">Séjours</h1>
 
-    <div class="col-6">
+    <div class="col-9">
         <div class="text-center mb-4">
-            <a href={% url 'retreats:create' %}>Ajouter une retraite</a>
+            <a href={% url 'sejours:create' %}>Ajouter un séjour</a>
         </div>
 
         <table class="table table-sm table-bordered">
-            {% for retreat in retreats %}
+            {% for sejour in sejours %}
                 <tr>
-                    <td>Retraite du {{ retreat.date_from }} au {{ retreat.date_to }}</td>
+                    <td>{{ sejour }}</td>
                     <td class="text-center">
-                        <a href={% url 'retreats:details' retreat.id %}>
+                        <a href={% url 'sejours:details' sejour.id %}>
                             <span class="fas fa-eye" title="Voir les détails"></span>
                         </a>
                     </td>

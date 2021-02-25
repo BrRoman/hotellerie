@@ -1,6 +1,24 @@
 $(document).ready(function () {
     url = new URL(window.location);
 
+    // Calendar: set lines height to bars height:
+    let bars_height;
+
+    bars_height = $('#calendar_retreats .calendar_bars').css('height');
+    $('#calendar_retreats .vertical_line').each(function () {
+        $(this).css('height', bars_height);
+    });
+
+    bars_height = $('#calendar_sejours .calendar_bars').css('height');
+    $('#calendar_sejours .vertical_line').each(function () {
+        $(this).css('height', bars_height);
+    });
+
+    // bars_height = $('#calendar_parloirs .calendar_bars').css('height');
+    // $('#calendar_parloirs .vertical_line').each(function () {
+    //     $(this).css('height', bars_height);
+    // });
+
     // Calendar: click on 'previous week':
     $('#previous_week').click(function () {
         const regex = /([^\/]*)\/(\d{2})\/(\d{2})\/(\d{4})/;

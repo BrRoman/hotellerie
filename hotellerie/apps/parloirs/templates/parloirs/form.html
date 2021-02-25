@@ -4,7 +4,7 @@
 {% load widget_tweaks %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href={% url 'parloirs:home' %}>Parloirs</a></li>
+    <li class="breadcrumb-item"><a href={% url 'parloirs:list' %}>Parloirs</a></li>
 
     {% if parloir %}
         <li class="breadcrumb-item"><a href={% url 'parloirs:details' parloir.id %}>{{ parloir }}</a></li>
@@ -290,7 +290,7 @@
             {% if parloir %}
                 <a href={% url 'parloirs:details' parloir.id %} class="btn btn-primary mx-3">Annuler</a>
             {% else %}
-                <a href={% url 'parloirs:home' %}>Annuler</a>
+                <a href={% url 'parloirs:list' %}>Annuler</a>
             {% endif %}
             <button type="submit" class="btn btn-success mx-3">Valider</button>
         </div>

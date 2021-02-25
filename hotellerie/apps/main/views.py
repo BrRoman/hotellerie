@@ -10,11 +10,6 @@ from apps.retreats.models import Retreat
 from apps.sejours.models import Sejour
 
 
-def home(request):
-    """ Home view of Hôtellerie. """
-    return render(request, 'main/home.html', {})
-
-
 @login_required
 def calendar(request, *args, **kwargs):
     """ Display calendar according to the required date. """

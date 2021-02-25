@@ -22,7 +22,7 @@
          {% block nav_and_breadcrumbs %}
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div id="logo" class="col-3 mr-auto">
-                    <a href={% url 'main:home' %} class="d-flex align-items-center">
+                    <a href={% url 'main:calendar' %} class="d-flex align-items-center">
                         <p class="my-0">Hôtellerie</p>
                     </a>
                 </div>
@@ -63,7 +63,7 @@
             
             <div id="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href={% url 'main:home' %}><span class="fas fa-home"></span></a></li>
+                    <li class="breadcrumb-item"><a href={% url 'main:calendar' %}><span class="fas fa-home"></span></a></li>
                     {% block breadcrumbs %}
                     {% endblock breadcrumbs %}
                 </ol>

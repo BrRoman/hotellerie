@@ -137,18 +137,32 @@ body {
             }
 
             #calendar_retreats {
+                border-bottom: 1px solid grey;
                 position: relative;
+
+                .retreat_bar {
+                    background-color: @orange;
+                }
             }
 
             #calendar_sejours {
+                border-bottom: 1px solid grey;
                 position: relative;
 
                 .pretre {
                     background-color: blue;
+
+                    a {
+                        color: white;
+                    }
                 }
 
                 .groupe {
                     background-color: @full-red;
+
+                    a {
+                        color: white;
+                    }
                 }
 
                 .pretre.groupe {
@@ -158,6 +172,10 @@ body {
 
             #calendar_parloirs {
                 position: relative;
+
+                .parloir_bar {
+                    background-color: yellow;
+                }
             }
 
             .calendar_lines {
@@ -173,7 +191,7 @@ body {
 
                     &.zero,
                     &.bold {
-                        border-right: 3px solid gray;
+                        border-right: 2px solid gray;
                     }
                 }
             }
@@ -188,7 +206,6 @@ body {
                 .bar {
                     background-color: @green;
                     border-radius: 3px;
-                    color: white;
                     font-size: 10pt;
                     height: 20px;
                     overflow: hidden;
@@ -199,7 +216,7 @@ body {
                 }
 
                 a {
-                    color: white;
+                    color: black;
                     font-size: 9pt;
                     vertical-align: middle;
                 }
@@ -246,7 +263,6 @@ body {
         }
 
         // Listings
-
         .background {
             background-color: rgb(255, 232, 211);
         }

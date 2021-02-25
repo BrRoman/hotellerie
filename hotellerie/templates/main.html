@@ -60,16 +60,9 @@
                             </li>
                         </ul>
                     </div>
-                        
-                {% else %}
-                    <form class="form-inline ml-auto">
-                        <div class="d-flex">
-                            <a href={% url 'accounts:login' %} class="btn btn-primary ml-2">Me connecter</a>
-                        </div>
-                    </form>
                 {% endif %}
             </nav>
-            
+
             <div id="breadcrumbs">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href={% url 'main:calendar' %}><span class="fas fa-home"></span></a></li>

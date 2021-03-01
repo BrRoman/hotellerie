@@ -3,7 +3,8 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from apps.parloirs.models import Parloir
 from apps.retreats.models import Retreat
@@ -25,9 +26,15 @@ def calendar(request, *args, **kwargs):
         display_date = datetime.datetime(
             int(kwargs['year']), int(kwargs['month']), int(kwargs['day']))
     else:
-        # Today:
-        display_date = datetime.datetime(
-            date_today.year, date_today.month, date_today.day)
+        # Redirect to today:
+        return redirect(reverse(
+            'main:calendar',
+            kwargs={
+                'day': today['day'],
+                'month': today['month'],
+                'year': today['year'],
+            }
+        ))
 
     # Initial and last dates of the week containing the required date:
     initial_date = display_date - \

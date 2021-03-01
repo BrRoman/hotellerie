@@ -7,6 +7,18 @@
         <!-- Title -->
         <div id="title" class="form-inline mr-auto">
             <h1>Calendrier</h1>
+
+            <!-- Add -->
+            <div class="dropdown ml-3">
+                <div class="dropdown">
+                    <button class="dropdown_button fas fa-plus"></button>
+                    <div class="dropdown_content">
+                        <a href={% url 'sejours:create' %}>Ajouter un séjour</a>
+                        <a href={% url 'parloirs:create' %}>Ajouter un parloir</a>
+                        <a href={% url 'retreats:create' %}>Ajouter une retraite</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Tools -->

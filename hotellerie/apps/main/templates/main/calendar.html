@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="d-flex align-self-stretch align-items-center mx-5">
+    <div class="d-flex align-self-stretch align-items-center ml-5">
         <!-- Title -->
         <div id="title" class="form-inline mr-auto">
             <h1>Calendrier</h1>
@@ -155,7 +155,7 @@ chambre(s): {{ sejour_data.chambres_string }}"
 
 
         <!-- PARLOIRS -->
-        <div id="calendar_parloirs">
+        <div id="calendar_parloirs" class="pt-1">
             <!-- Vertical lines -->
             <div class="calendar_lines d-flex align-items-stretch w-100">
                 {% for line in lines %}

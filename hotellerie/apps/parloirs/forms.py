@@ -50,6 +50,11 @@ class ParloirForm(forms.ModelForm):
     )
     nombre = forms.IntegerField(
         help_text="Nombre de personnes en plus des personnes ci-dessus",
+        widget=forms.NumberInput(
+            attrs={
+                'placeholder': 0,
+            }
+        )
     )
     parloir = forms.ChoiceField(
         label="Parloir :",

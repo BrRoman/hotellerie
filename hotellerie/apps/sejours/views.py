@@ -86,8 +86,12 @@ def update(request, **kwargs):
                 mail_sacristie(sejour)
             if sejour.personne and sejour.mail_pere_suiveur:
                 mail_pere_suiveur(sejour)
-
-            return HttpResponseRedirect(reverse('sejours:details', kwargs={'pk': sejour.id}))
+            date = form.cleaned_data['sejour_du']
+            return HttpResponseRedirect(reverse('main:calendar', kwargs={
+                'day': '{:%d}'.format(date),
+                'month': '{:%m}'.format(date),
+                'year': '{:%Y}'.format(date),
+            }))
 
     else:
         chambres = list(Chambre.objects.filter(
@@ -113,7 +117,7 @@ def delete(request, *args, **kwargs):
     if request.method == 'POST':
         form = SejourForm(request.POST, instance=sejour)
         sejour.delete()
-        return HttpResponseRedirect(reverse('sejours:list'))
+        return HttpResponseRedirect(reverse('main:calendar'))
 
     else:
         form = SejourForm(instance=sejour)

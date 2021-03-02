@@ -286,6 +286,8 @@ def get_pere_suiveur(request):
     """ Returns the pere_suiveur of a personne and checks if this pere_suiveur has an email. """
     personne = Personne.objects.get(pk=request.GET['personne'])
     pere_suiveur = personne.pere_suiveur if personne.pere_suiveur else None
+    if not pere_suiveur:
+        return JsonResponse({})
     pere_suiveur_str = pere_suiveur.__str__()
     has_mail = pere_suiveur.mail_personne.count() > 0
     return JsonResponse({

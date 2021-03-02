@@ -30,8 +30,7 @@ def create(request):
                 'year': '{:%Y}'.format(date),
             }))
 
-    else:
-        form = ParloirForm()
+    form = ParloirForm()
 
     return render(request, 'parloirs/form.html', {'form': form})
 
@@ -64,8 +63,8 @@ def update(request, *args, **kwargs):
                 'month': '{:%m}'.format(date),
                 'year': '{:%Y}'.format(date),
             }))
-    else:
-        form = ParloirForm(instance=parloir)
+
+    form = ParloirForm(instance=parloir)
 
     return render(request, 'parloirs/form.html', {
         'form': form,
@@ -83,8 +82,7 @@ def delete(request, *args, **kwargs):
         parloir.delete()
         return HttpResponseRedirect(reverse('main:calendar'))
 
-    else:
-        form = ParloirForm(instance=parloir)
+    form = ParloirForm(instance=parloir)
 
     return render(request, 'parloirs/delete.html', {
         'form': form,

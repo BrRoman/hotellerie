@@ -39,8 +39,7 @@ def create(request):
                 'year': '{:%Y}'.format(date),
             }))
 
-    else:
-        form = RetreatForm()
+    form = RetreatForm()
 
     return render(request, 'retreats/form.html', {'form': form})
 
@@ -71,10 +70,7 @@ def update(request, **kwargs):
                 'year': '{:%Y}'.format(date),
             }))
 
-    else:
-        form = RetreatForm(
-            instance=retreat,
-        )
+    form = RetreatForm(instance=retreat)
 
     return render(request, 'retreats/form.html', {
         'form': form,

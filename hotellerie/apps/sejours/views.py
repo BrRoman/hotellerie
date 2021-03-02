@@ -46,8 +46,7 @@ def create(request):
                 'year': '{:%Y}'.format(date),
             }))
 
-    else:
-        form = SejourForm()
+    form = SejourForm()
 
     return render(request, 'sejours/form.html', {'form': form})
 
@@ -119,8 +118,7 @@ def delete(request, *args, **kwargs):
         sejour.delete()
         return HttpResponseRedirect(reverse('main:calendar'))
 
-    else:
-        form = SejourForm(instance=sejour)
+    form = SejourForm(instance=sejour)
 
     return render(request, 'sejours/delete.html', {
         'form': form,

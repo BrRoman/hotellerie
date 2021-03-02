@@ -1,4 +1,4 @@
-""" apps/personnes.models.py """
+""" apps/personnes/models.py """
 
 import re
 

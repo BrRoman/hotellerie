@@ -1,5 +1,34 @@
-$(document).ready(function () {
+$(function () {
     url = new URL(window.location);
+
+    // Calendar: set lines height to bars height:
+    // SetTimeout(200) is required to be sure the js is fired after the css.
+    // TODO: setTimeout(200) is a very dirty solution…
+    let bars_height;
+    setTimeout(function(){
+        $('#calendar_retreats .calendar_bars').ready(function(){
+        bars_height = $('#calendar_retreats .calendar_bars').css('height');
+        $('#calendar_retreats .vertical_line').each(function () {
+            $(this).css('height', bars_height);
+        });
+        });
+    }, 200);
+    setTimeout(function(){
+        $('#calendar_sejours .calendar_bars').ready(function(){
+        bars_height = $('#calendar_sejours .calendar_bars').css('height');
+        $('#calendar_sejours .vertical_line').each(function () {
+            $(this).css('height', bars_height);
+        });
+        });
+    }, 200);
+    setTimeout(function(){
+        $('#calendar_parloirs .calendar_bars').ready(function(){
+        bars_height = $('#calendar_parloirs .calendar_bars').css('height');
+        $('#calendar_parloirs .vertical_line').each(function () {
+            $(this).css('height', bars_height);
+        });
+        });
+    }, 200);
 
     // Calendar: click on 'previous week':
     $('#previous_week').click(function () {

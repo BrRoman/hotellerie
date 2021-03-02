@@ -1,0 +1,192 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="d-flex align-self-stretch align-items-center ml-5">
+        <!-- Title -->
+        <div id="title" class="form-inline mr-auto">
+            <h1>Calendrier</h1>
+
+            <!-- Add -->
+            <div class="dropdown ml-3">
+                <div class="dropdown">
+                    <button class="dropdown_button fas fa-plus"></button>
+                    <div class="dropdown_content">
+                        <a href={% url 'sejours:create' %}>Ajouter un séjour</a>
+                        <a href={% url 'parloirs:create' %}>Ajouter un parloir</a>
+                        <a href={% url 'retreats:create' %}>Ajouter une retraite</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tools -->
+        <div id="tools" class="d-flex align-items-center ml-auto">
+            <span id="previous_week" class="fas fa-angle-double-left" title="Semaine précédente"></span>
+
+            <div class="input-group" id="datepicker">
+                <span class="fas fa-calendar-alt" data-target="#datepicker" data-toggle="datetimepicker" title="Calendrier"></span>
+            </div>
+
+            <span id="next_week" class="fas fa-angle-double-right" title="Semaine suivante"></span>
+        </div>
+    </div>
+
+
+    <!-- CALENDAR -->
+    <div id="calendar" class="d-flex flex-column">
+        <!-- DATES -->
+        <div id="calendar_dates" class="d-flex">
+            {% for day, day_data in days.items %}
+                <div class="date d-flex flex-column align-items-start">
+                    <!-- Weekday -->
+                    <div class="{% if day_data.current %}current_weekday{% else %}weekday{% endif %}">{% cycle 'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' %}</div>
+
+                    <!-- Date-->
+                    <div class="{% if day_data.current %}current_date{% else %}date{% endif %}">{{ day }}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <!-- RETREATS -->
+        <div id="calendar_retreats" class="pb-1">
+            <!-- Vertical lines -->
+            <div class="calendar_lines d-flex align-items-stretch w-100">
+                {% for line in lines %}
+                    {% if line == 0 %}
+                        <div class="vertical_line zero w-100 flex-grow"></div>
+                    {% elif line in bold_lines %}
+                        <div class="vertical_line bold w-100"></div>
+                    {% else %}
+                        <div class="vertical_line w-100"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Bars -->
+            <div class="calendar_bars w-100 ">
+                {% for day, day_data in days.items %}
+                    {% for retreat, retreat_data in day_data.retreats.items %}
+                        {% if retreat_data.length > 0 %}
+                            <div
+                                class="bar px-1 mt-1 mx-1
+                                    {% if retreat_data.arrow_left %}
+                                        arrow-left
+                                    {% endif %}
+                                    {% if retreat_data.arrow_right %}
+                                        arrow-right
+                                    {% endif %}
+                                    retreat_bar"
+                                style="grid-column: {{ retreat_data.x }} / span {{ retreat_data.length }};"
+                                title="{{ retreat }}"
+                            >
+                                <a href={% url 'retreats:details' retreat.id %} class="retreat_text">
+                                    {{ retreat }}
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <!-- SEJOURS -->
+        <div id="calendar_sejours" class="py-1">
+            <!-- Vertical lines -->
+            <div class="calendar_lines d-flex align-items-stretch w-100">
+                {% for line in lines %}
+                    {% if line == 0 %}
+                        <div class="vertical_line zero w-100 flex-grow"></div>
+                    {% elif line in bold_lines %}
+                        <div class="vertical_line bold w-100"></div>
+                    {% else %}
+                        <div class="vertical_line w-100"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Bars -->
+            <div class="calendar_bars w-100">
+                {% for day, day_data in days.items %}
+                    {% for sejour, sejour_data in day_data.sejours.items %}
+                        {% if sejour_data.length > 0 %}
+                            <div
+                                class="bar px-1 mt-1 mx-1
+                                    {% if sejour_data.arrow_left %}
+                                        arrow-left
+                                    {% endif %}
+                                    {% if sejour_data.arrow_right %}
+                                        arrow-right
+                                    {% endif %}
+                                    {% if sejour_data.pretre %}
+                                        pretre
+                                    {% endif %}
+                                    {% if sejour_data.chambres_nombre > 1 %}
+                                        groupe
+                                    {% endif %}"
+                                style="grid-column: {{ sejour_data.x }} / span {{ sejour_data.length }};"
+                                title="{{ sejour.personne }}
+du {{ sejour.sejour_du }} {{ sejour.repas_du }}
+au {{ sejour.sejour_au }} {{ sejour.repas_au }}
+chambre(s): {{ sejour_data.chambres_string }}"
+                            >
+                                <a href={% url 'sejours:details' sejour.id %}>
+                                    {% if sejour_data.warning_pere_suiveur or sejour_data.warning_sacristie %}
+                                        [
+                                        <span class="fas fa-exclamation-triangle"></span>
+                                        {% if sejour_data.warning_pere_suiveur %}<span title="Ce séjour a été modifié, mais le Père suiveur n'en a pas été informé par mail.">P</span>{% endif %}
+                                        {% if sejour_data.warning_sacristie %}<span title="Ce séjour a été modifié, mais la sacristie n'en a pas été informée par mail.">S</span>{% endif %}
+                                        ]
+                                    {% endif %}
+                                    {{ sejour.personne }}
+                                    {% if sejour_data.chambres > 1 %}
+                                        [{{ sejour_data.chambres }}]
+                                    {% endif %}
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <!-- PARLOIRS -->
+        <div id="calendar_parloirs" class="pt-1">
+            <!-- Vertical lines -->
+            <div class="calendar_lines d-flex align-items-stretch w-100">
+                {% for line in lines %}
+                    {% if line == 0 %}
+                        <div class="vertical_line zero w-100 flex-grow"></div>
+                    {% elif line in bold_lines %}
+                        <div class="vertical_line bold w-100"></div>
+                    {% else %}
+                        <div class="vertical_line w-100"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Bars -->
+            <div class="calendar_bars w-100 ">
+                {% for day, day_data in days.items %}
+                    {% for parloir, parloir_data in day_data.parloirs.items %}
+                        {% if parloir_data.length > 0 %}
+                            <div
+                                class="bar px-1 mt-1 mx-1 parloir_bar"
+                                style="grid-column: {{ parloir_data.x }} / span {{ parloir_data.length }};"
+                                title="{{ parloir }}"
+                            >
+                                <a href={% url 'parloirs:details' parloir.id %} class="parloir_text">
+                                    {{ parloir }}
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

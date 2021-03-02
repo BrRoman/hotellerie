@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href={% url 'parloirs:home' %}>Parloirs</a></li>
+    <li class="breadcrumb-item"><a href={% url 'parloirs:list' %}>Parloirs</a></li>
     <li class="breadcrumb-item"><a href={% url 'parloirs:details' parloir.id %}>{{ parloir }}</a></li>
     <li class="breadcrumb-item active">Supprimer</li>
 {% endblock breadcrumbs %}

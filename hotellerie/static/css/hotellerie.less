@@ -33,7 +33,7 @@
 
 
 body {
-    background-color: #ffffda;
+    background-color: whitesmoke;
 
     h1 {
         color: @green;
@@ -79,6 +79,50 @@ body {
 
     // Contents:
     #content {
+        .dropdown {
+            .dropdown_button {
+                background-color: green;
+                color: white;
+                padding: 5px;
+                font-size: 10px;
+                border: 1px solid @grey_light;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown_content {
+                display: none;
+                position: absolute;
+                background-color: whitesmoke;
+                min-width: 200px;
+                box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                z-index: 3;
+            }
+
+            .dropdown_content a {
+                color: black;
+                padding: 8px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown_content a:hover {
+                background-color: @grey_light;
+            }
+
+            .dropdown:hover .dropdown_content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: green;
+            }
+        }
 
         // Tools:
         #tools {
@@ -98,7 +142,6 @@ body {
             .fas {
                 color: @green;
                 cursor: pointer;
-                font-size: 1.5em;
             }
 
             a {
@@ -106,7 +149,8 @@ body {
             }
 
             .fas {
-                font-size: 1.5em;
+                font-size: 1.3em;
+                margin-top: 20px;
             }
         }
 
@@ -115,7 +159,61 @@ body {
             text-align: center;
             width: 100%;
 
-            #calendar-dates {
+            .calendar_lines {
+                position: absolute;
+                z-index: 1;
+
+                .vertical_line {
+                    border-right: 1px solid @grey_light;
+
+                    &.zero {
+                        border-left: 2px solid gray;
+                    }
+
+                    &.bold {
+                        border-right: 2px solid gray;
+                    }
+                }
+            }
+
+            .calendar_bars {
+                display: grid;
+                grid-template-columns: repeat(21, 100% / 21);
+                grid-auto-flow: row dense;
+                position: relative;
+                z-index: 2;
+
+                .bar {
+                    background-color: @green;
+                    border-radius: 3px;
+                    color: white;
+                    font-size: 10pt;
+                    height: 20px;
+                    overflow: hidden;
+                    text-align: left;
+                    text-overflow: ellipsis;
+                    vertical-align: top;
+                    white-space: nowrap;
+                }
+
+                a {
+                    color: white;
+                    font-size: 9pt;
+                    vertical-align: middle;
+                }
+
+                .arrow-left {
+                    border-top-left-radius: 12px;
+                    border-bottom-left-radius: 12px;
+                }
+
+                .arrow-right {
+                    border-top-right-radius: 12px;
+                    border-bottom-right-radius: 12px;
+                }
+            }
+
+            #calendar_dates {
                 .date {
                     width: 100% / 7;
 
@@ -123,114 +221,65 @@ body {
                     .date,
                     .current_weekday,
                     .current_date {
-                        background-color: @grey;
-                        color: @green;
+                        background-color: gray;
+                        color: @grey_light;
                         font-weight: bold;
                         width: 100%;
                     }
 
                     .current_weekday,
                     .current_date {
-                        color: @full-red;
+                        color: rgb(37, 204, 255);
+                    }
+                }
+            }
+
+            #calendar_retreats {
+                border-bottom: 1px solid grey;
+                position: relative;
+
+                .retreat_bar {
+                    background-color: @orange;
+
+                    a {
+                        color: black;
                     }
                 }
             }
 
             #calendar_sejours {
+                border-bottom: 1px solid grey;
                 position: relative;
 
-                #calendar_lines {
-                    position: absolute;
-                    z-index: 1;
-
-                    .vertical_line {
-                        border-right: 1px solid @grey_light;
-                        height: calc(100vh - 250px);
-
-                        &.zero {
-                            border-right: 1px solid @grey_light;
-                            border-left: 3px solid @grey_light;
-                        }
-
-                        &.bold {
-                            border-right: 3px solid @grey_light;
-                        }
-                    }
-                }
-
-                #calendar_bars {
-                    display: grid;
-                    grid-template-columns: repeat(21, 100% / 21);
-                    grid-auto-flow: row dense;
-                    position: absolute;
-                    z-index: 2;
-
-                    .bar {
-                        background-color: @green;
-                        border-radius: 3px;
-                        color: white;
-                        font-size: 10pt;
-                        height: 20px;
-                        overflow: hidden;
-                        text-align: left;
-                        text-overflow: ellipsis;
-                        vertical-align: top;
-                        white-space: nowrap;
-                    }
+                .pretre {
+                    background-color: blue;
 
                     a {
                         color: white;
-                        font-size: 9pt;
-                        vertical-align: middle;
                     }
+                }
 
-                    .arrow-left {
-                        border-top-left-radius: 12px;
-                        border-bottom-left-radius: 12px;
-                    }
+                .groupe {
+                    background-color: @full-red;
 
-                    .arrow-right {
-                        border-top-right-radius: 12px;
-                        border-bottom-right-radius: 12px;
+                    a {
+                        color: white;
                     }
+                }
 
-                    .pretre {
-                        background-color: blue;
-                    }
-
-                    .groupe {
-                        background-color: @full-red;
-                    }
-
-                    .pretre.groupe {
-                        background-color: rgb(189, 0, 189);
-                    }
+                .pretre.groupe {
+                    background-color: rgb(190, 0, 190);
                 }
             }
 
             #calendar_parloirs {
-                #calendar_bars {
-                    display: grid;
-                    grid-template-columns: repeat(7, 100% / 7);
-                    grid-auto-flow: row dense;
+                position: relative;
 
-                    .parloir {
-                        border-radius: 3px;
-                        font-size: 10pt;
-                        height: 20px;
-                        overflow: hidden;
-                        text-align: left;
-                        text-overflow: ellipsis;
-                        vertical-align: top;
-                        white-space: nowrap;
-                        background-color: yellow;
+                .parloir_bar {
+                    background-color: yellow;
+
+                    a {
                         color: black;
-
-                        a {
-                            font-size: 9pt;
-                            vertical-align: middle;
-                            color: black;
-                        }
                     }
                 }
             }
@@ -266,7 +315,6 @@ body {
         }
 
         // Listings
-
         .background {
             background-color: rgb(255, 232, 211);
         }

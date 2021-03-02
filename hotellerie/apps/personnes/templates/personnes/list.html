@@ -9,8 +9,9 @@
         <!-- Title -->
         <div id="title" class="form-inline">
             <h1>Personnes</h1>
-            <a href={% url 'personnes:create' %}><p class="mr-auto" title="Ajouter une personne"><span class="fas fa-plus-circle"></p></a>
         </div>
+
+        <div class="text-center mb-4"><a href={% url 'personnes:create' %}>Ajouter une personne</a></div>
 
         <div id="tools" class="d-flex">
             <!-- Letters -->
@@ -27,7 +28,7 @@
 
         <div>
             <!-- Filter -->
-            <form action="{% url 'personnes:list' current %}" method="post">
+            <form action="{% url 'personnes:list' current %}" method="post" class="mb-2">
                 {% csrf_token %}
                 <input
                     id="filter"

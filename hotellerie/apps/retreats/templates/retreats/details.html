@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href={% url 'retreats:list' %}>Retraites</a></li>
+    <li class="breadcrumb-item active">{{ retreat }}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <h2 class="mb-3">
+        Du {{ retreat.date_from }} au {{ retreat.date_to }}
+    </h2>
+
+    <div class="row">
+        <a href={% url 'retreats:update' retreat.id %} class="mx-1">Modifier</a>
+        <a href={% url 'retreats:delete' retreat.id %} class="mx-1">Supprimer</a>
+        <a href={% url 'main:calendar' %} class="mx-1">Retour au calendrier</a>
+    </div>
+{% endblock %}

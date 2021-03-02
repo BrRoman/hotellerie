@@ -12,7 +12,7 @@ class Retreat(models.Model):
 
     def date_to(self):
         """ Returns the date_to of a retreat. """
-        return self.date_from + datetime.timedelta(days=self.duration)
+        return self.date_from + datetime.timedelta(days=self.duration - 1)
 
     def date_to_string(self):
         """ Returns the date_to as a string of a retreat. """

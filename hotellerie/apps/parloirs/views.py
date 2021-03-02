@@ -21,6 +21,7 @@ def create(request):
     """ Create a Parloir. """
     if request.method == 'POST':
         form = ParloirForm(request.POST)
+
         if form.is_valid():
             form.save()
             date = form.cleaned_data['date']

@@ -290,7 +290,7 @@
             {% if parloir %}
                 <a href={% url 'parloirs:details' parloir.id %} class="btn btn-primary mx-3">Annuler</a>
             {% else %}
-                <a href={% url 'parloirs:list' %}>Annuler</a>
+                <a href={% url 'parloirs:list' %} class="btn btn-primary mx-3">Annuler</a>
             {% endif %}
             <button type="submit" class="btn btn-success mx-3">Valider</button>
         </div>

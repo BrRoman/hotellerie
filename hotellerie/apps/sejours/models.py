@@ -58,14 +58,21 @@ class Sejour(models.Model):
             self.repas_au
         )
 
-    def chambres_string(self):
-        """ Returns the rooms of the Sejour as a string. """
+    def chambres_list(self):
+        """ Returns the rooms of the Sejour as a list. """
         chambres_queryset = Chambre.objects.filter(
             sejour=self).values('chambre')
-        chambres_string = ''
+        chambres_list = []
         for chambre in chambres_queryset:
+            chambres_list.append(chambre['chambre'])
+        return chambres_list
+
+    def chambres_string(self):
+        """ Returns the rooms of the Sejour as a string. """
+        chambres_string = ''
+        for chambre in self.chambres_list():
             chambres_string += (', ' if chambres_string !=
-                                '' else '') + chambre['chambre']
+                                '' else '') + chambre
         return chambres_string
 
 

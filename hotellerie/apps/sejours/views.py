@@ -55,13 +55,15 @@ def create(request):
 def details(request, *args, **kwargs):
     """ Details of a Sejour. """
     sejour = get_object_or_404(Sejour, pk=kwargs['pk'])
-    return render(request, 'sejours/details.html', {
-        'sejour': sejour,
-        'chambres': ', '.join(list(
-            Chambre.objects.filter(sejour=sejour.id)
-            .values_list('chambre', flat=True))),
-        # 'chambres': ', '.join(list(Chambre.objects.filter(sejour=sejour.id).values_list('chambre', flat=True))),
-    })
+    chambres = sejour.chambres_string()
+    return render(
+        request,
+        'sejours/details.html',
+        {
+            'sejour': sejour,
+            'chambres': chambres,
+        }
+    )
 
 
 @login_required
@@ -93,8 +95,7 @@ def update(request, **kwargs):
             }))
 
     else:
-        chambres = list(Chambre.objects.filter(
-            sejour=sejour.id).values_list('chambre', flat=True))
+        chambres = sejour.chambres_list()
         form = SejourForm(
             instance=sejour,
             initial={

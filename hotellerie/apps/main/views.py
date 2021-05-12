@@ -59,6 +59,7 @@ def calendar(request, *args, **kwargs):
         # RETREATS:
         retreats = Retreat.objects.filter(
             date_from__lte=date)
+        length_to_subtract_du = 2
         for index, retreat in enumerate(retreats):
             retreat_au = retreat.date_to()
             if retreat_au > initial_date_human:
@@ -73,7 +74,7 @@ def calendar(request, *args, **kwargs):
                     else (7 - i) * 3
 
                 if retreat.date_from == date_human:
-                    length = (((retreat_au - date_human).days + 1) * 3)
+                    length = (((retreat_au - date_human).days) * 3)
                     coord_x = (i * 3) + 1 + length_to_subtract_du
                 elif (retreat.date_from < date_human) \
                         and (retreat_au > (date_human + datetime.timedelta(days=7))) \
@@ -82,7 +83,7 @@ def calendar(request, *args, **kwargs):
                     coord_x = 1
                 elif (retreat_au == date_human) \
                         and (retreat.date_from < initial_date_human):
-                    length = (((date_human - initial_date_human).days + 1) * 3)
+                    length = (((date_human - initial_date_human).days) * 3) + 2
                     coord_x = 1
                 else:
                     length = 0

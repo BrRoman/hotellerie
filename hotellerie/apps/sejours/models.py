@@ -34,6 +34,10 @@ class Sejour(models.Model):
     servant = models.BooleanField(
         default=False,
     )
+    oratoire = models.CharField(
+        max_length=50,
+        null=True,
+    )
     commentaire_cuisine = models.TextField()
     commentaire_sacristie = models.TextField()
     mail_sacristie = models.BooleanField(

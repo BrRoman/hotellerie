@@ -131,14 +131,16 @@
                                 title="{{ sejour.personne }}
 du {{ sejour.sejour_du }} {{ sejour.repas_du }}
 au {{ sejour.sejour_au }} {{ sejour.repas_au }}
-chambre(s): {{ sejour_data.chambres_string }}"
+chambre(s): {{ sejour_data.chambres_string }}
+{% if sejour.dit_messe %}oratoire: {{ sejour.oratoire|default:'Non défini' }} {{ sejour.tour_messe }}{% endif %}"
                             >
                                 <a href={% url 'sejours:details' sejour.id %}>
-                                    {% if sejour_data.warning_pere_suiveur or sejour_data.warning_sacristie %}
+                                    {% if sejour_data.warning_pere_suiveur or sejour_data.warning_sacristie or sejour_data.warning_oratoire %}
                                         [
                                         <span class="fas fa-exclamation-triangle"></span>
                                         {% if sejour_data.warning_pere_suiveur %}<span title="Ce séjour a été modifié, mais le Père suiveur n'en a pas été informé par mail.">P</span>{% endif %}
                                         {% if sejour_data.warning_sacristie %}<span title="Ce séjour a été modifié, mais la sacristie n'en a pas été informée par mail.">S</span>{% endif %}
+                                        {% if sejour_data.warning_oratoire %}<span title="Le séjour de ce prêtre a été modifié, mais l'oratoire n'est toujours pas défini.">O</span>{% endif %}
                                         ]
                                     {% endif %}
                                     {{ sejour.personne }}

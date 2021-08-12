@@ -16,14 +16,17 @@ def mail_sacristie(sejour):
     body += 'Il va y avoir un prêtre-hôte :\n'
     body += '{}\n'.format(priest)
     body += 'Du : {}\n'.format(date_to_french_string(sejour.sejour_du))
-    body += 'Au : {}\n\n'.format(date_to_french_string(sejour.sejour_au))
+    body += 'Au : {}\n'.format(date_to_french_string(sejour.sejour_au))
+    body += 'Chambre : {}\n\n'.format(sejour.chambres_string())
     body += 'Messe le lendemain de son arrivée\n' \
         if sejour.messe_lendemain \
         else 'IL CÉLÉBRERA LA MESSE LE JOUR DE SON ARRIVÉE\n\n'
     body += 'Forme : {}\n'.format(priest.messe_forme)
     body += 'Langue : {}\n'.format(priest.messe_langue)
     body += 'Tour de Messe : {}\n'.format(sejour.tour_messe)
-    body += 'Attribuer un servant svp.\n\n' if sejour.servant else ''
+    body += 'Attribuer un servant svp.\n' if sejour.servant else ''
+    body += 'Oratoire : {}.\n\n'.format(
+        sejour.oratoire if sejour.oratoire else 'NON DÉFINI')
     body += 'Commentaire : {}\n\n'.format(
         sejour.commentaire_sacristie) \
         if sejour.commentaire_sacristie else ''

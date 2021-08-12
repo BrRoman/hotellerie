@@ -217,6 +217,7 @@ function priests_block_appearance(){
         $('#id_messe_lendemain').prop('checked', false);
         $('#id_tour_messe').val('---------');
         $('#id_servant').prop('checked', false);
+        $('#id_oratoire').val('---------');
         $('#id_mail_sacristie').prop('checked', false);
         $('#pretres').find('label').css('color', 'rgb(150, 150, 150)');
         $('#id_dit_messe').parent().find('label').css('color', green);
@@ -224,6 +225,7 @@ function priests_block_appearance(){
     $('#id_messe_lendemain').prop('disabled', !$('#id_dit_messe').prop('checked'));
     $('#id_tour_messe').prop('disabled', !$('#id_dit_messe').prop('checked'));
     $('#id_servant').prop('disabled', !$('#id_dit_messe').prop('checked'));
+    $('#id_oratoire').prop('disabled', !$('#id_dit_messe').prop('checked'));
     $('#pretres').find('label').css('color', $('#id_dit_messe').prop('checked') ? green : 'rgb(150, 150, 150)');
     $('#id_dit_messe').parent().find('label').css('color', green);
     $('#id_mail_sacristie').prop('disabled', !$('#id_dit_messe').prop('checked'));

@@ -126,6 +126,18 @@ class SejourForm(forms.ModelForm):
         label_suffix='',
         required=False,
     )
+    oratoire = forms.ChoiceField(
+        label='Oratoire :',
+        required=False,
+        choices=[
+            ('', '---------'),
+            ('Reliques', 'Reliques'),
+            ('Salette', 'Salette'),
+            ('Saint-Jérôme', 'Saint-Jérôme'),
+            ('Saint-Thomas', 'Saint-Thomas'),
+            ('Saint-Joseph', 'Saint-Joseph'),
+        ],
+    )
     mail_sacristie = forms.BooleanField(
         label='Envoyer un mail à la sacristie',
         label_suffix='',

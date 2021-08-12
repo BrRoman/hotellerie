@@ -356,6 +356,16 @@ def hotellerie(request):
         coord_y += 13
         line = 'Chambre(s) : {}'.format(sejour.chambres_string())
         pdf.drawString(60, coord_y, line)
+        if sejour.dit_messe:
+            coord_y += 13
+            if sejour.oratoire:
+                line = 'Oratoire : {} {}'.format(
+                    sejour.oratoire,
+                    sejour.tour_messe
+                )
+            else:
+                line = 'Oratoire non défini.'
+            pdf.drawString(60, coord_y, line)
 
     pdf.showPage()
     pdf.save()

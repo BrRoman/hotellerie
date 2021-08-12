@@ -132,7 +132,7 @@
 du {{ sejour.sejour_du }} {{ sejour.repas_du }}
 au {{ sejour.sejour_au }} {{ sejour.repas_au }}
 chambre(s): {{ sejour_data.chambres_string }}
-{% if sejour.dit_messe %}oratoire: {{ sejour.oratoire|default:'Non défini' }}{% endif %}"
+{% if sejour.dit_messe %}oratoire: {{ sejour.oratoire|default:'Non défini' }} {{ sejour.tour_messe }}{% endif %}"
                             >
                                 <a href={% url 'sejours:details' sejour.id %}>
                                     {% if sejour_data.warning_pere_suiveur or sejour_data.warning_sacristie or sejour_data.warning_oratoire %}

@@ -156,12 +156,14 @@ def calendar(request, *args, **kwargs):
             else:
                 length = length - length_to_subtract_du - length_to_subtract_au
 
-            # Warnings about mails:
-            warning_pere_suiveur = warning_sacristie = False
+            # Warnings about mails and oratory:
+            warning_pere_suiveur = warning_sacristie = warning_oratoire = False
             if (sejour.personne.pere_suiveur is not None) and (not sejour.mail_pere_suiveur):
                 warning_pere_suiveur = True
             if pretre and not sejour.mail_sacristie:
                 warning_sacristie = True
+            if pretre and not (sejour.oratoire or sejour.oratoire != ''):
+                warning_oratoire = True
 
             days[date_human]['sejours'][sejour] = {
                 'x': coord_x,
@@ -173,6 +175,7 @@ def calendar(request, *args, **kwargs):
                 'chambres_string': chambres_string,
                 'warning_pere_suiveur': warning_pere_suiveur,
                 'warning_sacristie': warning_sacristie,
+                'warning_oratoire': warning_oratoire,
             }
 
         # PARLOIRS:

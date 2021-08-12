@@ -59,6 +59,11 @@
             </tr>
 
             <tr>
+                <td>Oratoire :</td>
+                <td>{{ sejour.oratoire|default:'Non défini' }}</td>
+            </tr>
+
+            <tr>
                 <td>Commentaire cuisine :</td>
                 <td>{{ sejour.commentaire_cuisine|default_if_none:'' }}</td>
             </tr>

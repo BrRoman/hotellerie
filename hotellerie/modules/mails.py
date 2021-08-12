@@ -23,7 +23,9 @@ def mail_sacristie(sejour):
     body += 'Forme : {}\n'.format(priest.messe_forme)
     body += 'Langue : {}\n'.format(priest.messe_langue)
     body += 'Tour de Messe : {}\n'.format(sejour.tour_messe)
-    body += 'Attribuer un servant svp.\n\n' if sejour.servant else ''
+    body += 'Attribuer un servant svp.\n' if sejour.servant else ''
+    body += 'Oratoire : {}.\n\n'.format(
+        sejour.oratoire if sejour.oratoire else 'NON DÉFINI')
     body += 'Commentaire : {}\n\n'.format(
         sejour.commentaire_sacristie) \
         if sejour.commentaire_sacristie else ''

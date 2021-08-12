@@ -308,6 +308,32 @@
 
                 {{ form.servant.label_tag }}
             </div>
+
+            <!-- Oratoire -->
+            <div class="d-flex my-2">
+                {{ form.oratoire.label_tag }}
+
+                {% if form.is_bound %}
+                    {% if form.oratoire.errors %}
+                        {% render_field form.oratoire class="custom-select form-control is-invalid" %}
+                        {% for error in form.oratoire.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% render_field form.oratoire class="custom-select form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.oratoire class="custom-select form-control" %}
+                {% endif %}
+
+                {% if form.oratoire.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.oratoire.help_text }}
+                    </small>
+                {% endif %}
+            </div>
         </div>
 
 

@@ -366,6 +366,10 @@ def hotellerie(request):
             else:
                 line = 'Oratoire non défini.'
             pdf.drawString(60, coord_y, line)
+        if coord_y > 800:
+            pdf.showPage()
+            pdf.setFont("Helvetica", 10)
+            coord_y = 0
 
     pdf.showPage()
     pdf.save()

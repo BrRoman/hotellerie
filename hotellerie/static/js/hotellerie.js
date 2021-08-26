@@ -214,7 +214,7 @@ function priests_block_appearance(){
         $('#id_mail_sacristie').prop('checked', true);
     }
     else{
-        $('#id_messe_lendemain').prop('checked', false);
+        $('#id_messe_premier_jour').prop('checked', false);
         $('#id_tour_messe').val('---------');
         $('#id_servant').prop('checked', false);
         $('#id_oratoire').val('---------');
@@ -222,7 +222,7 @@ function priests_block_appearance(){
         $('#pretres').find('label').css('color', 'rgb(150, 150, 150)');
         $('#id_dit_messe').parent().find('label').css('color', green);
     }
-    $('#id_messe_lendemain').prop('disabled', !$('#id_dit_messe').prop('checked'));
+    $('#id_messe_premier_jour').prop('disabled', !$('#id_dit_messe').prop('checked'));
     $('#id_tour_messe').prop('disabled', !$('#id_dit_messe').prop('checked'));
     $('#id_servant').prop('disabled', !$('#id_dit_messe').prop('checked'));
     $('#id_oratoire').prop('disabled', !$('#id_dit_messe').prop('checked'));

@@ -106,8 +106,13 @@ class SejourForm(forms.ModelForm):
         label_suffix='',
         required=False,
     )
-    messe_lendemain = forms.BooleanField(
-        label='Aura dit la Messe à son arrivée',
+    # messe_lendemain = forms.BooleanField(
+    #     label='Aura dit la Messe à son arrivée',
+    #     label_suffix='',
+    #     required=False,
+    # )
+    messe_premier_jour = forms.BooleanField(
+        label='Dira la Messe le premier jour',
         label_suffix='',
         required=False,
     )

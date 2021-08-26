@@ -43,9 +43,14 @@
                 <td>{{ sejour.pretre|yesno:'Oui,Non' }}</td>
             </tr>
 
-            <tr>
+            {% comment %} <tr>
                 <td>Messe lendemain :</td>
                 <td>{{ sejour.messe_lendemain|yesno:'Oui,Non' }}</td>
+            </tr> {% endcomment %}
+
+            <tr>
+                <td>Messe le premier jour :</td>
+                <td>{{ sejour.messe_premier_jour|yesno:'Oui,Non' }}</td>
             </tr>
 
             <tr>

@@ -25,7 +25,10 @@ class Sejour(models.Model):
     dit_messe = models.BooleanField(
         default=False,
     )
-    messe_lendemain = models.BooleanField(
+    # messe_lendemain = models.BooleanField(
+    #     default=False,
+    # )
+    messe_premier_jour = models.BooleanField(
         default=False,
     )
     tour_messe = models.CharField(

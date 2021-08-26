@@ -18,9 +18,9 @@ def mail_sacristie(sejour):
     body += 'Du : {}\n'.format(date_to_french_string(sejour.sejour_du))
     body += 'Au : {}\n'.format(date_to_french_string(sejour.sejour_au))
     body += 'Chambre : {}\n\n'.format(sejour.chambres_string())
-    body += 'Messe le lendemain de son arrivée\n' \
-        if sejour.messe_lendemain \
-        else 'IL CÉLÉBRERA LA MESSE LE JOUR DE SON ARRIVÉE\n\n'
+    body += 'IL CÉLÉBRERA LA MESSE LE JOUR DE SON ARRIVÉE\n\n' \
+        if sejour.messe_premier_jour \
+        else 'Messe le lendemain de son arrivée\n\n'
     body += 'Forme : {}\n'.format(priest.messe_forme)
     body += 'Langue : {}\n'.format(priest.messe_langue)
     body += 'Tour de Messe : {}\n'.format(sejour.tour_messe)

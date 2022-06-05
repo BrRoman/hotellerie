@@ -39,7 +39,8 @@ def mail_sacristie(sejour):
         PREFERENCES['mail_hotelier'],
         [
             PREFERENCES['mail_sacristain'],
-            PREFERENCES['mail_services']
+            PREFERENCES['mail_reliques'],
+            PREFERENCES['mail_services'],
         ],
         fail_silently=False,
     )

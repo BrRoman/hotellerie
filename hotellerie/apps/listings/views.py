@@ -279,7 +279,7 @@ def cuisine(request):
     with open(os.path.join(settings.BASE_DIR, 'static/hospites.csv'), 'w', newline='') as csvfile:
         content = csv.writer(
             csvfile,
-            delimiter='|',
+            delimiter=',',
             quoting=csv.QUOTE_MINIMAL,
         )
         content.writerow(

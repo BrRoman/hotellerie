@@ -1,13 +1,16 @@
 """ apps/listings/views.py """
 
+import csv
 from datetime import date, timedelta
 import io
+import os
 import re
 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 
 from django.http import FileResponse
+from django.conf import settings
 from django.shortcuts import render
 
 from modules.dates import date_to_french_string
@@ -271,6 +274,49 @@ def cuisine(request):
                 'total_parloirs_soir': total_parloirs_soir,
             },
         }
+
+    # Export in csv file:
+    with open(os.path.join(settings.BASE_DIR, 'static/hospites.csv'), 'w', newline='') as csvfile:
+        content = csv.writer(
+            csvfile,
+            delimiter='|',
+            quoting=csv.QUOTE_MINIMAL,
+        )
+        content.writerow(
+            [
+                'Jour',
+                'TH petit-déj.',
+                'TH midi',
+                'TH soir',
+                'TM petit-déj.',
+                'TM midi',
+                'TM soir',
+                '',
+                '',
+                '',
+                'TP petit-déj.',
+                'TP midi',
+                'TP soir'
+            ]
+        )
+        for index, day in enumerate(DAYS):
+            content.writerow(
+                [
+                    DAYS[day]['day_string'],
+                    '',
+                    DAYS[day]['midi']['total_table_hotes_midi'],
+                    DAYS[day]['soir']['total_table_hotes_soir'],
+                    '',
+                    DAYS[day]['midi']['total_table_moines_midi'],
+                    DAYS[day]['soir']['total_table_moines_soir'],
+                    '',
+                    '',
+                    '',
+                    '',
+                    DAYS[day]['midi']['total_table_parloirs_midi'],
+                    DAYS[day]['soir']['total_table_parloirs_soir'],
+                ]
+            )
 
     return render(request, 'listings/cuisine.html', {'days': DAYS})
 

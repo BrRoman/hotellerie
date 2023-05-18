@@ -141,7 +141,7 @@ def calendar(request, *args, **kwargs):
                 length = (((sejour.sejour_au - date_human).days + 1) * 3)
                 coord_x = (i * 3) + 1 + length_to_subtract_du
             elif (sejour.sejour_du < date_human) \
-                    and (sejour.sejour_au > (date_human + datetime.timedelta(days=7))) \
+                    and (sejour.sejour_au >= (date_human + datetime.timedelta(days=7))) \
                     and (i == 0):
                 length = 21
                 coord_x = 1

@@ -7,6 +7,7 @@ import os
 import re
 
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 
 from django.http import FileResponse
@@ -72,6 +73,7 @@ def cuisine(request):
         for index, sejour in enumerate(sejours_midi):
             hote = sejour.personne.__str__()
             nombre = len(sejour.chambres_string().split(', '))
+            commentaire_cuisine = sejour.commentaire_cuisine
             is_first_repas = (
                 sejour.sejour_du == day
             ) and ((
@@ -96,6 +98,7 @@ def cuisine(request):
                 table_hotes_midi.append({
                     'hote': hote,
                     'nombre': nombre,
+                    'commentaire_cuisine': commentaire_cuisine,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -107,6 +110,7 @@ def cuisine(request):
                 table_abbatiale_midi.append({
                     'hote': hote,
                     'nombre': nombre,
+                    'commentaire_cuisine': commentaire_cuisine,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -118,6 +122,7 @@ def cuisine(request):
                 table_moines_midi.append({
                     'hote': hote,
                     'nombre': nombre,
+                    'commentaire_cuisine': commentaire_cuisine,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -129,6 +134,7 @@ def cuisine(request):
                 table_parloirs_midi.append({
                     'hote': hote,
                     'nombre': nombre,
+                    'commentaire_cuisine': commentaire_cuisine,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -169,6 +175,7 @@ def cuisine(request):
         for index, sejour in enumerate(sejours_soir):
             hote = sejour.personne.__str__()
             nombre = len(sejour.chambres_string().split(', '))
+            commentaire_cuisine = sejour.commentaire_cuisine
             is_first_repas = (
                 sejour.sejour_du == day
             ) and (
@@ -195,6 +202,7 @@ def cuisine(request):
                 table_hotes_soir.append({
                     'hote': hote,
                     'nombre': nombre,
+                    'commentaire_cuisine': commentaire_cuisine,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -206,6 +214,7 @@ def cuisine(request):
                 table_abbatiale_soir.append({
                     'hote': hote,
                     'nombre': nombre,
+                    'commentaire_cuisine': commentaire_cuisine,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -217,6 +226,7 @@ def cuisine(request):
                 table_moines_soir.append({
                     'hote': hote,
                     'nombre': nombre,
+                    'commentaire_cuisine': commentaire_cuisine,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -228,6 +238,7 @@ def cuisine(request):
                 table_parloirs_soir.append({
                     'hote': hote,
                     'nombre': nombre,
+                    'commentaire_cuisine': commentaire_cuisine,
                     'is_first_repas': is_first_repas,
                     'is_last_repas': is_last_repas,
                     'is_monorepas': is_monorepas,
@@ -402,6 +413,15 @@ def hotellerie(request):
         coord_y += 13
         line = 'Chambre(s) : {}'.format(sejour.chambres_string())
         pdf.drawString(60, coord_y, line)
+        coord_y += 13
+        if sejour.commentaire_listing:
+            pdf.setFont("Helvetica", 8)
+            for i, ligne in enumerate(sejour.commentaire_listing.splitlines()):
+                remarque = pdf.beginText(60, coord_y + 5 * i * mm)
+                remarque.textLine(ligne)
+                pdf.drawText(remarque)
+            coord_y += 5 * (i + 1) * mm
+        pdf.setFont("Helvetica", 10)
         if sejour.dit_messe:
             coord_y += 13
             if sejour.oratoire:

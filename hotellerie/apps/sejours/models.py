@@ -43,6 +43,7 @@ class Sejour(models.Model):
     )
     commentaire_cuisine = models.TextField()
     commentaire_sacristie = models.TextField()
+    commentaire_listing = models.TextField()
     mail_sacristie = models.BooleanField(
         default=False,
     )

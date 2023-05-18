@@ -415,6 +415,30 @@
             {% endif %}
         </div>
 
+        <!-- Commentaire listing -->
+        <div class="form-group">
+            {{ form.commentaire_listing.label_tag }}
+            {% if form.is_bound %}
+                {% if form.commentaire_listing.errors %}
+                    {% render_field form.commentaire_listing class="form-control is-invalid" %}
+                    {% for error in form.commentaire_listing.errors %}
+                        <div class="invalid-feedback" style="display: block;">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field form.commentaire_listing class="form-control is-valid" %}
+                {% endif %}
+            {% else %}
+                {% render_field form.commentaire_listing class="form-control" %}
+            {% endif %}
+            
+            {% if form.commentaire_listing.help_text %}
+                <small class="form-text text-muted">
+                    {{ form.commentaire_listing.help_text }}
+                </small>
+            {% endif %}
+        </div>
 
         <!-- Mails -->
         <div id="mails" class="self-align-end ml-5 mb-5">

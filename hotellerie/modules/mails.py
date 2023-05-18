@@ -31,7 +31,7 @@ def mail_sacristie(sejour):
         sejour.commentaire_sacristie) \
         if sejour.commentaire_sacristie else ''
     body += 'Bien à vous.\n'
-    body += 'P. Vianney Marie'
+    body += 'P. Martin Marie'
 
     send_mail(
         'MESSE : {}'.format(priest),
@@ -39,7 +39,8 @@ def mail_sacristie(sejour):
         PREFERENCES['mail_hotelier'],
         [
             PREFERENCES['mail_sacristain'],
-            PREFERENCES['mail_services']
+            PREFERENCES['mail_reliques'],
+            PREFERENCES['mail_services'],
         ],
         fail_silently=False,
     )
@@ -63,7 +64,7 @@ def mail_pere_suiveur(sejour):
     )
     body += 'Les frères de l\'hôtellerie l’accueilleront et vous préviendront lorsqu\'il sera installé.\n\n'
     body += 'In Domino.\n'
-    body += 'Père Vianney Marie'
+    body += 'Père Martin Marie'
 
     send_mail(
         'HÔTE : {}'.format(guest),

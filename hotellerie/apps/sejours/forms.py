@@ -171,6 +171,15 @@ class SejourForm(forms.ModelForm):
             }
         ),
     )
+    commentaire_listing = forms.CharField(
+        required=False,
+        label='Commentaire pour le listing :',
+        widget=forms.Textarea(
+            attrs={
+                'rows': 4,
+            }
+        ),
+    )
 
     class Meta:
         model = Sejour
